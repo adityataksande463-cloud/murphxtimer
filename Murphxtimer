@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MurphX Timer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+    font-family: Arial;
+    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+.container{
+    max-width:500px;
+    margin:auto;
+}
+.timer{
+    font-size:60px;
+    margin:20px 0;
+}
+button{
+    padding:10px 20px;
+    margin:5px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:16px;
+}
+.start{background:#4CAF50;color:white;}
+.stop{background:#f44336;color:white;}
+.reset{background:#2196F3;color:white;}
+input{
+    padding:8px;
+    width:80px;
+    text-align:center;
+    border-radius:6px;
+    border:none;
+}
+.countdown{
+    margin-top:40px;
+    font-size:18px;
+}
+.xp{
+    margin-top:20px;
+    font-size:18px;
+    color:#FFD700;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>⚡ MurphX Study Mode</h1>
+
+<div class="timer" id="timer">25:00</div>
+
+<button class="start" onclick="startTimer()">Start</button>
+<button class="stop" onclick="stopTimer()">Stop</button>
+<button class="reset" onclick="resetTimer()">Reset</button>
+
+<h3>Custom Minutes</h3>
+<input type="number" id="customMinutes" placeholder="Min">
+<button onclick="setCustom()">Set</button>
+
+<div class="xp">XP: <span id="xp">0</span></div>
+
+<div class="countdown">
+<h2>📅 Exam Countdown</h2>
+<p>NEET 2026: <span id="neet"></span></p>
+<p>JEE 2026: <span id="jee"></span></p>
+</div>
+</div>
+
+<script>
+let time = 1500;
+let interval = null;
+let xp = 0;
+
+function updateDisplay(){
+    let minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+    document.getElementById("timer").innerText =
+        (minutes < 10 ? "0" : "") + minutes + ":" +
+        (seconds < 10 ? "0" : "") + seconds;
+}
+
+function startTimer(){
+    if(interval) return;
+    interval = setInterval(()=>{
+        if(time > 0){
+            time--;
+            updateDisplay();
+        } else{
+            clearInterval(interval);
+            interval = null;
+            xp += 50;
+            document.getElementById("xp").innerText = xp;
+            alert("Session Complete! +50 XP");
+        }
+    },1000);
+}
+
+function stopTimer(){
+    clearInterval(interval);
+    interval = null;
+}
+
+function resetTimer(){
+    stopTimer();
+    time = 1500;
+    updateDisplay();
+}
+
+function setCustom(){
+    let mins = document.getElementById("customMinutes").value;
+    if(mins > 0){
+        stopTimer();
+        time = mins * 60;
+        updateDisplay();
+    }
+}
+
+function countdown(targetDate, elementId){
+    let now = new Date().getTime();
+    let distance = targetDate - now;
+    let days = Math.floor(distance / (1000*60*60*24));
+    document.getElementById(elementId).innerText = days + " days left";
+}
+
+let neetDate = new Date("May 3, 2026 00:00:00").getTime();
+let jeeDate = new Date("April 5, 2026 00:00:00").getTime();
+
+setInterval(()=>{
+    countdown(neetDate,"neet");
+    countdown(jeeDate,"jee");
+},1000);
+
+updateDisplay();
+</script>
+
+</body>
+</html>
