@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Gargantua - Interstellar Black Hole | Realistic Accretion Disk</title>
+    <title>Gargantua - Interstellar Black Hole | Realistic 3D Visualization</title>
     <style>
         body {
             margin: 0;
@@ -15,8 +15,8 @@
             bottom: 20px;
             left: 20px;
             color: white;
-            background: rgba(0,0,0,0.6);
-            padding: 10px 18px;
+            background: rgba(0,0,0,0.7);
+            padding: 12px 20px;
             border-radius: 8px;
             backdrop-filter: blur(5px);
             pointer-events: none;
@@ -24,14 +24,15 @@
             font-size: 14px;
             font-weight: 300;
             letter-spacing: 1px;
-            border-left: 3px solid #ff5500;
+            border-left: 4px solid #ff6600;
+            font-family: monospace;
         }
         #controls-note {
             position: absolute;
             bottom: 20px;
             right: 20px;
-            color: rgba(255,255,255,0.6);
-            background: rgba(0,0,0,0.4);
+            color: rgba(255,255,255,0.7);
+            background: rgba(0,0,0,0.5);
             padding: 6px 12px;
             border-radius: 6px;
             font-size: 12px;
@@ -39,11 +40,19 @@
             pointer-events: none;
             z-index: 10;
         }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        body {
+            animation: fadeIn 1.5s ease;
+        }
     </style>
 </head>
 <body>
     <div id="info">
-        <strong>🌀 GARGANTUA</strong> | Supermassive Black Hole | Horizontal Accretion Disk | Swirling Dust Particles
+        🌌 GARGANTUA • SUPERMASSIVE BLACK HOLE<br>
+        <span style="font-size: 11px; opacity:0.8;">Volumetric accretion disk | Relativistic glow | Cinematic deep space</span>
     </div>
     <div id="controls-note">
         🖱️ Drag to orbit | Scroll to zoom
@@ -67,325 +76,441 @@
         
         // --- Setup Scene, Camera, Renderer ---
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x010114);
-        scene.fog = new THREE.FogExp2(0x010114, 0.0006);
+        scene.background = new THREE.Color(0x01010c);
+        scene.fog = new THREE.FogExp2(0x01010c, 0.0004); // subtle depth fog
 
-        // Camera positioned to look at the disk from an angle (like the movie)
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(4.5, 2.2, 6.5);
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 800);
+        camera.position.set(5.2, 2.8, 6.8);
         camera.lookAt(0, 0, 0);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.toneMapping = THREE.ReinhardToneMapping;
-        renderer.toneMappingExposure = 1.3;
+        renderer.toneMappingExposure = 1.4;
         document.body.appendChild(renderer.domElement);
 
-        // --- Post Processing: Bloom for intense glow ---
+        // --- Post Processing: Intense Bloom for Cinematic Glow ---
         const renderScene = new RenderPass(scene, camera);
-        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.3, 0.4, 0.85);
-        bloomPass.threshold = 0.1;
-        bloomPass.strength = 1.2;
-        bloomPass.radius = 0.7;
+        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.4, 0.5, 0.85);
+        bloomPass.threshold = 0.08;
+        bloomPass.strength = 1.3;
+        bloomPass.radius = 0.75;
         
         const effectComposer = new EffectComposer(renderer);
         effectComposer.addPass(renderScene);
         effectComposer.addPass(bloomPass);
 
-        // --- Controls ---
+        // --- Interactive Controls ---
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
         controls.autoRotate = false;
         controls.enableZoom = true;
-        controls.zoomSpeed = 1.0;
-        controls.rotateSpeed = 0.8;
-        controls.target.set(0, 0, 0);
+        controls.zoomSpeed = 1.2;
+        controls.rotateSpeed = 0.9;
+        controls.target.set(0, 0.1, 0);
         
-        // --- Starfield Background (deep space) ---
+        // ========== 1. BACKGROUND: Deep Starfield + Nebulae ==========
+        // Distant stars (small, numerous)
+        const starCount = 6000;
         const starGeometry = new THREE.BufferGeometry();
-        const starCount = 4000;
         const starPositions = new Float32Array(starCount * 3);
+        const starSizes = new Float32Array(starCount);
         for (let i = 0; i < starCount; i++) {
-            const radius = 180 + Math.random() * 350;
+            // Spherical distribution radius 200-600
+            const radius = 180 + Math.random() * 450;
             const theta = Math.random() * Math.PI * 2;
             const phi = Math.acos(2 * Math.random() - 1);
             starPositions[i*3] = radius * Math.sin(phi) * Math.cos(theta);
             starPositions[i*3+1] = radius * Math.sin(phi) * Math.sin(theta);
             starPositions[i*3+2] = radius * Math.cos(phi);
+            starSizes[i] = 0.12 + Math.random() * 0.25;
         }
         starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
         const starMaterial = new THREE.PointsMaterial({
             color: 0xffffff,
-            size: 0.22,
+            size: 0.18,
             transparent: true,
-            opacity: 0.7,
+            opacity: 0.8,
             blending: THREE.AdditiveBlending
         });
         const stars = new THREE.Points(starGeometry, starMaterial);
         scene.add(stars);
         
-        const starGeometry2 = new THREE.BufferGeometry();
-        const starCount2 = 2500;
-        const starPositions2 = new Float32Array(starCount2 * 3);
-        for (let i = 0; i < starCount2; i++) {
-            starPositions2[i*3] = (Math.random() - 0.5) * 600;
-            starPositions2[i*3+1] = (Math.random() - 0.5) * 400;
-            starPositions2[i*3+2] = (Math.random() - 0.5) * 250 - 100;
+        // Brighter, larger foreground stars
+        const brightStarCount = 1200;
+        const brightStarGeo = new THREE.BufferGeometry();
+        const brightPositions = new Float32Array(brightStarCount * 3);
+        for (let i = 0; i < brightStarCount; i++) {
+            brightPositions[i*3] = (Math.random() - 0.5) * 550;
+            brightPositions[i*3+1] = (Math.random() - 0.5) * 350;
+            brightPositions[i*3+2] = (Math.random() - 0.5) * 300 - 80;
         }
-        starGeometry2.setAttribute('position', new THREE.BufferAttribute(starPositions2, 3));
-        const starMaterial2 = new THREE.PointsMaterial({
-            color: 0xaaccff,
-            size: 0.12,
+        brightStarGeo.setAttribute('position', new THREE.BufferAttribute(brightPositions, 3));
+        const brightStarMat = new THREE.PointsMaterial({
+            color: 0xffeedd,
+            size: 0.22,
             transparent: true,
-            opacity: 0.5,
-            blending: THREE.AdditiveBlending
-        });
-        const stars2 = new THREE.Points(starGeometry2, starMaterial2);
-        scene.add(stars2);
-        
-        // --- Black Hole Core (Event Horizon) ---
-        const coreGeometry = new THREE.SphereGeometry(0.95, 128, 128);
-        const coreMaterial = new THREE.MeshStandardMaterial({
-            color: 0x000000,
-            roughness: 0.2,
-            metalness: 0.95,
-            emissive: 0x220000,
-            emissiveIntensity: 0.2
-        });
-        const blackHoleCore = new THREE.Mesh(coreGeometry, coreMaterial);
-        scene.add(blackHoleCore);
-        
-        // Inner photon ring (thin glowing ring)
-        const photonRingGeo = new THREE.TorusGeometry(1.06, 0.045, 128, 200);
-        const photonMaterial = new THREE.MeshStandardMaterial({
-            color: 0xff7700,
-            emissive: 0xff4400,
-            emissiveIntensity: 1.3,
-            transparent: true,
-            blending: THREE.AdditiveBlending
-        });
-        const photonRing = new THREE.Mesh(photonRingGeo, photonMaterial);
-        scene.add(photonRing);
-        
-        // Outer gravitational halo
-        const glowHaloGeo = new THREE.SphereGeometry(1.32, 64, 64);
-        const glowMaterial = new THREE.MeshBasicMaterial({
-            color: 0xaa5533,
-            transparent: true,
-            opacity: 0.13,
             blending: THREE.AdditiveBlending,
-            side: THREE.BackSide
+            opacity: 0.9
         });
-        const glowHalo = new THREE.Mesh(glowHaloGeo, glowMaterial);
-        scene.add(glowHalo);
+        const brightStars = new THREE.Points(brightStarGeo, brightStarMat);
+        scene.add(brightStars);
         
-        // --- Accretion Disk (Horizontal) ---
-        // Create high-res texture with dust-like turbulent gradients
-        const createDiskTexture = () => {
+        // Nebula clouds: semi-transparent textured planes (billboards) for cosmic ambiance
+        const nebulaTexture = (() => {
             const canvas = document.createElement('canvas');
-            canvas.width = 1024;
-            canvas.height = 1024;
+            canvas.width = 512;
+            canvas.height = 512;
             const ctx = canvas.getContext('2d');
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
-            const maxRadius = canvas.width / 2;
-            
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Radial gradient: hot inside, cooler outside
-            const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, maxRadius);
-            gradient.addColorStop(0, 'rgba(255, 100, 30, 0)');
-            gradient.addColorStop(0.2, 'rgba(255, 90, 45, 0.98)');
-            gradient.addColorStop(0.38, 'rgba(255, 140, 60, 0.92)');
-            gradient.addColorStop(0.55, 'rgba(210, 90, 80, 0.88)');
-            gradient.addColorStop(0.75, 'rgba(150, 70, 110, 0.75)');
-            gradient.addColorStop(0.9, 'rgba(80, 50, 120, 0.5)');
-            gradient.addColorStop(1, 'rgba(40, 30, 80, 0)');
-            
-            ctx.fillStyle = gradient;
+            ctx.fillStyle = 'black';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Add dust particles and streaks
-            for (let i = 0; i < 4000; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const rad = maxRadius * (0.25 + Math.random() * 0.7);
-                const x = centerX + Math.cos(angle) * rad;
-                const y = centerY + Math.sin(angle) * rad;
-                const alpha = Math.random() * 0.45;
-                const r = 200 + Math.random() * 100;
-                const g = 90 + Math.random() * 100;
-                const b = 50 + Math.random() * 100;
-                ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
-                ctx.fillRect(x, y, 2 + Math.random() * 3, 2 + Math.random() * 3);
-            }
-            
-            // Lighter streaks to simulate gas turbulence
-            ctx.globalCompositeOperation = 'lighter';
-            for (let i = 0; i < 1200; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const rad = maxRadius * (0.3 + Math.random() * 0.6);
-                const x = centerX + Math.cos(angle) * rad;
-                const y = centerY + Math.sin(angle) * rad;
+            // create soft cloud shapes
+            for (let i = 0; i < 300; i++) {
+                const rad = 40 + Math.random() * 180;
+                const x = canvas.width/2 + (Math.random() - 0.5) * 400;
+                const y = canvas.height/2 + (Math.random() - 0.5) * 400;
+                const g = ctx.createRadialGradient(x, y, 5, x, y, rad);
+                g.addColorStop(0, `rgba(80, 50, 120, ${0.1 + Math.random() * 0.2})`);
+                g.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.fillStyle = g;
                 ctx.beginPath();
-                ctx.arc(x, y, 1.5 + Math.random() * 4, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 180, 80, ${0.25 + Math.random() * 0.4})`;
+                ctx.arc(x, y, rad, 0, Math.PI*2);
                 ctx.fill();
             }
-            
+            // add reddish hues
+            for (let i = 0; i < 150; i++) {
+                const x = canvas.width/2 + (Math.random() - 0.5) * 420;
+                const y = canvas.height/2 + (Math.random() - 0.5) * 420;
+                const rad = 30 + Math.random() * 120;
+                const g = ctx.createRadialGradient(x, y, 5, x, y, rad);
+                g.addColorStop(0, `rgba(150, 60, 80, ${0.08 + Math.random() * 0.15})`);
+                g.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.fillStyle = g;
+                ctx.beginPath();
+                ctx.arc(x, y, rad, 0, Math.PI*2);
+                ctx.fill();
+            }
             const texture = new THREE.CanvasTexture(canvas);
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(2.5, 1);
-            texture.needsUpdate = true;
+            texture.repeat.set(2, 2);
             return texture;
-        };
+        })();
         
-        const diskTexture = createDiskTexture();
-        const diskGeometry = new THREE.RingGeometry(1.35, 4.9, 160, 80);
-        const diskMaterial = new THREE.MeshStandardMaterial({
-            map: diskTexture,
-            side: THREE.DoubleSide,
+        const nebulaPlaneMat = new THREE.MeshBasicMaterial({
+            map: nebulaTexture,
             transparent: true,
-            opacity: 0.97,
-            emissive: 0xff5522,
-            emissiveIntensity: 0.85,
-            roughness: 0.4,
-            metalness: 0.65
+            opacity: 0.35,
+            side: THREE.DoubleSide,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
         });
+        const nebulaPlane1 = new THREE.Mesh(new THREE.PlaneGeometry(28, 18), nebulaPlaneMat);
+        nebulaPlane1.position.set(-12, 3, -25);
+        nebulaPlane1.lookAt(0, 0, 0);
+        scene.add(nebulaPlane1);
         
-        const accretionDisk = new THREE.Mesh(diskGeometry, diskMaterial);
-        accretionDisk.rotation.x = 0;          // Horizontal disk
-        accretionDisk.rotation.z = 0;
-        scene.add(accretionDisk);
+        const nebulaPlane2 = new THREE.Mesh(new THREE.PlaneGeometry(32, 22), nebulaPlaneMat);
+        nebulaPlane2.position.set(14, -2, -32);
+        nebulaPlane2.lookAt(0, 0, 0);
+        scene.add(nebulaPlane2);
         
-        // Outer rim glow (horizontal)
-        const rimGlowGeo = new THREE.TorusGeometry(4.45, 0.06, 64, 300);
-        const rimMaterial = new THREE.MeshStandardMaterial({
-            color: 0xff8844,
-            emissive: 0xff4422,
-            emissiveIntensity: 1.0,
+        // ========== 2. BLACK HOLE CORE & PHOTON RING ==========
+        // Event Horizon
+        const coreGeo = new THREE.SphereGeometry(0.96, 128, 128);
+        const coreMat = new THREE.MeshStandardMaterial({
+            color: 0x000000,
+            roughness: 0.15,
+            metalness: 0.95,
+            emissive: 0x1a0500,
+            emissiveIntensity: 0.25
+        });
+        const blackHoleCore = new THREE.Mesh(coreGeo, coreMat);
+        scene.add(blackHoleCore);
+        
+        // Inner photon ring (thin, intense)
+        const photonRingGeo = new THREE.TorusGeometry(1.08, 0.048, 128, 240);
+        const photonMat = new THREE.MeshStandardMaterial({
+            color: 0xff7733,
+            emissive: 0xff4411,
+            emissiveIntensity: 1.5,
             transparent: true,
             blending: THREE.AdditiveBlending
         });
-        const rimGlow = new THREE.Mesh(rimGlowGeo, rimMaterial);
-        rimGlow.rotation.x = 0;
-        scene.add(rimGlow);
+        const photonRing = new THREE.Mesh(photonRingGeo, photonMat);
+        scene.add(photonRing);
         
-        // --- Dust Particle Systems (swirling in the disk plane) ---
+        // Gravitational lensing halo (glow)
+        const glowHaloGeo = new THREE.SphereGeometry(1.38, 64, 64);
+        const glowMat = new THREE.MeshBasicMaterial({
+            color: 0xaa5533,
+            transparent: true,
+            opacity: 0.14,
+            blending: THREE.AdditiveBlending,
+            side: THREE.BackSide
+        });
+        const glowHalo = new THREE.Mesh(glowHaloGeo, glowMat);
+        scene.add(glowHalo);
         
-        // 1. Main dust particles (dense, many)
-        const dustCount = 12000;
-        const dustPositions = new Float32Array(dustCount * 3);
-        const dustColors = new Float32Array(dustCount * 3);
-        for (let i = 0; i < dustCount; i++) {
-            const radius = 1.45 + Math.random() * 3.6;
+        // ========== 3. VOLUMETRIC ACCRETION DISK (Particle System with Keplerian Motion) ==========
+        // Parameters: thousands of particles with varying radii, heights, colors, and rotation speeds
+        const particleCount = 18000;
+        const particlePositions = new Float32Array(particleCount * 3);
+        const particleColors = new Float32Array(particleCount * 3);
+        const particleSpeeds = new Float32Array(particleCount); // angular speed rad/frame
+        
+        // Inner radius, outer radius, disk thickness function
+        const innerR = 1.25;
+        const outerR = 5.2;
+        
+        for (let i = 0; i < particleCount; i++) {
+            // radius with higher density near inner edge (power distribution)
+            let r = innerR + Math.pow(Math.random(), 1.5) * (outerR - innerR);
             const angle = Math.random() * Math.PI * 2;
-            // Slight vertical offset to give volume (dust clouds)
-            const yOffset = (Math.random() - 0.5) * 0.22 * (radius / 3.5);
-            const x = Math.cos(angle) * radius;
-            const z = Math.sin(angle) * radius;
-            dustPositions[i*3] = x;
-            dustPositions[i*3+1] = yOffset;
-            dustPositions[i*3+2] = z;
+            // vertical thickness: thinner near inner region, flares outward
+            const thicknessFactor = 0.12 * (r / outerR) * 1.2;
+            const yOffset = (Math.random() - 0.5) * thicknessFactor * 1.5;
             
-            // Color: inner orange, outer blue/purple
-            const t = (radius - 1.4) / 3.8;
-            const r = 1.0 - t * 0.6;
-            const g = 0.5 + Math.random() * 0.5 - t * 0.3;
-            const b = 0.3 + t * 0.7;
-            dustColors[i*3] = r;
-            dustColors[i*3+1] = g;
-            dustColors[i*3+2] = b;
+            const x = Math.cos(angle) * r;
+            const z = Math.sin(angle) * r;
+            particlePositions[i*3] = x;
+            particlePositions[i*3+1] = yOffset;
+            particlePositions[i*3+2] = z;
+            
+            // Color based on radius and random variation: inner hot (orange/red) -> outer cool (blue/purple)
+            const t = (r - innerR) / (outerR - innerR);
+            const rCol = 1.0 - t * 0.5;          // 1.0 -> 0.5
+            const gCol = 0.4 + Math.random() * 0.5 - t * 0.3;
+            const bCol = 0.2 + t * 0.9 + Math.random() * 0.2;
+            particleColors[i*3] = rCol;
+            particleColors[i*3+1] = gCol;
+            particleColors[i*3+2] = bCol;
+            
+            // Keplerian angular speed: omega proportional to r^(-1.5)
+            particleSpeeds[i] = 0.018 * Math.pow(r, -1.45);
         }
-        const dustGeo = new THREE.BufferGeometry();
-        dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
-        dustGeo.setAttribute('color', new THREE.BufferAttribute(dustColors, 3));
-        const dustMat = new THREE.PointsMaterial({
-            size: 0.042,
+        
+        const particleGeo = new THREE.BufferGeometry();
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+        particleGeo.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
+        
+        const particleMat = new THREE.PointsMaterial({
+            size: 0.038,
             vertexColors: true,
             transparent: true,
             blending: THREE.AdditiveBlending,
-            opacity: 0.7
+            opacity: 0.75
         });
-        const dustSystem = new THREE.Points(dustGeo, dustMat);
-        scene.add(dustSystem);
+        const dustParticles = new THREE.Points(particleGeo, particleMat);
+        scene.add(dustParticles);
         
-        // 2. Hot inner particles (faster, denser)
-        const hotCount = 6500;
+        // Additional hot inner particles (smaller, brighter)
+        const hotCount = 7000;
         const hotPositions = new Float32Array(hotCount * 3);
+        const hotSpeeds = new Float32Array(hotCount);
         for (let i = 0; i < hotCount; i++) {
-            const radius = 1.35 + Math.random() * 1.6;
+            const r = innerR + Math.random() * 1.7;
             const angle = Math.random() * Math.PI * 2;
-            const yOff = (Math.random() - 0.5) * 0.18;
-            hotPositions[i*3] = Math.cos(angle) * radius;
+            const yOff = (Math.random() - 0.5) * 0.09;
+            hotPositions[i*3] = Math.cos(angle) * r;
             hotPositions[i*3+1] = yOff;
-            hotPositions[i*3+2] = Math.sin(angle) * radius;
+            hotPositions[i*3+2] = Math.sin(angle) * r;
+            hotSpeeds[i] = 0.024 * Math.pow(r, -1.5);
         }
         const hotGeo = new THREE.BufferGeometry();
         hotGeo.setAttribute('position', new THREE.BufferAttribute(hotPositions, 3));
         const hotMat = new THREE.PointsMaterial({
-            color: 0xff7744,
-            size: 0.028,
+            color: 0xff8844,
+            size: 0.027,
             blending: THREE.AdditiveBlending,
             transparent: true,
-            opacity: 0.85
+            opacity: 0.9
         });
         const hotParticles = new THREE.Points(hotGeo, hotMat);
         scene.add(hotParticles);
         
-        // 3. Streamers / fast-moving particles (dust streaks)
-        const streamCount = 4500;
-        const streamPositions = new Float32Array(streamCount * 3);
-        for (let i = 0; i < streamCount; i++) {
-            const radius = 1.8 + Math.random() * 2.8;
+        // Dust streamers / elongated particles: we'll add a separate system with a different shape? Use points but with trails via motion blur is heavy; instead, we add a faint outer dust cloud
+        const outerDustCount = 8000;
+        const outerPositions = new Float32Array(outerDustCount * 3);
+        const outerSpeeds = new Float32Array(outerDustCount);
+        for (let i = 0; i < outerDustCount; i++) {
+            const r = 3.2 + Math.random() * 2.2;
             const angle = Math.random() * Math.PI * 2;
-            const yOff = (Math.random() - 0.5) * 0.25;
-            streamPositions[i*3] = Math.cos(angle) * radius;
-            streamPositions[i*3+1] = yOff;
-            streamPositions[i*3+2] = Math.sin(angle) * radius;
+            const yOff = (Math.random() - 0.5) * 0.22;
+            outerPositions[i*3] = Math.cos(angle) * r;
+            outerPositions[i*3+1] = yOff;
+            outerPositions[i*3+2] = Math.sin(angle) * r;
+            outerSpeeds[i] = 0.009 * Math.pow(r, -1.4);
         }
-        const streamGeo = new THREE.BufferGeometry();
-        streamGeo.setAttribute('position', new THREE.BufferAttribute(streamPositions, 3));
-        const streamMat = new THREE.PointsMaterial({
-            color: 0xffaa77,
-            size: 0.032,
+        const outerGeo = new THREE.BufferGeometry();
+        outerGeo.setAttribute('position', new THREE.BufferAttribute(outerPositions, 3));
+        const outerMat = new THREE.PointsMaterial({
+            color: 0xaa88cc,
+            size: 0.045,
             transparent: true,
             blending: THREE.AdditiveBlending,
-            opacity: 0.55
+            opacity: 0.5
         });
-        const streamParticles = new THREE.Points(streamGeo, streamMat);
-        scene.add(streamParticles);
+        const outerDust = new THREE.Points(outerGeo, outerMat);
+        scene.add(outerDust);
         
-        // --- Lighting ---
+        // --- Store references for animation (rotate around Y axis per particle) ---
+        // We need to update positions each frame based on angular speed.
+        // For performance, we'll rotate the entire particle systems? But that would keep radial alignment; better to individually rotate each particle.
+        // Instead, we'll rotate the entire system as a group? That would make the disk rotate rigidly, which is unrealistic. To simulate differential rotation, we need per-particle angle update.
+        // We'll store current angles for each particle. This requires a custom update loop.
+        // Let's create arrays to hold current angles for each particle system.
+        
+        const anglesMain = new Array(particleCount);
+        const anglesHot = new Array(hotCount);
+        const anglesOuter = new Array(outerDustCount);
+        
+        // Initialize angles randomly
+        for (let i = 0; i < particleCount; i++) {
+            const r = Math.hypot(particlePositions[i*3], particlePositions[i*3+2]);
+            const initAngle = Math.atan2(particlePositions[i*3+2], particlePositions[i*3]);
+            anglesMain[i] = initAngle;
+        }
+        for (let i = 0; i < hotCount; i++) {
+            const x = hotPositions[i*3], z = hotPositions[i*3+2];
+            anglesHot[i] = Math.atan2(z, x);
+        }
+        for (let i = 0; i < outerDustCount; i++) {
+            const x = outerPositions[i*3], z = outerPositions[i*3+2];
+            anglesOuter[i] = Math.atan2(z, x);
+        }
+        
+        // Helper to update particle positions based on accumulated angles
+        function updateParticleSystem(positions, speeds, angles, count, radiusMap) {
+            for (let i = 0; i < count; i++) {
+                angles[i] += speeds[i] * 0.016; // delta time approx
+                const r = Math.hypot(positions[i*3], positions[i*3+2]);
+                const newX = Math.cos(angles[i]) * r;
+                const newZ = Math.sin(angles[i]) * r;
+                positions[i*3] = newX;
+                positions[i*3+2] = newZ;
+                // Y remains same (vertical offset)
+            }
+        }
+        
+        // Store attribute references for updating
+        const mainPosAttr = particleGeo.attributes.position;
+        const hotPosAttr = hotGeo.attributes.position;
+        const outerPosAttr = outerGeo.attributes.position;
+        
+        // ========== 4. ADDITIONAL REALISTIC ELEMENTS: Accretion Glow Disk (transparent textured) ==========
+        // Create a radial texture with doppler-like asymmetry (one side brighter)
+        const glowDiskTex = (() => {
+            const canvas = document.createElement('canvas');
+            canvas.width = 1024;
+            canvas.height = 1024;
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width/2, centerY = canvas.height/2;
+            const maxR = canvas.width/2;
+            // radial gradient with brightness falloff
+            const grad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, maxR);
+            grad.addColorStop(0, 'rgba(255, 100, 40, 0)');
+            grad.addColorStop(0.2, 'rgba(255, 120, 60, 0.95)');
+            grad.addColorStop(0.4, 'rgba(255, 100, 70, 0.85)');
+            grad.addColorStop(0.65, 'rgba(180, 70, 100, 0.6)');
+            grad.addColorStop(0.85, 'rgba(100, 60, 130, 0.3)');
+            grad.addColorStop(1, 'rgba(40, 30, 80, 0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Add streaks to simulate turbulence
+            for (let i = 0; i < 2000; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const rad = maxR * (0.25 + Math.random() * 0.7);
+                const x = centerX + Math.cos(angle) * rad;
+                const y = centerY + Math.sin(angle) * rad;
+                const alpha = Math.random() * 0.35;
+                ctx.fillStyle = `rgba(255, 160, 70, ${alpha})`;
+                ctx.fillRect(x, y, 2.5, 2.5);
+            }
+            // make one side slightly brighter (doppler beaming effect)
+            ctx.globalCompositeOperation = 'lighter';
+            for (let i = 0; i < 800; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const rad = maxR * (0.4 + Math.random() * 0.5);
+                const x = centerX + Math.cos(angle) * rad;
+                const y = centerY + Math.sin(angle) * rad;
+                const bright = 0.5 + Math.cos(angle) * 0.3; // side bias
+                ctx.fillStyle = `rgba(255, 200, 100, ${0.2 * bright})`;
+                ctx.beginPath();
+                ctx.arc(x, y, 3 + Math.random() * 8, 0, Math.PI*2);
+                ctx.fill();
+            }
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(2, 1);
+            return texture;
+        })();
+        
+        const glowRingGeo = new THREE.RingGeometry(1.32, 5.0, 180, 90);
+        const glowRingMat = new THREE.MeshStandardMaterial({
+            map: glowDiskTex,
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 0.55,
+            emissive: 0xff5522,
+            emissiveIntensity: 0.7,
+            roughness: 0.5,
+            metalness: 0.4,
+            blending: THREE.AdditiveBlending
+        });
+        const glowDisk = new THREE.Mesh(glowRingGeo, glowRingMat);
+        glowDisk.rotation.x = 0; // horizontal disk
+        scene.add(glowDisk);
+        
+        // Outer faint ring
+        const outerRingGeo = new THREE.TorusGeometry(4.7, 0.07, 64, 300);
+        const outerRingMat = new THREE.MeshStandardMaterial({
+            color: 0xff8866,
+            emissive: 0xff4422,
+            emissiveIntensity: 0.6,
+            transparent: true,
+            blending: THREE.AdditiveBlending
+        });
+        const outerRing = new THREE.Mesh(outerRingGeo, outerRingMat);
+        outerRing.rotation.x = 0;
+        scene.add(outerRing);
+        
+        // ========== 5. LIGHTING (Dynamic, cinematic) ==========
         const ambientLight = new THREE.AmbientLight(0x111122);
         scene.add(ambientLight);
         
-        const mainLight = new THREE.DirectionalLight(0xffccaa, 0.85);
-        mainLight.position.set(2, 5, 3);
+        const mainLight = new THREE.DirectionalLight(0xffccaa, 0.9);
+        mainLight.position.set(2, 4, 3);
         scene.add(mainLight);
         
-        const backLight = new THREE.PointLight(0xff6633, 0.8);
-        backLight.position.set(-1, 1.8, -3);
+        const backLight = new THREE.PointLight(0xff6644, 0.9);
+        backLight.position.set(-1.5, 1.2, -3.5);
         scene.add(backLight);
         
-        const coreGlowLight = new THREE.PointLight(0xff5500, 1.3, 12);
-        coreGlowLight.position.set(0, 0.1, 0);
-        scene.add(coreGlowLight);
+        const coreLight = new THREE.PointLight(0xff5500, 1.2, 14);
+        coreLight.position.set(0, 0.1, 0);
+        scene.add(coreLight);
         
-        const fillLight = new THREE.PointLight(0x3366aa, 0.5);
-        fillLight.position.set(0, -1.2, 0);
+        const fillLight = new THREE.PointLight(0x4477aa, 0.6);
+        fillLight.position.set(0, -1.0, 0);
         scene.add(fillLight);
         
-        const pulseLight = new THREE.PointLight(0xff8844, 0.9);
-        pulseLight.position.set(0.8, 0.3, 0.8);
+        const rimLight = new THREE.PointLight(0xff8844, 0.8);
+        rimLight.position.set(1.2, 1.5, -2.2);
+        scene.add(rimLight);
+        
+        // Pulsing light for dramatic effect
+        const pulseLight = new THREE.PointLight(0xff6633, 0.9);
+        pulseLight.position.set(0.6, 0.4, 0.9);
         scene.add(pulseLight);
         
-        // --- Distortion shader sphere (subtle lensing) ---
-        const distortGeo = new THREE.SphereGeometry(1.48, 64, 64);
-        const distortMat = new THREE.ShaderMaterial({
-            uniforms: { time: { value: 0 }, glowColor: { value: new THREE.Color(0xaa5533) } },
+        // ========== 6. GRAVITATIONAL DISTORTION SPHERE (Subtle lensing effect) ==========
+        const lensGeo = new THREE.SphereGeometry(1.55, 80, 80);
+        const lensMat = new THREE.ShaderMaterial({
+            uniforms: { time: { value: 0 } },
             vertexShader: `
                 varying vec3 vPosition;
                 void main() {
@@ -396,73 +521,73 @@
                 }
             `,
             fragmentShader: `
-                uniform vec3 glowColor;
                 uniform float time;
                 varying vec3 vPosition;
                 void main() {
-                    float alpha = 0.07 + sin(vPosition.x * 10.0 + time) * 0.02;
-                    alpha += cos(vPosition.z * 9.0 + time * 1.2) * 0.02;
-                    alpha = clamp(alpha, 0.04, 0.13);
-                    gl_FragColor = vec4(glowColor, alpha);
+                    float alpha = 0.09 + sin(vPosition.x * 8.0 + time) * 0.025;
+                    alpha += cos(vPosition.z * 7.0 + time * 1.2) * 0.025;
+                    alpha = clamp(alpha, 0.05, 0.18);
+                    gl_FragColor = vec4(0.8, 0.4, 0.2, alpha);
                 }
             `,
             transparent: true,
             blending: THREE.AdditiveBlending,
             side: THREE.BackSide
         });
-        const distortionSphere = new THREE.Mesh(distortGeo, distortMat);
+        const distortionSphere = new THREE.Mesh(lensGeo, lensMat);
         scene.add(distortionSphere);
         
-        // --- Animation Variables ---
+        // ========== 7. ANIMATION LOOP ==========
         let time = 0;
-        const diskRotationSpeed = 0.011;   // Smooth, realistic rotation
-        const dustRotationSpeed = 0.0085;
+        const diskRotationSpeed = 0.006;
         
-        // --- Star rotation ---
-        function animateStars() {
-            stars.rotation.y += 0.0002;
-            stars.rotation.x += 0.0001;
-            stars2.rotation.y -= 0.00015;
-        }
-        
-        // --- Animation Loop ---
         function animate() {
             requestAnimationFrame(animate);
-            time += 0.016;
+            const delta = Math.min(0.033, performance.now() / 1000 - (window._lastFrame || 0));
+            window._lastFrame = performance.now() / 1000;
+            const dt = delta || 0.016;
             
-            // Rotate the horizontal disk (around Y axis) – natural swirling motion
-            accretionDisk.rotation.y += diskRotationSpeed;
-            rimGlow.rotation.y += diskRotationSpeed * 0.95;
+            time += dt;
             
-            // Rotate all particle systems in the same direction to simulate dust flow
-            dustSystem.rotation.y += dustRotationSpeed;
-            hotParticles.rotation.y += dustRotationSpeed * 1.1;
-            streamParticles.rotation.y += dustRotationSpeed * 0.9;
+            // Update particle positions with differential rotation
+            updateParticleSystem(mainPosAttr.array, particleSpeeds, anglesMain, particleCount);
+            updateParticleSystem(hotPosAttr.array, hotSpeeds, anglesHot, hotCount);
+            updateParticleSystem(outerPosAttr.array, outerSpeeds, anglesOuter, outerDustCount);
             
-            // Pulsing effects
-            const intensityPulse = 0.9 + Math.sin(time * 3.5) * 0.4;
-            coreGlowLight.intensity = intensityPulse;
-            pulseLight.intensity = 0.7 + Math.sin(time * 2.8) * 0.5;
+            // Mark attributes as dirty for GPU update
+            mainPosAttr.needsUpdate = true;
+            hotPosAttr.needsUpdate = true;
+            outerPosAttr.needsUpdate = true;
             
-            // Photon ring animation
-            photonMaterial.emissiveIntensity = 0.95 + Math.sin(time * 9) * 0.35;
+            // Rotate the glow disk and outer ring (they are flat meshes)
+            glowDisk.rotation.y += diskRotationSpeed;
+            outerRing.rotation.y += diskRotationSpeed * 0.9;
+            
+            // Pulsing lights
+            const pulseIntensity = 0.8 + Math.sin(time * 3.2) * 0.4;
+            coreLight.intensity = pulseIntensity * 1.1;
+            pulseLight.intensity = 0.7 + Math.sin(time * 2.5) * 0.5;
+            rimLight.intensity = 0.7 + Math.sin(time * 2.8) * 0.3;
+            
+            // Photon ring pulse
+            photonMat.emissiveIntensity = 1.1 + Math.sin(time * 8) * 0.5;
             photonRing.rotation.z += 0.012;
+            photonRing.rotation.x = Math.sin(time * 1.2) * 0.05;
             
-            // Distortion shader time
-            if (distortMat.uniforms) distortMat.uniforms.time.value = time;
+            // Distortion sphere shader time
+            if (lensMat.uniforms) lensMat.uniforms.time.value = time;
             
-            // Starfield motion
-            animateStars();
+            // Gentle star rotation
+            stars.rotation.y += 0.00015;
+            stars.rotation.x += 0.0001;
+            brightStars.rotation.y -= 0.0001;
             
-            // Halo gentle rotation
-            glowHalo.rotation.y += 0.0008;
-            glowHalo.rotation.x = Math.sin(time * 0.15) * 0.05;
-            
+            // Update controls and render with bloom
             controls.update();
             effectComposer.render();
         }
         
-        window.addEventListener('resize', onWindowResize, false);
+        window.addEventListener('resize', onWindowResize);
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
@@ -470,8 +595,9 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
         
+        // Start
         animate();
-        console.log('Gargantua with horizontal accretion disk & dust particles – ready.');
+        console.log('Gargantua realistic rendering active | Volumetric accretion disk, differential rotation, cinematic lighting');
     </script>
 </body>
-</html>
+    </html>
