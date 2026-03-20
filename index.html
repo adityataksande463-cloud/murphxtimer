@@ -382,6 +382,90 @@
             }
         }
 
+        /* New: Cosmic Practice Widget (desktop only) */
+        .cosmic-practice-widget {
+            margin: 2rem 0 2rem;
+            display: none;
+        }
+        @media (min-width: 1200px) {
+            .cosmic-practice-widget {
+                display: block;
+            }
+        }
+        .practice-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-card);
+            padding: 2rem;
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .practice-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+        .practice-card .mandala-bg {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            opacity: 0.05;
+            pointer-events: none;
+            animation: rotateSlow 40s linear infinite;
+        }
+        .practice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .practice-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .practice-refresh {
+            background: none;
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .practice-refresh:hover {
+            background: var(--accent);
+            color: white;
+            transform: rotate(180deg);
+        }
+        .practice-technique-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 1rem 0 0.5rem;
+            line-height: 1.2;
+        }
+        .practice-essence {
+            font-style: italic;
+            border-left: 3px solid var(--accent-secondary);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: var(--text-secondary);
+        }
+        .practice-footer {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
         .xp-container {
             margin: 0.5rem 0 2rem;
         }
@@ -898,6 +982,30 @@
                 <div class="mudra-gallery">
                     <h3>🌀 Sacred Mudras · Gestures of Awakening</h3>
                     <div class="mudra-grid" id="mudraGrid"></div>
+                </div>
+            </div>
+
+            <!-- NEW: Cosmic Practice Widget (desktop only) -->
+            <div class="cosmic-practice-widget">
+                <div class="practice-card glass-card" id="cosmicPracticeCard">
+                    <div class="mandala-bg">
+                        <svg viewBox="0 0 200 200">
+                            <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="0.5"/>
+                            <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="0.5"/>
+                            <circle cx="100" cy="100" r="40" fill="none" stroke="currentColor" stroke-width="0.5"/>
+                            <circle cx="100" cy="100" r="20" fill="none" stroke="currentColor" stroke-width="0.5"/>
+                            <path d="M100 20 L100 180 M20 100 L180 100" stroke="currentColor" stroke-width="0.5"/>
+                        </svg>
+                    </div>
+                    <div class="practice-header">
+                        <h3>✨ Cosmic Practice of the Moment</h3>
+                        <button class="practice-refresh" id="refreshPracticeBtn"><i class="fas fa-sync-alt"></i></button>
+                    </div>
+                    <div class="practice-technique-name" id="practiceTechName">Witnessing the Breath</div>
+                    <div class="practice-essence" id="practiceTechEssence">Breath is the bridge between body and mind. When breath becomes calm and observed, the mind automatically becomes calm.</div>
+                    <div class="practice-footer">
+                        <button class="btn-primary" id="practiceExploreBtn">Explore This Portal →</button>
+                    </div>
                 </div>
             </div>
 
@@ -1625,6 +1733,24 @@
         function showToast(msg) { const t = document.createElement('div'); t.className='toast'; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),3000); }
 
         const chartCtx = document.getElementById('progressChart')?.getContext('2d'); if(chartCtx) new Chart(chartCtx, { type:'line', data:{ labels:['M','T','W','T','F','S','S'], datasets:[{ label:'minutes', data:[25,40,18,35,50,42,30], borderColor:'#9d7bff', tension:0.3 }] } });
+
+        // Cosmic Practice Widget logic
+        let currentPracticeTechId = 1;
+        function updateCosmicPractice() {
+            const tech = techniques[currentPracticeTechId];
+            if (tech) {
+                document.getElementById('practiceTechName').innerText = tech.name;
+                document.getElementById('practiceTechEssence').innerText = tech.essence;
+                document.getElementById('practiceExploreBtn').onclick = () => showModal(tech);
+            }
+        }
+        function randomPractice() {
+            const ids = Object.keys(techniques);
+            currentPracticeTechId = parseInt(ids[Math.floor(Math.random() * ids.length)]);
+            updateCosmicPractice();
+        }
+        document.getElementById('refreshPracticeBtn').addEventListener('click', randomPractice);
+        randomPractice(); // initial random
 
         renderDiary(); saveAll(); showView('home');
     </script>
