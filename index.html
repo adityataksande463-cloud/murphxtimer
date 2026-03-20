@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Vigyan Bhairav · 112 Portals to Infinity</title>
-    <!-- Google Fonts & Font Awesome -->
+    <title>Vigyan Bhairav | 112 Portals to Infinity</title>
+    <meta name="description" content="Gargantua black hole meditation experience with 112 authentic Tantra techniques, cosmic diary, wisdom quotes, and immersive visuals.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {
@@ -19,7 +20,7 @@
         :root {
             --bg-deep: #050210;
             --glass-bg: rgba(8, 6, 20, 0.75);
-            --glass-border: rgba(157, 123, 255, 0.25);
+            --glass-border: rgba(157, 123, 255, 0.3);
             --text-primary: #f0eaff;
             --text-secondary: #c4b5fd;
             --accent: #9d7bff;
@@ -28,7 +29,7 @@
             --card-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.5);
             --radius-card: 28px;
             --radius-pill: 60px;
-            --transition: all 0.25s ease;
+            --transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
         }
 
         [data-theme="light"] {
@@ -51,7 +52,7 @@
             min-height: 100vh;
         }
 
-        /* Canvas 3D Black Hole - Fullscreen background */
+        /* Black Hole Canvas */
         #blackhole-canvas {
             position: fixed;
             top: 0;
@@ -63,7 +64,7 @@
             pointer-events: none;
         }
 
-        /* Main content overlay */
+        /* Main Container */
         .app-container {
             position: relative;
             z-index: 10;
@@ -72,7 +73,7 @@
             padding: 1.5rem 2rem 3rem;
         }
 
-        /* Glassmorphic components */
+        /* Glass Card */
         .glass-card {
             background: var(--glass-bg);
             backdrop-filter: blur(16px);
@@ -237,7 +238,7 @@
             background: rgba(255,255,255,0.05);
         }
 
-        /* Stats cards */
+        /* Stats */
         .stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -278,12 +279,14 @@
             border-radius: 8px;
         }
 
-        /* Path Grid (16 professions) */
+        /* Section Title */
         .section-title {
             font-size: 1.8rem;
             margin: 2rem 0 1rem;
             font-weight: 600;
         }
+
+        /* Path Grid */
         .path-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -349,7 +352,7 @@
         }
         .tech-sanskrit {
             font-style: italic;
-            color: var(--accent-tertiary, #7fdbda);
+            color: #7fdbda;
             font-size: 0.8rem;
         }
         .tech-name {
@@ -475,6 +478,25 @@
             .app-container { padding: 1rem; }
             .nav a { font-size: 0.8rem; }
             .tech-grid { grid-template-columns: 1fr; }
+        }
+        .track-item {
+            background: rgba(255,255,255,0.05);
+            margin: 0.5rem 0;
+            padding: 0.8rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .track-item.active {
+            background: var(--accent);
+            color: white;
+        }
+        .plan-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            padding: 0.8rem;
         }
     </style>
 </head>
@@ -624,7 +646,6 @@
 
     <button id="scrollTop" style="position:fixed; bottom:20px; right:20px; width:44px; height:44px; border-radius:50%; background:var(--accent); color:white; border:none; cursor:pointer; opacity:0; transition:0.2s; z-index:1000;"><i class="fas fa-arrow-up"></i></button>
 
-    <!-- Three.js and black hole script will be injected via module -->
     <script type="importmap">
         {
             "imports": {
@@ -633,6 +654,7 @@
             }
         }
     </script>
+
     <script type="module">
         import * as THREE from 'three';
         import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
@@ -721,11 +743,24 @@
         // ********** TECHNIQUES DATABASE (112) **********
         const categoriesList = ['breath','body','heart','sound','gaze','void','energy','light','sleep','emotion'];
         const techniques = {};
+        const techniqueNames = [
+            "Witnessing the Breath", "Pause Between Breaths", "Heart Center", "Third Eye Gazing", "Inner Sound", 
+            "Void Gazing", "Cosmic Hum", "Light Essence", "Emptiness", "Shakti Rising", "Elemental Fire",
+            "Water Current", "Earth Stability", "Wind Flow", "Space Awareness", "Conscious Sleep", "Dream Yoga",
+            "Luminous Void", "Energy Channels", "Chakra Resonance", "Sanskrit Vibration", "Mantra Japa",
+            "Yantra Focus", "Mudra Seal", "Asana Stillness", "Prana Flow", "Apana Grounding", "Vyana Expansion",
+            "Udana Levity", "Samana Digestion", "Nada Sound", "Bindu Point", "Kundalini Awakening",
+            "Shambhavi Mudra", "Khechari Mudra", "Vipassana Insight", "Metta Love", "Compassion Field",
+            "Joyful Effort", "Equanimity", "Death Contemplation", "Impermanence", "Soul Inquiry",
+            "Witness Self", "Non-Duality", "Turiya State", "Sahaja Spontaneity", "Bhava Emotion",
+            "Rasa Taste", "Ananda Bliss", "Satchitananda"
+        ];
         for (let i = 1; i <= 112; i++) {
             const cat = categoriesList[i % categoriesList.length];
+            const name = techniqueNames[(i-1) % techniqueNames.length] || `Portal ${i}: ${cat} practice`;
             techniques[i] = {
                 id: i,
-                name: i <= 10 ? `Technique ${i}: ${['Witness Breath','Pause Gap','Heart Center','Third Eye','Inner Sound','Void Gazing','Cosmic Hum','Light Essence','Emptiness','Shakti'][i-1] || `${cat} meditation`}` : `Portal ${i}: ${cat} practice`,
+                name: name,
                 sanskrit: `Sūtra ${i}`,
                 category: cat,
                 essence: `A gateway to ${cat} consciousness.`,
@@ -738,8 +773,10 @@
                 benefits: { student: 'focus', employee: 'stress relief', seeker: 'inner peace' }
             };
         }
-        techniques[1] = { ...techniques[1], name:'Witnessing the Breath', sanskrit:'Śvāsa Dharana', essence:'Observe the natural flow.', steps:['Sit still','Notice breath','Return when distracted'] };
-        techniques[2] = { ...techniques[2], name:'Pause Between Breaths', essence:'Rest in the gap.' };
+        // Override first few with authentic descriptions
+        techniques[1] = { ...techniques[1], name:'Witnessing the Breath', sanskrit:'Śvāsa Dharana', essence:'Observe the natural flow of breath without interference.', steps:['Sit still','Notice breath','Return when distracted'] };
+        techniques[2] = { ...techniques[2], name:'Pause Between Breaths', essence:'Rest in the gap after exhale.' };
+        techniques[3] = { ...techniques[3], name:'Heart Center Meditation', essence:'Feel love radiating from the heart.' };
         
         // user data
         let user = {
@@ -938,4 +975,4 @@
         renderFeatured(); renderTechniques(); renderPlan(); renderDiary(); renderQuote(); saveAll(); showView('home');
     </script>
 </body>
-</html>
+    </html>
