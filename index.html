@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Vigyan Bhairav | 112 Portals to Infinity</title>
-    <meta name="description" content="Gargantua black hole meditation experience with 112 authentic Tantra techniques, breathwork, cosmic diary, wisdom quotes, and immersive visuals.">
+    <title>Vigyan Bhairav | Cosmic Breath & 112 Portals</title>
+    <meta name="description" content="Gargantua black hole meditation experience with 112 authentic Tantra techniques, interactive breathwork, cosmic diary, wisdom quotes, and immersive visuals.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -440,12 +440,65 @@
             font-weight: 800;
             margin: 1rem 0;
         }
-        .breath-pattern {
-            background: rgba(0,0,0,0.3);
-            padding: 1rem;
-            border-radius: 60px;
+
+        /* Breathwork Section - Creative Visual Pacer */
+        .breath-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .breath-circle {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(157,123,255,0.3) 0%, rgba(157,123,255,0) 80%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.1s linear;
+            position: relative;
             margin: 1rem auto;
-            max-width: 400px;
+        }
+        .breath-inner {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 40px var(--accent-glow);
+            transition: all 0.1s linear;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        .breath-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 1rem 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .breath-timer {
+            font-size: 1.8rem;
+            font-family: monospace;
+        }
+        .breath-controls {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .breath-card {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .breath-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
         }
 
         /* Utility */
@@ -485,6 +538,8 @@
             .app-container { padding: 1rem; }
             .nav a { font-size: 0.8rem; }
             .tech-grid { grid-template-columns: 1fr; }
+            .breath-circle { width: 200px; height: 200px; }
+            .breath-inner { width: 80px; height: 80px; }
         }
         .track-item {
             background: rgba(255,255,255,0.05);
@@ -504,14 +559,6 @@
             align-items: center;
             margin-bottom: 0.8rem;
             padding: 0.8rem;
-        }
-        .breath-btn {
-            margin: 0.5rem;
-        }
-        .guide-text {
-            font-size: 1.2rem;
-            font-weight: 500;
-            margin-top: 1rem;
         }
     </style>
 </head>
@@ -578,41 +625,55 @@
             <div class="tech-grid" id="techniquesGrid"></div>
         </div>
 
-        <!-- BREATHWORK VIEW -->
+        <!-- BREATHWORK VIEW - Creative, interactive, beautiful -->
         <div id="breathworkView" class="hidden breathwork-section glass-card">
-            <h2>🌬️ Sacred Breathwork</h2>
-            <p style="margin-bottom:1rem;">Pranayama techniques to harmonize body, mind, and cosmos.</p>
-            <div class="breath-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:1rem; margin-top:1.5rem;">
+            <h2>🌬️ Sacred Breath Alchemy</h2>
+            <p style="margin-bottom:1rem;">Guided pranayama with visual pacer & cosmic resonance</p>
+            <div class="breath-container">
+                <div class="breath-circle" id="breathCircle">
+                    <div class="breath-inner" id="breathInner">
+                        <span id="breathPhaseLabel">Inhale</span>
+                    </div>
+                </div>
+                <div class="breath-text" id="breathPhaseText">Inhale</div>
+                <div class="breath-timer" id="breathTimerDisplay">0</div>
+                <div class="breath-controls">
+                    <button id="stopBreathBtn" class="btn-outline" style="display:none;">Stop</button>
+                </div>
+            </div>
+            <div class="breath-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:1rem; margin-top:1rem;">
                 <div class="breath-card glass-card" data-breath="box">
                     <i class="fas fa-cube" style="font-size:2rem; margin-bottom:0.5rem;"></i>
-                    <h3>4-4-6 Box Breathing</h3>
-                    <p>Inhale 4, hold 4, exhale 6, hold 4</p>
-                    <button class="btn-outline start-breath" data-type="box">Practice</button>
+                    <h3>4-4-6-4 Box</h3>
+                    <p>Inhale 4 · Hold 4 · Exhale 6 · Hold 4</p>
+                    <button class="btn-outline start-breath" data-type="box">Activate</button>
                 </div>
                 <div class="breath-card glass-card" data-breath="478">
                     <i class="fas fa-feather-alt" style="font-size:2rem; margin-bottom:0.5rem;"></i>
                     <h3>4-7-8 Relaxation</h3>
-                    <p>Inhale 4, hold 7, exhale 8</p>
-                    <button class="btn-outline start-breath" data-type="478">Practice</button>
+                    <p>Inhale 4 · Hold 7 · Exhale 8</p>
+                    <button class="btn-outline start-breath" data-type="478">Activate</button>
                 </div>
                 <div class="breath-card glass-card" data-breath="nadi">
                     <i class="fas fa-hand-peace" style="font-size:2rem; margin-bottom:0.5rem;"></i>
                     <h3>Alternate Nostril</h3>
-                    <p>Balance left & right channels</p>
-                    <button class="btn-outline start-breath" data-type="nadi">Practice</button>
+                    <p>Balance Ida & Pingala</p>
+                    <button class="btn-outline start-breath" data-type="nadi">Activate</button>
                 </div>
                 <div class="breath-card glass-card" data-breath="kapal">
                     <i class="fas fa-fire" style="font-size:2rem; margin-bottom:0.5rem;"></i>
-                    <h3>Kapalabhati (Skull Shine)</h3>
-                    <p>Rapid abdominal breaths</p>
-                    <button class="btn-outline start-breath" data-type="kapal">Practice</button>
+                    <h3>Kapalabhati</h3>
+                    <p>Skull Shining · Dynamic</p>
+                    <button class="btn-outline start-breath" data-type="kapal">Activate</button>
+                </div>
+                <div class="breath-card glass-card" data-breath="ujjayi">
+                    <i class="fas fa-water" style="font-size:2rem; margin-bottom:0.5rem;"></i>
+                    <h3>Ujjayi Ocean</h3>
+                    <p>Victorious breath · sound of waves</p>
+                    <button class="btn-outline start-breath" data-type="ujjayi">Activate</button>
                 </div>
             </div>
-            <div id="breathGuide" style="margin-top:2rem; background:rgba(0,0,0,0.3); border-radius:40px; padding:1.5rem;">
-                <p class="guide-text">Select a breath practice above to begin your guided session.</p>
-                <div id="breathTimer" style="font-size:2rem; font-weight:bold; margin-top:1rem;"></div>
-                <button id="stopBreath" class="btn-outline" style="margin-top:1rem; display:none;">Stop</button>
-            </div>
+            <p id="breathInstruction" style="margin-top:1rem; font-style:italic;">Select a breath practice above to begin your cosmic journey.</p>
         </div>
 
         <!-- QUOTES -->
@@ -792,7 +853,7 @@
     </script>
 
     <script type="text/javascript">
-        // ********** ENRICHED TECHNIQUES DATABASE (112) with Osho-inspired wisdom **********
+        // ---------- ENRICHED TECHNIQUES (112) ----------
         const categoriesList = ['breath','body','heart','sound','gaze','void','energy','light','sleep','emotion'];
         const techniques = {};
         
@@ -865,7 +926,7 @@
             "Feel unconditional love radiating outward to all beings."
         ];
         
-        // user data (same as before)
+        // User state
         let user = {
             totalPractices: parseInt(localStorage.getItem('tp')) || 1248,
             totalMinutes: parseInt(localStorage.getItem('tm')) || 6304,
@@ -900,7 +961,7 @@
             document.getElementById('xpFill').style.width = (user.xp % 100) + '%';
         }
         
-        // Create tech card with wisdom preview
+        // Technique card
         function createTechCard(t) {
             const div = document.createElement('div'); div.className = 'tech-card glass-card';
             const isFav = user.favorites.includes(t.id);
@@ -974,7 +1035,7 @@
             document.getElementById('planTotal').innerText = total;
         }
         
-        // DIARY
+        // Diary
         function renderDiary() {
             const listDiv = document.getElementById('diaryList');
             listDiv.innerHTML = user.diary.slice().reverse().map(entry => `<div class="glass-card" style="margin-bottom:0.8rem; padding:0.8rem;"><small>${new Date(entry.date).toLocaleString()}</small><p>${entry.text}</p></div>`).join('');
@@ -984,7 +1045,7 @@
             if(txt) { user.diary.push({ date: new Date(), text: txt }); saveAll(); renderDiary(); document.getElementById('diaryEntry').value=''; showToast('saved'); }
         });
         
-        // QUOTES
+        // Quotes
         const quotes = [
             { text:"The mind is everything. What you think you become.", author:"Buddha" },
             { text:"Meditation is not a way to make your mind quiet. It is a way to enter into the quiet that is already there.", author:"Osho" },
@@ -998,7 +1059,7 @@
         document.getElementById('prevQuote').addEventListener('click', () => { quoteIdx = (quoteIdx-1+quotes.length)%quotes.length; renderQuote(); });
         document.getElementById('nextQuote').addEventListener('click', () => { quoteIdx = (quoteIdx+1)%quotes.length; renderQuote(); });
         
-        // TIMER (unchanged)
+        // Timer
         let timerSec = 300, timerInt, running=false;
         const timerDisplay = document.getElementById('timerDisplay');
         function updateTimerDisplay() { timerDisplay.innerText = new Date(timerSec*1000).toISOString().substr(14,5); }
@@ -1022,14 +1083,14 @@
         document.getElementById('pauseTimer').addEventListener('click', () => { clearInterval(timerInt); running=false; });
         document.getElementById('resetTimer').addEventListener('click', () => { clearInterval(timerInt); running=false; timerSec=300; updateTimerDisplay(); document.getElementById('timerMsg').innerText=''; });
         
-        // AUDIO (unchanged)
+        // Audio
         const audio = new Audio();
         const tracks = ['https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3','https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3','https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3','https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3'];
         function loadTrack(idx) { audio.src = tracks[idx]; document.querySelectorAll('.track-item').forEach((el,i)=>{ if(i==idx) el.classList.add('active'); else el.classList.remove('active'); }); }
         loadTrack(0);
         document.querySelectorAll('.track-item').forEach((el,i)=> el.addEventListener('click',()=>{ loadTrack(i); audio.play(); }));
         
-        // PATH CARDS
+        // Path cards
         const professions = [
             {name:'Student',icon:'fa-graduation-cap',desc:'focus · exams'},{name:'Employee',icon:'fa-briefcase',desc:'stress · work-life'},{name:'CEO',icon:'fa-chart-line',desc:'clarity · decisions'},{name:'Seeker',icon:'fa-infinity',desc:'spiritual path'},
             {name:'Anxious',icon:'fa-heartbeat',desc:'calm · anxiety'},{name:'Overthinker',icon:'fa-brain',desc:'still mind'},{name:'Healthcare',icon:'fa-hospital-user',desc:'compassion'},{name:'Teacher',icon:'fa-chalkboard',desc:'patience'},
@@ -1040,12 +1101,12 @@
         pathGrid.innerHTML = professions.map(p => `<div class="path-card glass-card" data-prof="${p.name}"><i class="fas ${p.icon}"></i><span>${p.name}</span><small>${p.desc}</small></div>`).join('');
         document.querySelectorAll('.path-card').forEach(c => c.addEventListener('click',()=>{ showToast(`showing techniques for ${c.dataset.prof}`); renderTechniques('all', c.dataset.prof); showView('techniques'); }));
         
-        // VIEW NAVIGATION
+        // Navigation
         const views = { home:'homeView', techniques:'techniquesView', breathwork:'breathworkView', quotes:'quotesView', diary:'diaryView', timer:'timerView', audio:'audioView', plan:'planView', profile:'profileView', enhanced:'enhancedView' };
         function showView(view) { Object.values(views).forEach(v=>document.getElementById(v).classList.add('hidden')); document.getElementById(views[view]).classList.remove('hidden'); document.querySelectorAll('.nav a').forEach(a=>a.classList.remove('active')); document.querySelector(`.nav a[data-view="${view}"]`)?.classList.add('active'); }
         document.querySelectorAll('[data-view]').forEach(el=>el.addEventListener('click',(e)=>{ e.preventDefault(); showView(el.dataset.view); }));
         
-        // FILTER & SEARCH
+        // Filter & Search
         const catDiv = document.getElementById('categoryFilters');
         ['all',...categoriesList].forEach(cat=>{ const btn = document.createElement('button'); btn.innerText=cat; btn.className='category-filter btn-outline'; btn.addEventListener('click',()=>{ document.querySelectorAll('.category-filter').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderTechniques(cat==='all'?'all':cat, document.getElementById('searchInput').value); }); catDiv.appendChild(btn); });
         document.getElementById('searchInput').addEventListener('input', e=>{ const activeCat = document.querySelector('.category-filter.active')?.innerText||'all'; renderTechniques(activeCat==='all'?'all':activeCat, e.target.value); });
@@ -1053,116 +1114,161 @@
         document.getElementById('exploreBtn').addEventListener('click',()=>showView('techniques'));
         document.getElementById('dailyBtn').addEventListener('click',()=>{ const ids = Object.keys(techniques); alert(`Today's technique: ${techniques[ids[Math.floor(Math.random()*ids.length)]].name}`); });
         
-        // SCROLL TOP
+        // Scroll Top
         const scrollBtn = document.getElementById('scrollTop');
         window.addEventListener('scroll',()=>scrollBtn.style.opacity = window.scrollY>200?'1':'0');
         scrollBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
         
-        // THEME TOGGLE
+        // Theme Toggle
         const themeBtn = document.getElementById('themeToggle');
         themeBtn.addEventListener('click',()=>{ const html = document.documentElement; const cur = html.getAttribute('data-theme'); html.setAttribute('data-theme', cur==='dark'?'light':'dark'); themeBtn.innerHTML = cur==='dark'?'<i class="fas fa-sun"></i>':'<i class="fas fa-moon"></i>'; localStorage.setItem('theme', html.getAttribute('data-theme')); });
         const savedTheme = localStorage.getItem('theme')||'dark'; document.documentElement.setAttribute('data-theme', savedTheme); themeBtn.innerHTML = savedTheme==='dark'?'<i class="fas fa-moon"></i>':'<i class="fas fa-sun"></i>';
         
         function showToast(msg) { const t = document.createElement('div'); t.className='toast'; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),3000); }
         
-        // CHART
+        // Chart
         const chartCtx = document.getElementById('progressChart')?.getContext('2d'); if(chartCtx) new Chart(chartCtx, { type:'line', data:{ labels:['M','T','W','T','F','S','S'], datasets:[{ label:'minutes', data:[25,40,18,35,50,42,30], borderColor:'#9d7bff', tension:0.3 }] } });
         
-        // ========== BREATHWORK FEATURE ==========
+        // ========== BREATHWORK - VISUAL PACER ==========
         let breathInterval = null;
         let breathActive = false;
-        const breathGuideDiv = document.getElementById('breathGuide');
-        const breathTimerDisplay = document.getElementById('breathTimer');
-        const stopBreathBtn = document.getElementById('stopBreath');
+        const breathCircle = document.getElementById('breathCircle');
+        const breathInner = document.getElementById('breathInner');
+        const breathPhaseLabel = document.getElementById('breathPhaseLabel');
+        const breathPhaseText = document.getElementById('breathPhaseText');
+        const breathTimerDisplay = document.getElementById('breathTimerDisplay');
+        const stopBreathBtnCtrl = document.getElementById('stopBreathBtn');
+        const breathInstruction = document.getElementById('breathInstruction');
+        
+        let currentScale = 1;
+        let targetScale = 1;
+        
+        function updateBreathVisual(phase, timer) {
+            // scale for inhale: expand, exhale: contract
+            if (phase === 'inhale') {
+                targetScale = 1.6;
+                breathPhaseLabel.innerText = '🌬️';
+                breathPhaseText.innerText = 'INHALE';
+            } else if (phase === 'hold') {
+                targetScale = 1.8;
+                breathPhaseLabel.innerText = '🌀';
+                breathPhaseText.innerText = 'HOLD';
+            } else if (phase === 'exhale') {
+                targetScale = 0.8;
+                breathPhaseLabel.innerText = '💨';
+                breathPhaseText.innerText = 'EXHALE';
+            } else {
+                targetScale = 1;
+            }
+            breathInner.style.transform = `scale(${targetScale})`;
+            breathCircle.style.transform = `scale(${1 + (targetScale-1)*0.5})`;
+            breathTimerDisplay.innerText = timer;
+        }
         
         function startBreathPractice(type) {
             if (breathInterval) clearInterval(breathInterval);
             breathActive = true;
-            stopBreathBtn.style.display = 'inline-block';
-            let phase = 0;
-            let phaseDuration = 0;
-            let cycles = 0;
-            let maxCycles = 10;
+            stopBreathBtnCtrl.style.display = 'inline-block';
+            breathInstruction.innerText = `✨ ${type.toUpperCase()} breath active — follow the rhythm ✨`;
             let phases = [];
+            let timings = [];
+            let maxCycles = 8;
+            let cycleCount = 0;
+            let phaseIndex = 0;
+            let currentTimer = 0;
             
             if (type === 'box') {
-                phases = [4, 4, 6, 4]; // inhale, hold, exhale, hold
-                breathGuideDiv.querySelector('.guide-text').innerHTML = "🌬️ 4-4-6-4 Box Breathing<br>Inhale 4 → Hold 4 → Exhale 6 → Hold 4";
+                phases = ['inhale', 'hold', 'exhale', 'hold'];
+                timings = [4, 4, 6, 4];
             } else if (type === '478') {
-                phases = [4, 7, 8];
-                breathGuideDiv.querySelector('.guide-text').innerHTML = "🌀 4-7-8 Relaxation Breath<br>Inhale 4 → Hold 7 → Exhale 8";
+                phases = ['inhale', 'hold', 'exhale'];
+                timings = [4, 7, 8];
             } else if (type === 'nadi') {
-                phases = [5, 5, 5, 5]; // simple alternate (manual guide)
-                breathGuideDiv.querySelector('.guide-text').innerHTML = "🕉️ Alternate Nostril Breathing<br>Close right nostril, inhale left 4 → hold → exhale right 4 → repeat";
-                // For simplicity, we'll just show a timer with instructions
-                breathTimerDisplay.innerText = "Follow your breath: Inhale left, exhale right";
-                let seconds = 0;
-                breathInterval = setInterval(() => {
-                    seconds++;
-                    if (seconds >= 180) { // 3 min practice
-                        clearInterval(breathInterval);
-                        breathTimerDisplay.innerText = "Practice complete! Feel the balance.";
-                        stopBreathBtn.style.display = 'none';
-                        breathActive = false;
-                    }
-                }, 1000);
-                return;
+                // Alternate nostril: manual guidance with visual
+                phases = ['inhale_left', 'hold', 'exhale_right', 'inhale_right', 'hold', 'exhale_left'];
+                timings = [4, 4, 4, 4, 4, 4];
+                maxCycles = 6;
+                breathInstruction.innerText = "Alternate Nostril: Use right thumb to close right nostril, inhale left. Then close left, exhale right, etc.";
             } else if (type === 'kapal') {
-                breathGuideDiv.querySelector('.guide-text').innerHTML = "🔥 Kapalabhati (Skull Shining)<br>Rapid, forceful exhales, passive inhales. Start with 30 breaths, rest, repeat 3 rounds.";
-                let round = 0;
+                // Kapalabhati: rapid exhales, passive inhales
+                breathInstruction.innerText = "Kapalabhati: Forceful exhales through nose, passive inhales. 30 breaths per round. Follow the pace.";
+                let rounds = 0;
                 let kapalInterval = setInterval(() => {
-                    if (round >= 3) {
+                    if (rounds >= 3) {
                         clearInterval(kapalInterval);
-                        breathTimerDisplay.innerText = "Practice complete! Feel the energy.";
-                        stopBreathBtn.style.display = 'none';
-                        breathActive = false;
+                        resetBreathUI();
+                        showToast('Kapalabhati complete! Feel the energy.');
                         return;
                     }
-                    breathTimerDisplay.innerText = `Round ${round+1}: Rapid exhales for 30 breaths...`;
-                    setTimeout(() => {
-                        breathTimerDisplay.innerText = "Rest for 20 seconds...";
-                    }, 15000);
-                    round++;
+                    breathPhaseText.innerText = `🔥 Round ${rounds+1} · Rapid Exhales`;
+                    breathTimerDisplay.innerText = "30 breaths";
+                    let breathCount = 0;
+                    let breathTick = setInterval(() => {
+                        breathCount++;
+                        if (breathCount >= 30) {
+                            clearInterval(breathTick);
+                            breathPhaseText.innerText = "Rest 15 seconds";
+                            setTimeout(() => {}, 15000);
+                        } else {
+                            // visual pulse for each exhale
+                            breathInner.style.transform = 'scale(0.7)';
+                            setTimeout(() => { breathInner.style.transform = 'scale(1)'; }, 100);
+                        }
+                    }, 600);
+                    rounds++;
                 }, 20000);
                 breathInterval = kapalInterval;
                 return;
+            } else if (type === 'ujjayi') {
+                phases = ['inhale', 'exhale'];
+                timings = [5, 5];
+                breathInstruction.innerText = "Ujjayi: Slightly constrict throat to create ocean sound. Inhale and exhale through nose.";
             }
             
-            let phaseIndex = 0;
-            let timer = phases[0];
-            breathTimerDisplay.innerText = `${getPhaseName(phaseIndex, type)} ${timer} sec`;
-            
-            breathInterval = setInterval(() => {
+            function nextPhase() {
                 if (!breathActive) return;
-                if (timer > 1) {
-                    timer--;
-                    breathTimerDisplay.innerText = `${getPhaseName(phaseIndex, type)} ${timer} sec`;
-                } else {
-                    phaseIndex++;
-                    if (phaseIndex >= phases.length) {
-                        phaseIndex = 0;
-                        cycles++;
-                        if (cycles >= maxCycles) {
-                            clearInterval(breathInterval);
-                            breathTimerDisplay.innerText = "Practice complete. Feel the stillness within.";
-                            stopBreathBtn.style.display = 'none';
-                            breathActive = false;
-                            return;
-                        }
+                if (phaseIndex >= phases.length) {
+                    phaseIndex = 0;
+                    cycleCount++;
+                    if (cycleCount >= maxCycles) {
+                        resetBreathUI();
+                        showToast('Practice complete. Feel the stillness.');
+                        return;
                     }
-                    timer = phases[phaseIndex];
-                    breathTimerDisplay.innerText = `${getPhaseName(phaseIndex, type)} ${timer} sec`;
                 }
-            }, 1000);
+                currentTimer = timings[phaseIndex];
+                let phase = phases[phaseIndex];
+                updateBreathVisual(phase, currentTimer);
+                const interval = setInterval(() => {
+                    if (!breathActive) {
+                        clearInterval(interval);
+                        return;
+                    }
+                    currentTimer--;
+                    if (currentTimer <= 0) {
+                        clearInterval(interval);
+                        phaseIndex++;
+                        nextPhase();
+                    } else {
+                        updateBreathVisual(phase, currentTimer);
+                    }
+                }, 1000);
+                breathInterval = interval;
+            }
+            phaseIndex = 0;
+            nextPhase();
         }
         
-        function getPhaseName(idx, type) {
-            if (type === 'box') {
-                return idx === 0 ? "Inhale" : idx === 1 ? "Hold" : idx === 2 ? "Exhale" : "Hold";
-            } else if (type === '478') {
-                return idx === 0 ? "Inhale" : idx === 1 ? "Hold" : "Exhale";
-            }
-            return "Breathe";
+        function resetBreathUI() {
+            if (breathInterval) clearInterval(breathInterval);
+            breathActive = false;
+            stopBreathBtnCtrl.style.display = 'none';
+            breathInstruction.innerText = "Select a breath practice above to begin your cosmic journey.";
+            breathInner.style.transform = 'scale(1)';
+            breathCircle.style.transform = 'scale(1)';
+            breathPhaseLabel.innerText = '🌀';
+            breathPhaseText.innerText = 'Ready';
+            breathTimerDisplay.innerText = '0';
         }
         
         document.querySelectorAll('.start-breath').forEach(btn => {
@@ -1172,15 +1278,9 @@
                 startBreathPractice(type);
             });
         });
-        stopBreathBtn.addEventListener('click', () => {
-            if (breathInterval) clearInterval(breathInterval);
-            breathActive = false;
-            breathTimerDisplay.innerText = "";
-            breathGuideDiv.querySelector('.guide-text').innerHTML = "Select a breath practice above to begin your guided session.";
-            stopBreathBtn.style.display = 'none';
-        });
+        stopBreathBtnCtrl.addEventListener('click', resetBreathUI);
         
-        // INIT
+        // Initialize UI
         renderFeatured(); renderTechniques(); renderPlan(); renderDiary(); renderQuote(); saveAll(); showView('home');
     </script>
 </body>
