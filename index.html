@@ -11,11 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* ========== GLOBAL & VARIABLES ========== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --bg-deep: #050210;
@@ -63,7 +60,6 @@
             pointer-events: none;
         }
 
-        /* Floating particles for desktop */
         .floating-particles {
             position: fixed;
             top: 0;
@@ -81,20 +77,10 @@
             animation: floatParticle linear infinite;
         }
         @keyframes floatParticle {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.5;
-            }
-            90% {
-                opacity: 0.5;
-            }
-            100% {
-                transform: translateY(-20vh) rotate(360deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
         }
 
         .app-container {
@@ -115,6 +101,7 @@
             transition: var(--transition);
         }
 
+        /* Header */
         .header {
             display: flex;
             flex-wrap: wrap;
@@ -169,7 +156,6 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: var(--transition);
         }
         .cart-icon {
             position: relative;
@@ -195,7 +181,7 @@
             margin-left: 0.5rem;
         }
 
-        /* Hero Section Enhanced for Desktop */
+        /* Hero */
         .hero {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -263,19 +249,6 @@
             color: var(--text-primary);
             backdrop-filter: blur(4px);
         }
-        .btn-outline:hover {
-            border-color: var(--accent-secondary);
-            background: rgba(255,255,255,0.05);
-        }
-        /* Desktop cosmic illustration */
-        .hero-illustration {
-            position: relative;
-            height: 100%;
-            min-height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
         .hero-illustration svg {
             width: 100%;
             max-width: 400px;
@@ -283,29 +256,16 @@
             filter: drop-shadow(0 0 20px rgba(157,123,255,0.3));
             animation: float 6s ease-in-out infinite;
         }
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
 
-        /* Mudra Gallery - Enhanced for Desktop */
-        .cosmic-pulse {
-            margin: 2rem 0 2rem;
-        }
+        /* Mudra Gallery */
         .mudra-gallery {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border-radius: var(--radius-card);
             padding: 1.5rem;
             border: 1px solid var(--glass-border);
-        }
-        .mudra-gallery h3 {
-            text-align: center;
-            margin-bottom: 1rem;
-            font-size: 1.4rem;
-            font-weight: 500;
-            letter-spacing: 1px;
+            margin-bottom: 2rem;
         }
         .mudra-grid {
             display: grid;
@@ -316,10 +276,9 @@
         .mudra-item {
             text-align: center;
             cursor: pointer;
-            transition: transform 0.2s, filter 0.2s;
+            transition: transform 0.2s;
             padding: 0.5rem;
             border-radius: 20px;
-            position: relative;
         }
         .mudra-item:hover {
             transform: translateY(-4px);
@@ -329,18 +288,11 @@
             width: 70px;
             height: 70px;
             margin: 0 auto 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         .mudra-svg svg {
             width: 100%;
             height: 100%;
             filter: drop-shadow(0 0 4px var(--accent-glow));
-            transition: filter 0.3s;
-        }
-        .mudra-item:hover .mudra-svg svg {
-            filter: drop-shadow(0 0 12px var(--accent));
         }
         .mudra-name {
             font-size: 0.7rem;
@@ -353,11 +305,7 @@
             color: var(--text-secondary);
             margin-top: 0.2rem;
         }
-        /* Desktop: Show full description on hover */
         @media (min-width: 1200px) {
-            .mudra-item {
-                position: relative;
-            }
             .mudra-item .full-desc {
                 position: absolute;
                 bottom: 100%;
@@ -374,15 +322,13 @@
                 opacity: 0;
                 transition: opacity 0.2s;
                 z-index: 100;
-                white-space: normal;
-                text-align: center;
             }
             .mudra-item:hover .full-desc {
                 opacity: 1;
             }
         }
 
-        /* New: Cosmic Practice Widget (desktop only) */
+        /* Cosmic Practice Widget (desktop) */
         .cosmic-practice-widget {
             margin: 2rem 0 2rem;
             display: none;
@@ -400,11 +346,6 @@
             border: 1px solid var(--glass-border);
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s;
-        }
-        .practice-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
         }
         .practice-card .mandala-bg {
             position: absolute;
@@ -421,8 +362,6 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
         }
         .practice-header h3 {
             font-size: 1.5rem;
@@ -440,18 +379,11 @@
             height: 36px;
             border-radius: 50%;
             cursor: pointer;
-            transition: 0.2s;
-        }
-        .practice-refresh:hover {
-            background: var(--accent);
-            color: white;
-            transform: rotate(180deg);
         }
         .practice-technique-name {
             font-size: 1.8rem;
             font-weight: 700;
             margin: 1rem 0 0.5rem;
-            line-height: 1.2;
         }
         .practice-essence {
             font-style: italic;
@@ -460,12 +392,6 @@
             margin: 1rem 0;
             color: var(--text-secondary);
         }
-        .practice-footer {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
         .xp-container {
             margin: 0.5rem 0 2rem;
         }
@@ -480,12 +406,6 @@
             width: 0%;
             background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
             border-radius: 8px;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            margin: 2rem 0 1rem;
-            font-weight: 600;
         }
 
         /* Profession Grid */
@@ -504,7 +424,6 @@
         .prof-card:hover {
             transform: translateY(-6px);
             border-color: var(--accent);
-            box-shadow: 0 15px 30px -12px rgba(0,0,0,0.5);
         }
         .prof-card i {
             font-size: 2.5rem;
@@ -524,7 +443,7 @@
             font-size: 0.75rem;
         }
 
-        /* TECH CARD with Background Mandala */
+        /* TECH CARD with ROTATING MANDALA BACKGROUND */
         .tech-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
@@ -544,6 +463,7 @@
             border-color: var(--accent);
             box-shadow: 0 20px 35px -12px black;
         }
+        /* Rotating mandala background */
         .tech-bg-mandala {
             position: absolute;
             top: 0;
@@ -552,16 +472,16 @@
             height: 100%;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.12;
+            opacity: 0.15;
             transition: opacity 0.3s ease;
         }
         .tech-card:hover .tech-bg-mandala {
-            opacity: 0.22;
+            opacity: 0.28;
         }
         .tech-bg-mandala svg {
             width: 100%;
             height: 100%;
-            animation: rotateSlow 30s linear infinite;
+            animation: rotateSlow 25s linear infinite;
         }
         @keyframes rotateSlow {
             from { transform: rotate(0deg); }
@@ -684,7 +604,7 @@
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-        /* Quotes Section */
+        /* Quotes */
         .quotes-home {
             margin: 2rem 0 1rem;
             padding: 2rem;
@@ -692,23 +612,11 @@
             position: relative;
             overflow: hidden;
         }
-        .quotes-home::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(157,123,255,0.05) 0%, transparent 70%);
-            animation: rotateSlow 60s linear infinite;
-            pointer-events: none;
-        }
         .quote-text-large {
             font-size: 1.6rem;
             font-style: italic;
             line-height: 1.4;
             margin: 1rem 0;
-            position: relative;
         }
         .quote-author {
             color: var(--accent-secondary);
@@ -736,7 +644,6 @@
             font-weight: 800;
             margin: 1rem 0;
         }
-
         .breath-container {
             display: flex;
             flex-direction: column;
@@ -850,52 +757,25 @@
             flex-wrap: wrap;
             border-top: 1px solid var(--glass-border);
         }
-        /* Desktop enhancements */
         @media (min-width: 1200px) {
-            .hero-illustration {
-                display: block;
-            }
-            .hero {
-                margin-bottom: 4rem;
-            }
-            .hero h2 {
-                font-size: 4.5rem;
-            }
-            .mudra-grid {
-                grid-template-columns: repeat(6, 1fr);
-                gap: 1.5rem;
-            }
-            .mudra-svg {
-                width: 80px;
-                height: 80px;
-            }
-            .quotes-home {
-                padding: 3rem;
-                margin-top: 3rem;
-            }
-            .quote-text-large {
-                font-size: 2rem;
-            }
-            .tech-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
+            .hero-illustration { display: block; }
+            .hero h2 { font-size: 4.5rem; }
+            .mudra-grid { grid-template-columns: repeat(6, 1fr); }
+            .tech-grid { grid-template-columns: repeat(3, 1fr); }
+            .quote-text-large { font-size: 2rem; }
         }
         @media (max-width: 1199px) {
-            .hero-illustration {
-                display: none;
-            }
+            .hero-illustration { display: none; }
         }
         @media (max-width: 900px) {
             .hero { grid-template-columns: 1fr; text-align: center; }
             .hero h2 { font-size: 2.5rem; }
             .mudra-grid { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); }
-            .mudra-svg { width: 55px; height: 55px; }
         }
         @media (max-width: 640px) {
             .app-container { padding: 1rem; }
             .nav a { font-size: 0.8rem; }
             .tech-grid { grid-template-columns: 1fr; }
-            .breath-ring { width: 220px; height: 220px; }
             .quote-text-large { font-size: 1.2rem; }
         }
         .track-item {
@@ -923,21 +803,11 @@
     <div class="floating-particles" id="floatingParticles"></div>
     <div class="app-container">
         <header class="header glass-card">
-            <div class="logo">
-                <h1>VIGYAN BHAIRAV</h1>
-                <p>GARGANTUA · 112 PORTALS</p>
-            </div>
+            <div class="logo"><h1>VIGYAN BHAIRAV</h1><p>GARGANTUA · 112 PORTALS</p></div>
             <div class="nav">
-                <a data-view="home">Home</a>
-                <a data-view="techniques">Techniques</a>
-                <a data-view="breathwork">Breathwork</a>
-                <a data-view="quotes">Quotes Library</a>
-                <a data-view="diary">Diary</a>
-                <a data-view="timer">Timer</a>
-                <a data-view="audio">Audio</a>
-                <a data-view="plan">My Plan</a>
-                <a data-view="profile">Profile</a>
-                <a data-view="enhanced">Cosmic Me</a>
+                <a data-view="home">Home</a><a data-view="techniques">Techniques</a><a data-view="breathwork">Breathwork</a>
+                <a data-view="quotes">Quotes Library</a><a data-view="diary">Diary</a><a data-view="timer">Timer</a>
+                <a data-view="audio">Audio</a><a data-view="plan">My Plan</a><a data-view="profile">Profile</a><a data-view="enhanced">Cosmic Me</a>
                 <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
                 <span class="greeting">Hi, Seeker</span>
                 <div class="cart-icon" data-view="plan"><i class="fas fa-shopping-bag"></i><span class="cart-count" id="cartCount">0</span></div>
@@ -952,221 +822,70 @@
                     <div class="hero-badge totd" id="totdBadge">✨ Technique of the Day: Breath Awareness</div>
                     <h2>Journey Through <span class="gradient-text">Infinite Consciousness</span></h2>
                     <p class="hero-sub">112 authentic Tantra meditations, breathwork, cosmic diary, wisdom quotes, and a living black hole.</p>
-                    <div class="btn-group">
-                        <button class="btn-primary" id="exploreBtn">Begin Voyage →</button>
-                        <button class="btn-outline" id="dailyBtn">Daily Technique</button>
-                    </div>
+                    <div class="btn-group"><button class="btn-primary" id="exploreBtn">Begin Voyage →</button><button class="btn-outline" id="dailyBtn">Daily Technique</button></div>
                 </div>
                 <div class="hero-illustration">
-                    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="100" cy="100" r="80" stroke="url(#grad)" stroke-width="1.5" stroke-dasharray="5 8" fill="none"/>
-                        <circle cx="100" cy="100" r="60" stroke="url(#grad)" stroke-width="1.2" stroke-dasharray="3 6" fill="none"/>
-                        <circle cx="100" cy="100" r="40" stroke="url(#grad)" stroke-width="1" stroke-dasharray="2 4" fill="none"/>
-                        <path d="M100 20 L100 180 M20 100 L180 100" stroke="url(#grad)" stroke-width="1" stroke-dasharray="3 5"/>
-                        <path d="M35 35 L165 165 M35 165 L165 35" stroke="url(#grad)" stroke-width="1" stroke-dasharray="3 5"/>
-                        <circle cx="100" cy="100" r="12" fill="var(--accent)" opacity="0.6">
-                            <animate attributeName="r" values="12;15;12" dur="3s" repeatCount="indefinite"/>
-                        </circle>
-                        <defs>
-                            <radialGradient id="grad" cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" stop-color="#9d7bff"/>
-                                <stop offset="100%" stop-color="#ffb3a0"/>
-                            </radialGradient>
-                        </defs>
-                    </svg>
+                    <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" stroke="url(#grad)" stroke-width="1.5" stroke-dasharray="5 8" fill="none"/><circle cx="100" cy="100" r="60" stroke="url(#grad)" stroke-width="1.2" stroke-dasharray="3 6" fill="none"/><circle cx="100" cy="100" r="40" stroke="url(#grad)" stroke-width="1" stroke-dasharray="2 4" fill="none"/><path d="M100 20 L100 180 M20 100 L180 100" stroke="url(#grad)" stroke-width="1" stroke-dasharray="3 5"/><path d="M35 35 L165 165 M35 165 L165 35" stroke="url(#grad)" stroke-width="1" stroke-dasharray="3 5"/><circle cx="100" cy="100" r="12" fill="var(--accent)" opacity="0.6"><animate attributeName="r" values="12;15;12" dur="3s" repeatCount="indefinite"/></circle><defs><radialGradient id="grad"><stop offset="0%" stop-color="#9d7bff"/><stop offset="100%" stop-color="#ffb3a0"/></radialGradient></defs></svg>
                 </div>
             </div>
-            
-            <!-- Mudra Gallery with SVG Hand Illustrations -->
-            <div class="cosmic-pulse">
-                <div class="mudra-gallery">
-                    <h3>🌀 Sacred Mudras · Gestures of Awakening</h3>
-                    <div class="mudra-grid" id="mudraGrid"></div>
-                </div>
+            <div class="mudra-gallery">
+                <h3>🌀 Sacred Mudras · Gestures of Awakening</h3>
+                <div class="mudra-grid" id="mudraGrid"></div>
             </div>
-
-            <!-- NEW: Cosmic Practice Widget (desktop only) -->
             <div class="cosmic-practice-widget">
-                <div class="practice-card glass-card" id="cosmicPracticeCard">
-                    <div class="mandala-bg">
-                        <svg viewBox="0 0 200 200">
-                            <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="0.5"/>
-                            <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="0.5"/>
-                            <circle cx="100" cy="100" r="40" fill="none" stroke="currentColor" stroke-width="0.5"/>
-                            <circle cx="100" cy="100" r="20" fill="none" stroke="currentColor" stroke-width="0.5"/>
-                            <path d="M100 20 L100 180 M20 100 L180 100" stroke="currentColor" stroke-width="0.5"/>
-                        </svg>
-                    </div>
-                    <div class="practice-header">
-                        <h3>✨ Cosmic Practice of the Moment</h3>
-                        <button class="practice-refresh" id="refreshPracticeBtn"><i class="fas fa-sync-alt"></i></button>
-                    </div>
+                <div class="practice-card glass-card">
+                    <div class="mandala-bg"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="currentColor"/><circle cx="100" cy="100" r="60" fill="none" stroke="currentColor"/><circle cx="100" cy="100" r="40" fill="none" stroke="currentColor"/><path d="M100 20 L100 180 M20 100 L180 100" stroke="currentColor"/></svg></div>
+                    <div class="practice-header"><h3>✨ Cosmic Practice of the Moment</h3><button class="practice-refresh" id="refreshPracticeBtn"><i class="fas fa-sync-alt"></i></button></div>
                     <div class="practice-technique-name" id="practiceTechName">Witnessing the Breath</div>
-                    <div class="practice-essence" id="practiceTechEssence">Breath is the bridge between body and mind. When breath becomes calm and observed, the mind automatically becomes calm.</div>
-                    <div class="practice-footer">
-                        <button class="btn-primary" id="practiceExploreBtn">Explore This Portal →</button>
-                    </div>
+                    <div class="practice-essence" id="practiceTechEssence">Breath is the bridge between body and mind...</div>
+                    <div class="practice-footer"><button class="btn-primary" id="practiceExploreBtn">Explore This Portal →</button></div>
                 </div>
             </div>
-
-            <div class="xp-container">
-                <div class="xp-bar"><div class="xp-fill" id="xpFill" style="width:45%"></div></div>
-            </div>
+            <div class="xp-container"><div class="xp-bar"><div class="xp-fill" id="xpFill" style="width:45%"></div></div></div>
             <div class="quotes-home glass-card">
-                <h2 style="margin-bottom:0.5rem;">🌠 Wisdom of the Ages</h2>
-                <div id="homeQuoteContainer">
-                    <div class="quote-text-large" id="homeQuoteText">Loading wisdom...</div>
-                    <div class="quote-author" id="homeQuoteAuthor"></div>
-                </div>
-                <div class="quote-save">
-                    <button class="btn-outline" id="saveHomeQuoteBtn"><i class="fas fa-bookmark"></i> Save to Diary</button>
-                </div>
-                <div class="quote-nav">
-                    <button class="btn-outline" id="prevHomeQuote"><i class="fas fa-chevron-left"></i></button>
-                    <button class="btn-outline" id="nextHomeQuote"><i class="fas fa-chevron-right"></i></button>
-                </div>
+                <h2>🌠 Wisdom of the Ages</h2>
+                <div id="homeQuoteContainer"><div class="quote-text-large" id="homeQuoteText">Loading wisdom...</div><div class="quote-author" id="homeQuoteAuthor"></div></div>
+                <div class="quote-save"><button class="btn-outline" id="saveHomeQuoteBtn"><i class="fas fa-bookmark"></i> Save to Diary</button></div>
+                <div class="quote-nav"><button class="btn-outline" id="prevHomeQuote"><i class="fas fa-chevron-left"></i></button><button class="btn-outline" id="nextHomeQuote"><i class="fas fa-chevron-right"></i></button></div>
             </div>
         </div>
 
-        <!-- TECHNIQUES VIEW (Professions first) -->
+        <!-- TECHNIQUES VIEW -->
         <div id="techniquesView" class="hidden">
-            <div id="professionSelectionView">
-                <div class="glass-card" style="padding:1.5rem; margin-bottom:2rem;">
-                    <h3>🌀 Choose Your Archetype</h3>
-                    <p>Select your path, and the cosmic wisdom will reveal techniques aligned with your journey.</p>
-                    <div class="profession-grid" id="professionGrid"></div>
-                </div>
-            </div>
-            <div id="recommendedTechniquesView" class="hidden">
-                <div class="glass-card" style="padding:1rem; margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
-                    <h3 id="selectedProfessionTitle">Recommended Techniques</h3>
-                    <button class="btn-outline" id="backToProfessionsBtn"><i class="fas fa-arrow-left"></i> Back to Archetypes</button>
-                </div>
-                <div class="tech-grid" id="techniquesGrid"></div>
-            </div>
+            <div id="professionSelectionView"><div class="glass-card" style="padding:1.5rem;"><h3>🌀 Choose Your Archetype</h3><p>Select your path, and the cosmic wisdom will reveal techniques aligned with your journey.</p><div class="profession-grid" id="professionGrid"></div></div></div>
+            <div id="recommendedTechniquesView" class="hidden"><div class="glass-card" style="padding:1rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;"><h3 id="selectedProfessionTitle">Recommended Techniques</h3><button class="btn-outline" id="backToProfessionsBtn"><i class="fas fa-arrow-left"></i> Back to Archetypes</button></div><div class="tech-grid" id="techniquesGrid"></div></div>
         </div>
 
         <!-- BREATHWORK VIEW -->
         <div id="breathworkView" class="hidden breathwork-section glass-card">
             <h2>🌬️ Sacred Breath Alchemy</h2>
-            <p>Guided pranayama with visual pacer & cosmic resonance</p>
-            <div class="breath-container">
-                <div class="breath-ring">
-                    <svg viewBox="0 0 300 300">
-                        <circle cx="150" cy="150" r="137" stroke="currentColor" fill="none" stroke-width="4"/>
-                        <circle class="progress-circle" cx="150" cy="150" r="137" stroke="currentColor" fill="none" stroke-width="4" stroke-dasharray="860" stroke-dashoffset="860"/>
-                    </svg>
-                    <div class="breath-inner-ring">
-                        <div class="breath-phase" id="breathPhaseLabel">🌀</div>
-                        <div class="breath-timer" id="breathTimerDisplay">0</div>
-                    </div>
-                </div>
-                <div class="breath-text" id="breathPhaseText">Ready</div>
-                <div class="breath-controls">
-                    <button id="stopBreathBtn" class="btn-outline" style="display:none;">Stop</button>
-                </div>
-            </div>
+            <div class="breath-container"><div class="breath-ring"><svg viewBox="0 0 300 300"><circle cx="150" cy="150" r="137" stroke="currentColor" fill="none" stroke-width="4"/><circle class="progress-circle" cx="150" cy="150" r="137" stroke="currentColor" fill="none" stroke-width="4" stroke-dasharray="860" stroke-dashoffset="860"/></svg><div class="breath-inner-ring"><div class="breath-phase" id="breathPhaseLabel">🌀</div><div class="breath-timer" id="breathTimerDisplay">0</div></div></div><div class="breath-text" id="breathPhaseText">Ready</div><div class="breath-controls"><button id="stopBreathBtn" class="btn-outline" style="display:none;">Stop</button></div></div>
             <div class="breath-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:1rem; margin-top:1rem;">
-                <div class="breath-card glass-card" data-breath="box"><i class="fas fa-cube" style="font-size:2rem;"></i><h3>4-4-6-4 Box</h3><p>Inhale 4 · Hold 4 · Exhale 6 · Hold 4</p><button class="btn-outline start-breath" data-type="box">Activate</button></div>
-                <div class="breath-card glass-card" data-breath="478"><i class="fas fa-feather-alt" style="font-size:2rem;"></i><h3>4-7-8 Relaxation</h3><p>Inhale 4 · Hold 7 · Exhale 8</p><button class="btn-outline start-breath" data-type="478">Activate</button></div>
-                <div class="breath-card glass-card" data-breath="nadi"><i class="fas fa-hand-peace" style="font-size:2rem;"></i><h3>Alternate Nostril</h3><p>Balance Ida & Pingala</p><button class="btn-outline start-breath" data-type="nadi">Activate</button></div>
-                <div class="breath-card glass-card" data-breath="kapal"><i class="fas fa-fire" style="font-size:2rem;"></i><h3>Kapalabhati</h3><p>Skull Shining · Dynamic</p><button class="btn-outline start-breath" data-type="kapal">Activate</button></div>
-                <div class="breath-card glass-card" data-breath="ujjayi"><i class="fas fa-water" style="font-size:2rem;"></i><h3>Ujjayi Ocean</h3><p>Victorious breath · sound of waves</p><button class="btn-outline start-breath" data-type="ujjayi">Activate</button></div>
+                <div class="breath-card glass-card" data-breath="box"><i class="fas fa-cube"></i><h3>4-4-6-4 Box</h3><button class="btn-outline start-breath" data-type="box">Activate</button></div>
+                <div class="breath-card glass-card" data-breath="478"><i class="fas fa-feather-alt"></i><h3>4-7-8 Relaxation</h3><button class="btn-outline start-breath" data-type="478">Activate</button></div>
+                <div class="breath-card glass-card" data-breath="nadi"><i class="fas fa-hand-peace"></i><h3>Alternate Nostril</h3><button class="btn-outline start-breath" data-type="nadi">Activate</button></div>
+                <div class="breath-card glass-card" data-breath="kapal"><i class="fas fa-fire"></i><h3>Kapalabhati</h3><button class="btn-outline start-breath" data-type="kapal">Activate</button></div>
+                <div class="breath-card glass-card" data-breath="ujjayi"><i class="fas fa-water"></i><h3>Ujjayi Ocean</h3><button class="btn-outline start-breath" data-type="ujjayi">Activate</button></div>
             </div>
-            <p id="breathInstruction" style="margin-top:1rem; font-style:italic;">Select a breath practice above to begin your cosmic journey.</p>
+            <p id="breathInstruction" style="margin-top:1rem;">Select a breath practice above to begin your cosmic journey.</p>
         </div>
 
         <!-- QUOTES LIBRARY -->
-        <div id="quotesView" class="hidden quotes-section glass-card">
-            <h2>📚 Wisdom Library</h2>
-            <div id="quoteContainer" style="min-height:200px;"></div>
-            <div style="margin-top:1.5rem; display:flex; gap:1rem; justify-content:center;">
-                <button class="btn-outline" id="prevLibQuote"><i class="fas fa-chevron-left"></i></button>
-                <button class="btn-outline" id="nextLibQuote"><i class="fas fa-chevron-right"></i></button>
-                <button class="btn-outline" id="saveLibQuoteBtn"><i class="fas fa-bookmark"></i> Save to Diary</button>
-            </div>
-        </div>
+        <div id="quotesView" class="hidden quotes-section glass-card"><h2>📚 Wisdom Library</h2><div id="quoteContainer"></div><div style="margin-top:1.5rem; display:flex; gap:1rem; justify-content:center;"><button class="btn-outline" id="prevLibQuote"><i class="fas fa-chevron-left"></i></button><button class="btn-outline" id="nextLibQuote"><i class="fas fa-chevron-right"></i></button><button class="btn-outline" id="saveLibQuoteBtn"><i class="fas fa-bookmark"></i> Save to Diary</button></div></div>
 
-        <!-- DIARY -->
-        <div id="diaryView" class="hidden diary-section glass-card">
-            <h2>🌙 cosmic diary</h2>
-            <textarea id="diaryEntry" rows="3" style="width:100%; background:rgba(0,0,0,0.4); border:1px solid var(--glass-border); border-radius:28px; padding:1rem; color:white; margin:1rem 0;"></textarea>
-            <button class="btn-primary" id="saveDiary">save reflection</button>
-            <div id="diaryList" style="margin-top:2rem; text-align:left;"></div>
-        </div>
-
-        <!-- TIMER -->
-        <div id="timerView" class="hidden timer-section glass-card">
-            <h2>⏱️ meditation timer</h2>
-            <div class="timer-display" id="timerDisplay">05:00</div>
-            <div style="display:flex; gap:1rem; justify-content:center; margin:1rem 0;">
-                <button class="timer-pill btn-outline" data-min="5">5 min</button>
-                <button class="timer-pill btn-outline" data-min="10">10 min</button>
-                <button class="timer-pill btn-outline" data-min="15">15 min</button>
-                <button class="timer-pill btn-outline" data-min="20">20 min</button>
-            </div>
-            <div style="display:flex; gap:1rem; justify-content:center;">
-                <button class="btn-primary" id="startTimer">start</button>
-                <button class="btn-outline" id="pauseTimer">pause</button>
-                <button class="btn-outline" id="resetTimer">reset</button>
-            </div>
-            <p id="timerMsg"></p>
-        </div>
-
-        <!-- AUDIO -->
-        <div id="audioView" class="hidden audio-section glass-card">
-            <h2>🎧 guided audio (ambient)</h2>
-            <div id="trackList" style="margin-top:1.5rem;">
-                <div class="track-item" data-track="0">🌊 Witnessing Breath (10 min)</div>
-                <div class="track-item" data-track="1">💓 Heart Center (12 min)</div>
-                <div class="track-item" data-track="2">🔊 Inner Sound (15 min)</div>
-                <div class="track-item" data-track="3">🌀 Void Gazing (8 min)</div>
-            </div>
-        </div>
-
-        <!-- PLAN -->
-        <div id="planView" class="hidden plan-section glass-card">
-            <h2>📋 my practice plan</h2>
-            <div id="planItems"></div>
-            <div style="margin-top:1.5rem;"><input id="promoCode" placeholder="promo code" style="padding:0.6rem; border-radius:40px;"><button class="btn-outline" id="applyPromo">apply</button></div>
-            <div>total: <span id="planTotal">0</span> min</div>
-        </div>
-
-        <!-- PROFILE -->
-        <div id="profileView" class="hidden profile-section glass-card">
-            <h2>your profile</h2>
-            <div class="stats" style="grid-template-columns:repeat(2,1fr); display:grid; gap:1rem; margin-bottom:1rem;">
-                <div class="stat-card glass-card" style="padding:1rem;"><div class="stat-number" id="profStreak">1</div><div>streak</div></div>
-                <div class="stat-card glass-card" style="padding:1rem;"><div class="stat-number" id="profPractices">1248</div><div>practices</div></div>
-            </div>
-            <div id="recentActivity"></div>
-        </div>
-
-        <!-- ENHANCED PROFILE (Cosmic Me) -->
-        <div id="enhancedView" class="hidden profile-section glass-card">
-            <h2>cosmic me · stellar insights</h2>
-            <div class="stats" style="grid-template-columns:repeat(3,1fr); display:grid; gap:1rem; margin-bottom:1rem;">
-                <div class="stat-card"><span id="enhTotalPractices">0</span><div>practices</div></div>
-                <div class="stat-card"><span id="enhTotalMinutes">0</span><div>minutes</div></div>
-                <div class="stat-card"><span id="enhStreak">0</span><div>streak</div></div>
-            </div>
-            <h3>📅 Practice Tracker (click to mark)</h3>
-            <div id="calendarTracker" class="calendar-grid"></div>
-            <canvas id="progressChart" width="400" height="200" style="width:100%; max-width:500px; margin:1rem auto;"></canvas>
-        </div>
+        <!-- DIARY, TIMER, AUDIO, PLAN, PROFILE, ENHANCED -->
+        <div id="diaryView" class="hidden diary-section glass-card"><h2>🌙 cosmic diary</h2><textarea id="diaryEntry" rows="3" style="width:100%; background:rgba(0,0,0,0.4); border:1px solid var(--glass-border); border-radius:28px; padding:1rem; color:white; margin:1rem 0;"></textarea><button class="btn-primary" id="saveDiary">save reflection</button><div id="diaryList" style="margin-top:2rem; text-align:left;"></div></div>
+        <div id="timerView" class="hidden timer-section glass-card"><h2>⏱️ meditation timer</h2><div class="timer-display" id="timerDisplay">05:00</div><div style="display:flex; gap:1rem; justify-content:center; margin:1rem 0;"><button class="timer-pill btn-outline" data-min="5">5 min</button><button class="timer-pill btn-outline" data-min="10">10 min</button><button class="timer-pill btn-outline" data-min="15">15 min</button><button class="timer-pill btn-outline" data-min="20">20 min</button></div><div style="display:flex; gap:1rem; justify-content:center;"><button class="btn-primary" id="startTimer">start</button><button class="btn-outline" id="pauseTimer">pause</button><button class="btn-outline" id="resetTimer">reset</button></div><p id="timerMsg"></p></div>
+        <div id="audioView" class="hidden audio-section glass-card"><h2>🎧 guided audio (ambient)</h2><div id="trackList"><div class="track-item" data-track="0">🌊 Witnessing Breath (10 min)</div><div class="track-item" data-track="1">💓 Heart Center (12 min)</div><div class="track-item" data-track="2">🔊 Inner Sound (15 min)</div><div class="track-item" data-track="3">🌀 Void Gazing (8 min)</div></div></div>
+        <div id="planView" class="hidden plan-section glass-card"><h2>📋 my practice plan</h2><div id="planItems"></div><div style="margin-top:1.5rem;"><input id="promoCode" placeholder="promo code" style="padding:0.6rem; border-radius:40px;"><button class="btn-outline" id="applyPromo">apply</button></div><div>total: <span id="planTotal">0</span> min</div></div>
+        <div id="profileView" class="hidden profile-section glass-card"><h2>your profile</h2><div class="stats" style="grid-template-columns:repeat(2,1fr); gap:1rem; margin-bottom:1rem;"><div class="stat-card glass-card" style="padding:1rem;"><div class="stat-number" id="profStreak">1</div><div>streak</div></div><div class="stat-card glass-card" style="padding:1rem;"><div class="stat-number" id="profPractices">1248</div><div>practices</div></div></div><div id="recentActivity"></div></div>
+        <div id="enhancedView" class="hidden profile-section glass-card"><h2>cosmic me · stellar insights</h2><div class="stats" style="grid-template-columns:repeat(3,1fr); gap:1rem;"><div class="stat-card"><span id="enhTotalPractices">0</span><div>practices</div></div><div class="stat-card"><span id="enhTotalMinutes">0</span><div>minutes</div></div><div class="stat-card"><span id="enhStreak">0</span><div>streak</div></div></div><h3>📅 Practice Tracker (click to mark)</h3><div id="calendarTracker" class="calendar-grid"></div><canvas id="progressChart" width="400" height="200" style="width:100%; max-width:500px; margin:1rem auto;"></canvas></div>
 
         <footer><div>© 2026 · 112 portals of imagination</div><div><a data-view="home">Home</a> <a data-view="techniques">Techniques</a> <a data-view="breathwork">Breathwork</a> <a data-view="enhanced">Cosmic Me</a></div></footer>
     </div>
     <button id="scrollTop" style="position:fixed; bottom:20px; right:20px; width:44px; height:44px; border-radius:50%; background:var(--accent); color:white; border:none; cursor:pointer; opacity:0; transition:0.2s; z-index:1000;"><i class="fas fa-arrow-up"></i></button>
 
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
-            }
-        }
-    </script>
+    <script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }</script>
     <script type="module">
         import * as THREE from 'three';
         import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
@@ -1183,35 +902,22 @@
         scene.fog = new THREE.FogExp2(0x010008, 0.00025);
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.set(5, 2, 7.5);
-        
         const composer = new EffectComposer(renderer);
         composer.addPass(new RenderPass(scene, camera));
-        const bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.2, 0.5, 0.8);
-        composer.addPass(bloom);
-        
+        composer.addPass(new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.2, 0.5, 0.8));
         const starGeo = new THREE.BufferGeometry();
         const starPos = [];
-        for (let i = 0; i < 5000; i++) {
-            starPos.push((Math.random() - 0.5) * 800);
-            starPos.push((Math.random() - 0.5) * 600);
-            starPos.push((Math.random() - 0.5) * 500 - 100);
-        }
+        for (let i = 0; i < 5000; i++) starPos.push((Math.random() - 0.5) * 800, (Math.random() - 0.5) * 600, (Math.random() - 0.5) * 500 - 100);
         starGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(starPos), 3));
         const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.2, transparent: true, blending: THREE.AdditiveBlending }));
         scene.add(stars);
-        
         const core = new THREE.Mesh(new THREE.SphereGeometry(1.0, 128, 128), new THREE.MeshStandardMaterial({ color: 0x000000, emissive: 0x220000, emissiveIntensity: 0.4, metalness: 0.9 }));
         scene.add(core);
         const ring = new THREE.Mesh(new THREE.TorusGeometry(1.18, 0.04, 64, 200), new THREE.MeshStandardMaterial({ color: 0xff7744, emissive: 0xff4422, emissiveIntensity: 1.2, transparent: true, blending: THREE.AdditiveBlending }));
         scene.add(ring);
-        
-        const partCount = 18000;
-        const partPos = [];
-        const partColors = [];
+        const partCount = 18000, partPos = [], partColors = [];
         for (let i = 0; i < partCount; i++) {
-            const r = 1.3 + Math.random() * 4.2;
-            const angle = Math.random() * Math.PI * 2;
-            const y = (Math.random() - 0.5) * 0.2 * (r / 4);
+            const r = 1.3 + Math.random() * 4.2, angle = Math.random() * Math.PI * 2, y = (Math.random() - 0.5) * 0.2 * (r / 4);
             partPos.push(Math.cos(angle) * r, y, Math.sin(angle) * r);
             const t = (r - 1.3) / 4;
             partColors.push(1.0 - t * 0.5, 0.5 + Math.random() * 0.3, 0.2 + t * 0.8);
@@ -1221,13 +927,11 @@
         partGeo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(partColors), 3));
         const particles = new THREE.Points(partGeo, new THREE.PointsMaterial({ size: 0.045, vertexColors: true, blending: THREE.AdditiveBlending }));
         scene.add(particles);
-        
         const ambient = new THREE.AmbientLight(0x111122);
         scene.add(ambient);
         const coreLight = new THREE.PointLight(0xff5533, 1.2, 12);
         coreLight.position.set(0, 0, 0);
         scene.add(coreLight);
-        
         let time = 0;
         function animate() {
             requestAnimationFrame(animate);
@@ -1248,150 +952,92 @@
     </script>
 
     <script type="text/javascript">
-        // Floating particles for desktop
+        // Floating particles
         function createFloatingParticles() {
             const container = document.getElementById('floatingParticles');
             if (!container) return;
             for (let i = 0; i < 80; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
+                const p = document.createElement('div');
+                p.classList.add('particle');
                 const size = Math.random() * 4 + 1;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDuration = Math.random() * 15 + 10 + 's';
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.opacity = Math.random() * 0.5 + 0.2;
-                container.appendChild(particle);
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = Math.random() * 15 + 10 + 's';
+                p.style.animationDelay = Math.random() * 20 + 's';
+                p.style.opacity = Math.random() * 0.5 + 0.2;
+                container.appendChild(p);
             }
         }
         createFloatingParticles();
 
         // ==================== 112 TECHNIQUES ====================
         const techniques = {};
-        const techniqueNames = [
-            "Witnessing the Breath", "Awareness of the Gap Between Breaths", "Breath Traveling Through the Spine", "Concentration on the Third Eye", "Witnessing Thoughts",
-            "Listening to External Sounds Without Labeling", "Inner Sound Meditation", "Gazing Into Darkness", "Sudden Awareness Technique", "Mantra with Breath",
-            "Sky Awareness Meditation", "Candle Flame Concentration", "Heart Center Meditation", "Body Sensation Awareness", "Slow Breath Meditation",
-            "Walking Awareness Meditation", "Observation of Emotions", "Listening to Silence", "Whole-Body Awareness", "Breath Touch Awareness"
-        ];
+        const techniqueNames = ["Witnessing the Breath","Awareness of the Gap Between Breaths","Breath Traveling Through the Spine","Concentration on the Third Eye","Witnessing Thoughts","Listening to External Sounds Without Labeling","Inner Sound Meditation","Gazing Into Darkness","Sudden Awareness Technique","Mantra with Breath","Sky Awareness Meditation","Candle Flame Concentration","Heart Center Meditation","Body Sensation Awareness","Slow Breath Meditation","Walking Awareness Meditation","Observation of Emotions","Listening to Silence","Whole-Body Awareness","Breath Touch Awareness"];
         const categoriesList = ['breath','body','heart','sound','gaze','void','energy','light','sleep','emotion'];
         for (let i = 1; i <= 112; i++) {
             const cat = categoriesList[i % categoriesList.length];
             const name = techniqueNames[(i-1) % techniqueNames.length] || `Portal ${i}: ${cat} practice`;
             techniques[i] = {
-                id: i, name: name, sanskrit: `Sūtra ${i}`, category: cat,
+                id: i, name, sanskrit: `Sūtra ${i}`, category: cat,
                 essence: `A profound ${cat} practice that opens the door to inner awareness.`,
                 wisdom: `Osho says: "Let go of control. Allow the experience to unfold naturally."`,
                 posture: ['Sukhasana','Padmasana','Vajrasana','Shavasana'][i%4],
                 mudra: ['Chin mudra','Jnana mudra','Dhyana mudra'][i%3],
-                breath: 'Natural',
-                duration: '15-20 min',
+                breath: 'Natural', duration: '15-20 min',
                 steps: ['Find a comfortable seated posture.', 'Close your eyes.', `Bring awareness to the ${cat} aspect.`, 'Observe without judgment.', 'Return gently when distracted.'],
                 benefits: { student: 'focus', employee: 'calm', seeker: 'awareness' }
             };
         }
-        // Override first five with detailed ones
-        techniques[1] = {
-            id:1, name:"Witnessing the Breath", sanskrit:"Śvāsa–Praśvāsa Dharana", category:"breath",
-            essence:"Breath is the bridge between body and mind. When breath becomes calm and observed, the mind automatically becomes calm.",
-            wisdom:"Osho says: 'Just watch the breath. Don't control it, don't change it. Simply be a witness. In that witnessing, the miracle happens—you are no longer the doer, you become the observer.'",
-            posture:"Sukhasana or chair", mudra:"Chin mudra", breath:"Natural observation", duration:"10-20 min",
-            steps:["Sit comfortably with spine straight but relaxed.","Close your eyes and take a slow inhale (4 sec) through the nose.","Exhale slowly (4-5 sec) through the nose.","Do not force breathing. Let it become natural.","Bring full attention to the breath: feel air entering and leaving nostrils.","If thoughts appear, gently return to breath."],
-            benefits:{ student:"improves concentration", employee:"reduces stress", seeker:"calms the mind" }
-        };
-        techniques[2] = {
-            id:2, name:"Awareness of the Gap Between Breaths", sanskrit:"Madhya Dharana", category:"breath",
-            essence:"Between inhale and exhale there is a tiny moment of stillness. That moment is called Madhya (the center). The mind temporarily stops there.",
-            wisdom:"Osho: 'The pause is the most precious. In that gap, the mind disappears and the self appears.'",
-            posture:"Any comfortable posture", mudra:"Dhyana mudra", breath:"Observing natural pauses", duration:"15 min",
-            steps:["Inhale slowly (4-5 sec).","At the top of inhalation, notice the tiny pause.","Exhale slowly (4-5 sec).","At the end of exhalation, notice another pause.","Focus on those two silent gaps. Do not hold breath intentionally. Just observe."],
-            benefits:{ student:"deep mental silence", employee:"rapid meditation depth", seeker:"awareness becomes very sharp" }
-        };
-        techniques[3] = {
-            id:3, name:"Breath Traveling Through the Spine", sanskrit:"Sushumna Dharana", category:"energy",
-            essence:"Breath carries awareness through the body's central channel.",
-            wisdom:"Osho: 'When breath moves through the spine, the energy becomes centered. You are no longer scattered.'",
-            posture:"Spine straight", mudra:"Chin mudra", breath:"Visualized flow", duration:"10-15 min",
-            steps:["Sit with spine very straight.","Imagine a vertical line from tailbone to head.","Inhale slowly (5 sec), imagine energy moving from base of spine to top of head.","Hold gently (2 sec).","Exhale slowly (5 sec), imagine energy flowing back down.","Repeat continuously."],
-            benefits:{ student:"improves focus", employee:"increases vitality", seeker:"awakens body awareness" }
-        };
-        techniques[4] = {
-            id:4, name:"Concentration on the Third Eye", sanskrit:"Bhrūmadhya Dharana", category:"gaze",
-            essence:"Attention becomes powerful when gathered in one point.",
-            wisdom:"Osho: 'Between the eyebrows is the center of intuition. Focus there and the whole energy gathers.'",
-            posture:"Comfortable", mudra:"Jnana mudra", breath:"Natural", duration:"10-20 min",
-            steps:["Sit comfortably, close eyes.","Bring attention to the point between eyebrows.","Do not strain your eyes.","Breathe naturally.","If thoughts arise, gently bring attention back."],
-            benefits:{ student:"improves memory", employee:"mental stability", seeker:"deepens meditation" }
-        };
-        techniques[5] = {
-            id:5, name:"Witnessing Thoughts", sanskrit:"Sākṣī Bhāva", category:"mind",
-            essence:"You are the observer, not the thinker.",
-            wisdom:"Osho: 'Watch thoughts as if they are clouds passing in the sky. You are the sky, not the clouds.'",
-            posture:"Comfortable", mudra:"Dhyana mudra", breath:"Natural", duration:"15 min",
-            steps:["Sit comfortably, eyes closed.","Relax your breathing.","Watch thoughts as they appear.","Do not suppress or follow the thought.","Just observe it disappear.","Continue observing the next thought."],
-            benefits:{ student:"freedom from overthinking", employee:"emotional stability", seeker:"self-awareness" }
-        };
+        techniques[1] = { id:1, name:"Witnessing the Breath", sanskrit:"Śvāsa–Praśvāsa Dharana", category:"breath", essence:"Breath is the bridge between body and mind.", wisdom:"Osho: 'Just watch the breath. Don't control it. Simply be a witness.'", posture:"Sukhasana", mudra:"Chin mudra", breath:"Natural observation", duration:"10-20 min", steps:["Sit comfortably.","Close eyes.","Observe natural breath.","Return when distracted."], benefits:{ student:"concentration", employee:"stress relief", seeker:"calm mind" } };
+        techniques[2] = { id:2, name:"Awareness of the Gap Between Breaths", sanskrit:"Madhya Dharana", category:"breath", essence:"Between inhale and exhale there is a tiny moment of stillness.", wisdom:"Osho: 'The pause is the most precious.'", posture:"Any", mudra:"Dhyana mudra", breath:"Observing pauses", duration:"15 min", steps:["Inhale slowly.","Notice the pause at the top.","Exhale.","Notice the pause at the bottom."], benefits:{ student:"deep silence", employee:"meditation depth", seeker:"sharp awareness" } };
+        techniques[3] = { id:3, name:"Breath Traveling Through the Spine", sanskrit:"Sushumna Dharana", category:"energy", essence:"Breath carries awareness through the body's central channel.", wisdom:"Osho: 'When breath moves through the spine, the energy becomes centered.'", posture:"Spine straight", mudra:"Chin mudra", breath:"Visualized flow", duration:"10-15 min", steps:["Sit straight.","Imagine energy moving from base to head on inhale, back down on exhale."], benefits:{ student:"focus", employee:"vitality", seeker:"body awareness" } };
+        techniques[4] = { id:4, name:"Concentration on the Third Eye", sanskrit:"Bhrūmadhya Dharana", category:"gaze", essence:"Attention becomes powerful when gathered in one point.", wisdom:"Osho: 'Between the eyebrows is the center of intuition.'", posture:"Comfortable", mudra:"Jnana mudra", breath:"Natural", duration:"10-20 min", steps:["Close eyes.","Focus between eyebrows.","Return when distracted."], benefits:{ student:"memory", employee:"stability", seeker:"meditation depth" } };
+        techniques[5] = { id:5, name:"Witnessing Thoughts", sanskrit:"Sākṣī Bhāva", category:"mind", essence:"You are the observer, not the thinker.", wisdom:"Osho: 'Watch thoughts as clouds passing in the sky.'", posture:"Comfortable", mudra:"Dhyana mudra", breath:"Natural", duration:"15 min", steps:["Watch thoughts appear.","Observe without reacting.","Let them dissolve."], benefits:{ student:"freedom from overthinking", employee:"emotional stability", seeker:"self-awareness" } };
 
-        // Mudra Gallery with SVG Hand Illustrations and full descriptions
+        // Mudra Gallery
         const mudras = [
-            { name:"Bhumisparsa", desc:"The Buddha touched the ground to call the earth goddess to bear witness to his awakening.", fullDesc:"The Buddha touched the ground to call the earth goddess, Sthavara, to bear witness to his awakening.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M50,70 L50,30 M30,50 L70,50 M40,60 L60,40 M40,40 L60,60" stroke-linecap="round"/><circle cx="50" cy="50" r="25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M35,45 L45,55 M55,45 L65,55" stroke="currentColor" stroke-width="1.5"/></svg>` },
-            { name:"Dhyana", desc:"Gesture of absolute balance & meditative poise. Hands relaxed in lap, thumbs and fingers touching.", fullDesc:"Gesture of absolute balance & meditative poise. The hands are relaxed in the lap, and the tips of the thumbs and fingers touch each other.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M35,65 L65,65 M40,55 L60,55 M45,45 L55,45" stroke-linecap="round"/><circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="15" fill="none" stroke="currentColor" stroke-width="1"/></svg>` },
-            { name:"Abhaya", desc:"Gesture of reassurance, blessing, and protection.", fullDesc:"Gesture of reassurance, blessing, and protection.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M40,60 L60,60 M50,70 L50,40" stroke-linecap="round"/><path d="M35,50 L45,50 M55,50 L65,50" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>` },
-            { name:"Dharmachakra", desc:"Gesture of teaching, turning the Wheel of Law. Hands level with heart, thumbs and index fingers form circles.", fullDesc:"The gesture of teaching interpreted as turning the Wheel of Law. The hands are held level with the heart, the thumbs and index fingers form circles.", svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="10" fill="none" stroke="currentColor" stroke-width="1"/><path d="M40,35 L60,65 M60,35 L40,65" stroke="currentColor" stroke-width="1.5"/></svg>` },
-            { name:"Vitarka", desc:"Intellectual argument, discussion. Circle formed by thumb and index finger is the sign of the Wheel of Law.", fullDesc:"Intellectual argument, discussion. The circle formed by the thumb and index finger is the sign of the Wheel of Law.", svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M38,45 L62,55 M38,55 L62,45" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="8" fill="none" stroke="currentColor"/></svg>` },
-            { name:"Tarjani", desc:"Threat, warning. Extended index finger pointed at ignorance; antidote is wakefulness.", fullDesc:"Threat, warning. The extended index finger is pointed at the opposite hand, which is ignorance or delusion and the antidote is wakefulness or mindfulness.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M50,65 L50,30 M40,45 L60,45" stroke-linecap="round"/><circle cx="50" cy="30" r="4" fill="none" stroke="currentColor"/><circle cx="50" cy="50" r="22" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>` },
-            { name:"Namaskara", desc:"Gesture of greeting, prayer, and respect made by those devoted to the path.", fullDesc:"Gesture of greeting, prayer, and respect made by those devoted to the path taught by the Buddha.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M30,60 L70,60 M50,40 L50,70 M40,45 L60,55 M40,55 L60,45" stroke-linecap="round"/><circle cx="50" cy="50" r="25" fill="none" stroke="currentColor"/></svg>` },
-            { name:"Jnana", desc:"Teaching. Hand at chest level, thumb and index finger form the Wheel of Law.", fullDesc:"Teaching. The hand is held at chest level and the thumb and index finger again form the Wheel of Law.", svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M42,42 L58,58 M42,58 L58,42" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="8" fill="none" stroke="currentColor"/></svg>` },
-            { name:"Karana", desc:"Gesture with which demons are expelled.", fullDesc:"Gesture with which demons are expelled.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M35,55 L65,45 M35,45 L65,55 M50,65 L50,35" stroke-linecap="round"/><circle cx="50" cy="50" r="25" fill="none" stroke="currentColor"/></svg>` },
-            { name:"Kesapana", desc:"Two hands together in the gesture of 'sprinkling' the nectar of immortality.", fullDesc:"Two hands together in the gesture of 'sprinkling' the nectar of immortality.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M35,55 L65,45 M35,45 L65,55 M45,65 L55,35 M45,35 L55,65" stroke-linecap="round"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor"/></svg>` },
-            { name:"Uttarabodhi", desc:"Two hands placed together above the head with index fingers together, other fingers intertwined. Gesture of supreme enlightenment.", fullDesc:"Two hands placed together above the head with the index fingers together and the other fingers intertwined. The gesture of supreme enlightenment.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M30,55 L70,55 M50,30 L50,70 M40,40 L60,60 M40,60 L60,40" stroke-linecap="round"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor"/></svg>` }
+            { name:"Bhumisparsa", desc:"The Buddha touched the ground to call the earth goddess to bear witness to his awakening.", fullDesc:"The Buddha touched the ground to call the earth goddess, Sthavara, to bear witness to his awakening.", svg:`<svg viewBox="0 0 100 100"><path stroke="currentColor" stroke-width="2" d="M50,70 L50,30 M30,50 L70,50 M40,60 L60,40 M40,40 L60,60"/><circle cx="50" cy="50" r="25" fill="none" stroke="currentColor"/><path d="M35,45 L45,55 M55,45 L65,55" stroke="currentColor"/></svg>` },
+            { name:"Dhyana", desc:"Gesture of absolute balance & meditative poise. Hands relaxed in lap, thumbs and fingers touching.", fullDesc:"Gesture of absolute balance & meditative poise.", svg:`<svg viewBox="0 0 100 100"><path stroke="currentColor" stroke-width="2" d="M35,65 L65,65 M40,55 L60,55 M45,45 L55,45"/><circle cx="50" cy="50" r="30" fill="none" stroke="currentColor"/><circle cx="50" cy="50" r="15" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Abhaya", desc:"Gesture of reassurance, blessing, and protection.", fullDesc:"Gesture of reassurance, blessing, and protection.", svg:`<svg viewBox="0 0 100 100"><path stroke="currentColor" stroke-width="2" d="M40,60 L60,60 M50,70 L50,40"/><path d="M35,50 L45,50 M55,50 L65,50"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Dharmachakra", desc:"Gesture of teaching, turning the Wheel of Law.", fullDesc:"The gesture of teaching interpreted as turning the Wheel of Law.", svg:`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="currentColor"/><circle cx="50" cy="50" r="10" fill="none"/><path d="M40,35 L60,65 M60,35 L40,65" stroke="currentColor"/></svg>` },
+            { name:"Vitarka", desc:"Intellectual argument, discussion.", fullDesc:"Intellectual argument, discussion. Circle formed by thumb and index finger.", svg:`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="none" stroke="currentColor"/><path d="M38,45 L62,55 M38,55 L62,45"/><circle cx="50" cy="50" r="8" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Tarjani", desc:"Threat, warning.", fullDesc:"Extended index finger pointed at ignorance; antidote is wakefulness.", svg:`<svg viewBox="0 0 100 100"><path stroke="currentColor" stroke-width="2" d="M50,65 L50,30 M40,45 L60,45"/><circle cx="50" cy="30" r="4" fill="none"/><circle cx="50" cy="50" r="22" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Namaskara", desc:"Gesture of greeting, prayer, and respect.", fullDesc:"Gesture of greeting, prayer, and respect made by those devoted to the path.", svg:`<svg viewBox="0 0 100 100"><path stroke="currentColor" stroke-width="2" d="M30,60 L70,60 M50,40 L50,70 M40,45 L60,55 M40,55 L60,45"/><circle cx="50" cy="50" r="25" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Jnana", desc:"Teaching.", fullDesc:"Teaching. Hand at chest level, thumb and index finger form the Wheel of Law.", svg:`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="currentColor"/><path d="M42,42 L58,58 M42,58 L58,42"/><circle cx="50" cy="50" r="8" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Karana", desc:"Gesture with which demons are expelled.", fullDesc:"Gesture with which demons are expelled.", svg:`<svg viewBox="0 0 100 100"><path stroke="currentColor" stroke-width="2" d="M35,55 L65,45 M35,45 L65,55 M50,65 L50,35"/><circle cx="50" cy="50" r="25" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Kesapana", desc:"Gesture of 'sprinkling' the nectar of immortality.", fullDesc:"Two hands together in the gesture of 'sprinkling' the nectar of immortality.", svg:`<svg viewBox="0 0 100 100"><path stroke="currentColor" stroke-width="2" d="M35,55 L65,45 M35,45 L65,55 M45,65 L55,35 M45,35 L55,65"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Uttarabodhi", desc:"Gesture of supreme enlightenment.", fullDesc:"Two hands placed together above the head with index fingers together, other fingers intertwined.", svg:`<svg viewBox="0 0 100 100"><path stroke="currentColor" stroke-width="2" d="M30,55 L70,55 M50,30 L50,70 M40,40 L60,60 M40,60 L60,40"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor"/></svg>` }
         ];
+        document.getElementById('mudraGrid').innerHTML = mudras.map(m => `<div class="mudra-item"><div class="mudra-svg">${m.svg}</div><div class="mudra-name">${m.name}</div><div class="mudra-desc">${m.desc.substring(0,45)}${m.desc.length>45?'…':''}</div><div class="full-desc">${m.fullDesc}</div></div>`).join('');
 
-        const mudraGrid = document.getElementById('mudraGrid');
-        mudraGrid.innerHTML = mudras.map(m => `
-            <div class="mudra-item" title="${m.desc}">
-                <div class="mudra-svg">${m.svg}</div>
-                <div class="mudra-name">${m.name}</div>
-                <div class="mudra-desc">${m.desc.substring(0, 45)}${m.desc.length > 45 ? '…' : ''}</div>
-                <div class="full-desc">${m.fullDesc}</div>
-            </div>
-        `).join('');
-
-        // Profession data
+        // Professions & recommendation logic
         const professions = [
-            { name:"Student", icon:"fa-graduation-cap", desc:"focus · exams", keywords:["focus","concentration","memory","exam","study","student"] },
-            { name:"Employee", icon:"fa-briefcase", desc:"stress · work-life", keywords:["stress","work","balance","employee","pressure"] },
-            { name:"CEO", icon:"fa-chart-line", desc:"clarity · decisions", keywords:["clarity","decision","leadership","ceo","strategy"] },
-            { name:"Seeker", icon:"fa-infinity", desc:"spiritual path", keywords:["spiritual","awareness","consciousness","seeker","self"] },
-            { name:"Anxious", icon:"fa-heartbeat", desc:"calm · anxiety", keywords:["anxiety","calm","fear","anxious","peace"] },
+            { name:"Student", icon:"fa-graduation-cap", desc:"focus · exams", keywords:["focus","concentration","memory","exam","study"] },
+            { name:"Employee", icon:"fa-briefcase", desc:"stress · work-life", keywords:["stress","work","balance","employee"] },
+            { name:"CEO", icon:"fa-chart-line", desc:"clarity · decisions", keywords:["clarity","decision","leadership"] },
+            { name:"Seeker", icon:"fa-infinity", desc:"spiritual path", keywords:["spiritual","awareness","consciousness"] },
+            { name:"Anxious", icon:"fa-heartbeat", desc:"calm · anxiety", keywords:["anxiety","calm","fear","peace"] },
             { name:"Overthinker", icon:"fa-brain", desc:"still mind", keywords:["overthink","mind","thoughts","stillness"] },
-            { name:"Healthcare", icon:"fa-hospital-user", desc:"compassion", keywords:["compassion","healing","care","healthcare"] },
-            { name:"Teacher", icon:"fa-chalkboard", desc:"patience", keywords:["patience","teach","guide","teacher"] },
-            { name:"Developer", icon:"fa-laptop-code", desc:"focus", keywords:["focus","code","developer","mental clarity"] },
-            { name:"Artist", icon:"fa-paint-brush", desc:"flow", keywords:["creativity","flow","artist","inspiration"] },
+            { name:"Healthcare", icon:"fa-hospital-user", desc:"compassion", keywords:["compassion","healing","care"] },
+            { name:"Teacher", icon:"fa-chalkboard", desc:"patience", keywords:["patience","teach","guide"] },
+            { name:"Developer", icon:"fa-laptop-code", desc:"focus", keywords:["focus","code","mental clarity"] },
+            { name:"Artist", icon:"fa-paint-brush", desc:"flow", keywords:["creativity","flow","inspiration"] },
             { name:"Parent", icon:"fa-child", desc:"self-care", keywords:["parent","care","balance","self-care"] },
-            { name:"Entrepreneur", icon:"fa-rocket", desc:"resilience", keywords:["resilience","entrepreneur","drive","stress"] },
-            { name:"FirstResponder", icon:"fa-fire-extinguisher", desc:"grounding", keywords:["grounding","trauma","first responder","calm"] },
-            { name:"Retiree", icon:"fa-umbrella-beach", desc:"peace", keywords:["peace","retiree","relaxation","wisdom"] },
-            { name:"Freelancer", icon:"fa-user-tie", desc:"balance", keywords:["balance","freelancer","work-life","focus"] },
-            { name:"Athlete", icon:"fa-running", desc:"performance", keywords:["performance","focus","athlete","body awareness"] }
+            { name:"Entrepreneur", icon:"fa-rocket", desc:"resilience", keywords:["resilience","drive","stress"] },
+            { name:"FirstResponder", icon:"fa-fire-extinguisher", desc:"grounding", keywords:["grounding","trauma","calm"] },
+            { name:"Retiree", icon:"fa-umbrella-beach", desc:"peace", keywords:["peace","relaxation","wisdom"] },
+            { name:"Freelancer", icon:"fa-user-tie", desc:"balance", keywords:["balance","work-life","focus"] },
+            { name:"Athlete", icon:"fa-running", desc:"performance", keywords:["performance","focus","body awareness"] }
         ];
 
         function getRecommendedTechniques(prof) {
-            const keywords = prof.keywords;
             const allTechs = Object.values(techniques);
-            const scored = allTechs.map(tech => {
-                let score = 0;
-                const text = (tech.name + " " + tech.category + " " + tech.essence + " " + Object.values(tech.benefits).join(" ")).toLowerCase();
-                keywords.forEach(kw => {
-                    if (text.includes(kw.toLowerCase())) score += 2;
-                    if (tech.name.toLowerCase().includes(kw.toLowerCase())) score += 3;
-                });
-                return { tech, score };
-            });
-            scored.sort((a,b) => b.score - a.score);
-            return scored.slice(0, 12).map(s => s.tech);
+            return allTechs.sort((a,b)=> {
+                const aScore = prof.keywords.reduce((s,k)=> s + (a.name.toLowerCase().includes(k) ? 5 : (a.category.includes(k) ? 3 : 0)),0);
+                const bScore = prof.keywords.reduce((s,k)=> s + (b.name.toLowerCase().includes(k) ? 5 : (b.category.includes(k) ? 3 : 0)),0);
+                return bScore - aScore;
+            }).slice(0,12);
         }
 
         // User state
@@ -1428,59 +1074,27 @@
             document.getElementById('xpFill').style.width = (user.xp % 100) + '%';
             renderCalendar();
         }
-        function markPracticeDay() {
-            const today = new Date().toISOString().slice(0,10);
-            if(!user.practiceDays[today]) user.practiceDays[today] = true;
-            saveAll();
-        }
+        function markPracticeDay() { const today = new Date().toISOString().slice(0,10); if(!user.practiceDays[today]) user.practiceDays[today]=true; saveAll(); }
         function renderCalendar() {
-            const container = document.getElementById('calendarTracker');
-            if(!container) return;
-            const today = new Date();
-            const year = today.getFullYear();
-            const month = today.getMonth();
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month+1, 0).getDate();
+            const container = document.getElementById('calendarTracker'); if(!container) return;
+            const today = new Date(), year = today.getFullYear(), month = today.getMonth(), firstDay = new Date(year, month, 1).getDay(), daysInMonth = new Date(year, month+1, 0).getDate();
             container.innerHTML = '';
-            const weekdays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-            weekdays.forEach(day => { const d = document.createElement('div'); d.className='calendar-day weekday'; d.innerText=day; container.appendChild(d); });
-            for(let i=0; i<firstDay; i++) { const blank = document.createElement('div'); blank.className='calendar-day'; container.appendChild(blank); }
+            ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(day => { const d = document.createElement('div'); d.className='calendar-day weekday'; d.innerText=day; container.appendChild(d); });
+            for(let i=0;i<firstDay;i++) { const blank = document.createElement('div'); blank.className='calendar-day'; container.appendChild(blank); }
             for(let d=1; d<=daysInMonth; d++) {
                 const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-                const isPracticed = user.practiceDays[dateStr];
-                const isToday = d === today.getDate() && month === today.getMonth() && year === today.getFullYear();
-                const dayDiv = document.createElement('div');
-                dayDiv.className = `calendar-day ${isPracticed ? 'practiced' : ''} ${isToday ? 'today' : ''}`;
-                dayDiv.innerText = d;
-                dayDiv.addEventListener('click', () => {
-                    if(!user.practiceDays[dateStr]) {
-                        user.practiceDays[dateStr] = true;
-                        saveAll();
-                        showToast(`Marked practice on ${dateStr}`);
-                    } else {
-                        if(confirm('Remove practice mark?')) {
-                            delete user.practiceDays[dateStr];
-                            saveAll();
-                        }
-                    }
-                });
+                const isPracticed = user.practiceDays[dateStr], isToday = d===today.getDate() && month===today.getMonth() && year===today.getFullYear();
+                const dayDiv = document.createElement('div'); dayDiv.className = `calendar-day ${isPracticed ? 'practiced' : ''} ${isToday ? 'today' : ''}`; dayDiv.innerText = d;
+                dayDiv.addEventListener('click',()=>{ if(!user.practiceDays[dateStr]) { user.practiceDays[dateStr]=true; saveAll(); showToast(`Marked practice on ${dateStr}`); } else if(confirm('Remove practice mark?')){ delete user.practiceDays[dateStr]; saveAll(); } });
                 container.appendChild(dayDiv);
             }
         }
 
-        // TECH CARD with rotating background mandala
+        // TECH CARD with rotating mandala background
         function createTechCard(t) {
             const div = document.createElement('div'); div.className = 'tech-card glass-card';
             const isFav = user.favorites.includes(t.id);
-            const mandalaSvg = `<div class="tech-bg-mandala"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
-                <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
-                <circle cx="100" cy="100" r="50" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
-                <circle cx="100" cy="100" r="30" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
-                <circle cx="100" cy="100" r="10" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
-                <path d="M100 10 L100 190 M10 100 L190 100" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
-                <path d="M30 30 L170 170 M30 170 L170 30" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
-            </svg></div>`;
+            const mandalaSvg = `<div class="tech-bg-mandala"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" stroke-width="0.8"/><circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" stroke-width="0.8"/><circle cx="100" cy="100" r="50" fill="none" stroke="currentColor" stroke-width="0.8"/><circle cx="100" cy="100" r="30" fill="none" stroke="currentColor" stroke-width="0.8"/><circle cx="100" cy="100" r="10" fill="none" stroke="currentColor" stroke-width="0.8"/><path d="M100 10 L100 190 M10 100 L190 100" stroke="currentColor" stroke-width="0.8"/><path d="M30 30 L170 170 M30 170 L170 30" stroke="currentColor" stroke-width="0.8"/></svg></div>`;
             div.innerHTML = mandalaSvg + `
                 <div class="tech-header"><span class="tech-number">#${t.id}</span><span class="tech-sanskrit">${t.sanskrit}</span></div>
                 <div class="tech-name">${t.name}</div>
@@ -1502,31 +1116,17 @@
             return div;
         }
 
-        // Enhanced Modal with Mandala
         function showModal(t) {
             const modal = document.getElementById('detailModal') || (() => { const m = document.createElement('div'); m.id='detailModal'; m.className='modal'; document.body.appendChild(m); return m; })();
             const content = document.createElement('div'); content.className='modal-content glass-card';
-            const mandalaSvg = `<svg class="modal-mandala" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="1" opacity="0.6"/>
-                <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="1" opacity="0.6"/>
-                <circle cx="100" cy="100" r="40" fill="none" stroke="currentColor" stroke-width="1" opacity="0.6"/>
-                <circle cx="100" cy="100" r="20" fill="none" stroke="currentColor" stroke-width="1" opacity="0.6"/>
-                <path d="M100 20 L100 180 M20 100 L180 100" stroke="currentColor" stroke-width="1" opacity="0.6"/>
-                <path d="M40 40 L160 160 M40 160 L160 40" stroke="currentColor" stroke-width="1" opacity="0.6"/>
-                <circle cx="100" cy="100" r="10" fill="var(--accent)" opacity="0.4"/>
-            </svg>`;
+            const mandalaSvg = `<svg class="modal-mandala" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="100" cy="100" r="40" fill="none" stroke="currentColor" stroke-width="1"/><path d="M100 20 L100 180 M20 100 L180 100" stroke="currentColor" stroke-width="1"/><path d="M40 40 L160 160 M40 160 L160 40" stroke="currentColor" stroke-width="1"/><circle cx="100" cy="100" r="10" fill="var(--accent)" opacity="0.4"/></svg>`;
             content.innerHTML = mandalaSvg + `
                 <h2>${t.name}</h2>
                 <p><em>${t.sanskrit}</em> · ${t.category}</p>
-                <div style="background: rgba(157,123,255,0.2); padding:1rem; border-radius:20px; margin:1rem 0;">
-                    <i class="fas fa-quote-left"></i> ${t.wisdom}
-                </div>
-                <h3>🧘 Step-by-Step</h3>
-                <ol>${t.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
-                <h3>🪷 Posture & Mudra</h3>
-                <p>${t.posture} · ${t.mudra}</p>
-                <h3>🌟 Benefits</h3>
-                <p>✨ For Students: ${t.benefits.student}<br>✨ For Employees: ${t.benefits.employee}<br>✨ For Seekers: ${t.benefits.seeker}</p>
+                <div style="background: rgba(157,123,255,0.2); padding:1rem; border-radius:20px; margin:1rem 0;"><i class="fas fa-quote-left"></i> ${t.wisdom}</div>
+                <h3>🧘 Step-by-Step</h3><ol>${t.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+                <h3>🪷 Posture & Mudra</h3><p>${t.posture} · ${t.mudra}</p>
+                <h3>🌟 Benefits</h3><p>✨ Students: ${t.benefits.student}<br>✨ Employees: ${t.benefits.employee}<br>✨ Seekers: ${t.benefits.seeker}</p>
                 <button class="btn-primary addPlanBtn">➕ Add to My Plan</button>
                 <button class="btn-outline closeModal">Close</button>
             `;
@@ -1554,19 +1154,8 @@
         }
 
         const profGrid = document.getElementById('professionGrid');
-        profGrid.innerHTML = professions.map(p => `
-            <div class="prof-card glass-card" data-prof='${JSON.stringify(p)}'>
-                <i class="fas ${p.icon}"></i>
-                <span>${p.name}</span>
-                <small>${p.desc}</small>
-            </div>
-        `).join('');
-        document.querySelectorAll('.prof-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const prof = JSON.parse(card.dataset.prof);
-                renderRecommendedTechniques(prof);
-            });
-        });
+        profGrid.innerHTML = professions.map(p => `<div class="prof-card glass-card" data-prof='${JSON.stringify(p)}'><i class="fas ${p.icon}"></i><span>${p.name}</span><small>${p.desc}</small></div>`).join('');
+        document.querySelectorAll('.prof-card').forEach(card => card.addEventListener('click', () => { const prof = JSON.parse(card.dataset.prof); renderRecommendedTechniques(prof); }));
         document.getElementById('backToProfessionsBtn').addEventListener('click', showProfessionSelection);
 
         // Quotes library
@@ -1734,23 +1323,12 @@
 
         const chartCtx = document.getElementById('progressChart')?.getContext('2d'); if(chartCtx) new Chart(chartCtx, { type:'line', data:{ labels:['M','T','W','T','F','S','S'], datasets:[{ label:'minutes', data:[25,40,18,35,50,42,30], borderColor:'#9d7bff', tension:0.3 }] } });
 
-        // Cosmic Practice Widget logic
+        // Cosmic Practice Widget
         let currentPracticeTechId = 1;
-        function updateCosmicPractice() {
-            const tech = techniques[currentPracticeTechId];
-            if (tech) {
-                document.getElementById('practiceTechName').innerText = tech.name;
-                document.getElementById('practiceTechEssence').innerText = tech.essence;
-                document.getElementById('practiceExploreBtn').onclick = () => showModal(tech);
-            }
-        }
-        function randomPractice() {
-            const ids = Object.keys(techniques);
-            currentPracticeTechId = parseInt(ids[Math.floor(Math.random() * ids.length)]);
-            updateCosmicPractice();
-        }
+        function updateCosmicPractice() { const tech = techniques[currentPracticeTechId]; if(tech){ document.getElementById('practiceTechName').innerText = tech.name; document.getElementById('practiceTechEssence').innerText = tech.essence; document.getElementById('practiceExploreBtn').onclick = () => showModal(tech); } }
+        function randomPractice() { const ids = Object.keys(techniques); currentPracticeTechId = parseInt(ids[Math.floor(Math.random() * ids.length)]); updateCosmicPractice(); }
         document.getElementById('refreshPracticeBtn').addEventListener('click', randomPractice);
-        randomPractice(); // initial random
+        randomPractice();
 
         renderDiary(); saveAll(); showView('home');
     </script>
