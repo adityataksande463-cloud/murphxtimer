@@ -3,42 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Gargantua - Cinematic Black Hole | Spacetime Distortion & Planet Consumption</title>
+    <title>Gargantua - Cinematic Black Hole | Pure Immersion</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
             font-family: 'Segoe UI', 'Arial', sans-serif;
         }
-        #info {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            color: white;
-            background: rgba(0,0,0,0.7);
-            padding: 12px 24px;
-            border-radius: 8px;
-            backdrop-filter: blur(8px);
-            pointer-events: none;
-            z-index: 10;
-            font-size: 14px;
-            letter-spacing: 1px;
-            border-left: 4px solid #ff6600;
-            font-family: monospace;
-            text-shadow: 0 0 5px black;
-        }
         #controls-note {
             position: absolute;
             bottom: 20px;
             right: 20px;
-            color: rgba(255,255,255,0.7);
-            background: rgba(0,0,0,0.5);
-            padding: 6px 12px;
+            color: rgba(255,255,255,0.5);
+            background: rgba(0,0,0,0.3);
+            padding: 5px 10px;
             border-radius: 6px;
-            font-size: 12px;
+            font-size: 11px;
             font-family: monospace;
             pointer-events: none;
             z-index: 10;
+            backdrop-filter: blur(4px);
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -48,12 +32,9 @@
     </style>
 </head>
 <body>
-    <div id="info">
-        🌌 GARGANTUA • SUPERMASSIVE BLACK HOLE<br>
-        <span style="font-size: 11px;">Gravitational lensing | Accretion spiral | Planet consumption | Relativistic beaming</span>
-    </div>
+    <!-- Info panel removed as requested -->
     <div id="controls-note">
-        🖱️ Drag to orbit | Scroll to zoom | Cinematic experience
+        🖱️ Drag to orbit | Scroll to zoom
     </div>
 
     <script type="importmap">
@@ -188,7 +169,6 @@
         scene.add(halo);
 
         // ========== 3. GRAVITATIONAL LENSING SHADER (Sphere that distorts background) ==========
-        // This creates a refraction-like distortion of the stars and disk behind the black hole.
         const lensingUniforms = {
             time: { value: 0 },
             distortionStrength: { value: 0.85 }
@@ -208,13 +188,11 @@
             varying vec2 vUv;
             void main() {
                 vec2 uv = vUv;
-                // Simulate gravitational lensing: radial distortion, stretching near center
                 vec2 centered = uv * 2.0 - 1.0;
                 float r = length(centered);
                 float distortion = distortionStrength * (1.0 - smoothstep(0.0, 0.8, r));
                 vec2 offset = centered * distortion;
                 vec2 finalUv = uv + offset * 0.15;
-                // Simple color: orange glow
                 float alpha = 0.12 + sin(r * 20.0 - time * 5.0) * 0.04;
                 alpha = clamp(alpha, 0.07, 0.22);
                 gl_FragColor = vec4(0.9, 0.4, 0.2, alpha);
@@ -247,14 +225,12 @@
             particlePositions[i*3] = Math.cos(angle) * r;
             particlePositions[i*3+1] = y;
             particlePositions[i*3+2] = Math.sin(angle) * r;
-            // Color: hot inner, cooler outer, with relativistic beaming (brighter on one side)
             const t = (r - innerR) / (outerR - innerR);
             const angleSide = Math.cos(angle);
-            const brightness = 0.7 + angleSide * 0.3; // Doppler-like
+            const brightness = 0.7 + angleSide * 0.3;
             particleColors[i*3] = Math.min(1.0, (1.0 - t * 0.5) * brightness);
             particleColors[i*3+1] = Math.min(1.0, (0.5 + Math.random() * 0.4 - t * 0.2) * brightness);
             particleColors[i*3+2] = Math.min(1.0, (0.2 + t * 0.8) * brightness);
-            // Keplerian speed
             particleSpeeds[i] = 0.022 * Math.pow(r, -1.5);
         }
         const particleGeo = new THREE.BufferGeometry();
@@ -354,7 +330,6 @@
         const planetMat = new THREE.MeshStandardMaterial({ color: 0xaa8866, roughness: 0.6, metalness: 0.2, emissive: 0x442200, emissiveIntensity: 0.3 });
         const planet = new THREE.Mesh(planetGeo, planetMat);
         planetGroup.add(planet);
-        // Add a small atmosphere glow
         const atmosGeo = new THREE.SphereGeometry(0.42, 32, 32);
         const atmosMat = new THREE.MeshBasicMaterial({ color: 0xccaa88, transparent: true, opacity: 0.25, blending: THREE.AdditiveBlending });
         const atmosphere = new THREE.Mesh(atmosGeo, atmosMat);
@@ -364,10 +339,9 @@
         let planetAngle = 0;
         let planetRadius = 4.2;
         let planetConsumed = false;
-        const consumeStart = 5; // seconds after start
+        const consumeStart = 5;
         let consumeProgress = 0;
         
-        // Add debris particles from planet
         const debrisCount = 800;
         const debrisPositions = new Float32Array(debrisCount * 3);
         for (let i = 0; i < debrisCount; i++) {
@@ -381,7 +355,7 @@
         const debris = new THREE.Points(debrisGeo, debrisMat);
         scene.add(debris);
         
-        // ========== 7. LIGHTING (Cinematic, dynamic) ==========
+        // ========== 7. LIGHTING ==========
         const ambient = new THREE.AmbientLight(0x111122);
         scene.add(ambient);
         const mainLight = new THREE.DirectionalLight(0xffccaa, 1.0);
@@ -423,14 +397,12 @@
             lastTimestamp = now;
             time += dt;
             
-            // Update particle rotations
             updateParticleSystem(mainAttr.array, particleSpeeds, anglesMain, particleCount, mainAttr);
             updateParticleSystem(hotAttr.array, hotSpeeds, anglesHot, hotCount, hotAttr);
             updateParticleSystem(outerAttr.array, outerSpeeds, anglesOuter, outerCount, outerAttr);
             
-            // Update stream particles (spiral inwards)
             for (let i = 0; i < streamCount; i++) {
-                streamRadii[i] -= 0.008 * dt * 30; // fall inward
+                streamRadii[i] -= 0.008 * dt * 30;
                 if (streamRadii[i] < 1.1) {
                     streamRadii[i] = 3.2 + Math.random() * 1.5;
                     streamAngles[i] = Math.random() * Math.PI * 2;
@@ -440,30 +412,24 @@
                 const z = Math.sin(streamAngles[i]) * streamRadii[i];
                 streamPositions[i*3] = x;
                 streamPositions[i*3+2] = z;
-                // vertical oscillation
                 streamPositions[i*3+1] = Math.sin(streamAngles[i] * 5) * 0.05;
             }
             streamAttr.needsUpdate = true;
             
-            // Planet consumption: after 5 seconds, start spiraling in and stretching
             if (!planetConsumed && time > consumeStart) {
                 consumeProgress = Math.min(1.0, (time - consumeStart) / 5.0);
-                // Orbital decay
                 planetRadius = 4.2 * (1 - consumeProgress * 0.85);
                 if (planetRadius < 1.3) planetRadius = 1.3;
                 planetAngle += 0.025 * (1 + consumeProgress * 2);
                 const xPlanet = Math.cos(planetAngle) * planetRadius;
                 const zPlanet = Math.sin(planetAngle) * planetRadius;
                 planetGroup.position.set(xPlanet, Math.sin(planetAngle * 3) * 0.08, zPlanet);
-                // Stretch and scale planet
                 const stretch = 1 + consumeProgress * 1.5;
                 planet.scale.set(1, 1 - consumeProgress * 0.6, stretch);
                 atmosphere.scale.set(1, 1 - consumeProgress * 0.6, stretch);
-                // Color turns red-hot
                 const hotness = consumeProgress;
                 planetMat.color.setHSL(0.08, 1.0, 0.3 + hotness * 0.3);
                 planetMat.emissiveIntensity = hotness * 0.8;
-                // Generate debris
                 if (consumeProgress > 0.2 && consumeProgress < 0.9) {
                     for (let i = 0; i < debrisCount; i++) {
                         if (Math.random() < 0.15) {
@@ -473,7 +439,6 @@
                             debrisPositions[i*3+1] = planetGroup.position.y + dir.y * 0.6;
                             debrisPositions[i*3+2] = planetGroup.position.z + dir.z * 0.6;
                         } else {
-                            // move debris outward
                             debrisPositions[i*3] += (Math.random() - 0.5) * 0.04;
                             debrisPositions[i*3+1] += (Math.random() - 0.5) * 0.04;
                             debrisPositions[i*3+2] += (Math.random() - 0.5) * 0.04;
@@ -487,7 +452,6 @@
                     planetConsumed = true;
                 }
             } else if (!planetConsumed && time < consumeStart) {
-                // Normal orbit
                 planetAngle += 0.008;
                 planetRadius = 4.2;
                 const xPlanet = Math.cos(planetAngle) * planetRadius;
@@ -499,25 +463,19 @@
                 planetMat.emissiveIntensity = 0.2;
             }
             
-            // Animate light pulsations
             const pulse = 0.8 + Math.sin(time * 3.2) * 0.4;
             coreLight.intensity = pulse * 1.2;
             rimLight.intensity = 0.7 + Math.sin(time * 2.5) * 0.4;
             photonMat.emissiveIntensity = 1.1 + Math.sin(time * 8) * 0.5;
             photonRing.rotation.z += 0.012;
             
-            // Rotate accretion glow meshes
             glowRing.rotation.y += 0.007;
             outerRing.rotation.y += 0.006;
-            
-            // Update lensing shader
             lensingUniforms.time.value = time;
             
-            // Starfield rotation
             stars.rotation.y += 0.0001;
             brightStars.rotation.x += 0.00005;
             
-            // Update controls and render
             controls.update();
             effectComposer.render();
             requestAnimationFrame(animate);
@@ -531,7 +489,6 @@
         });
         
         animate();
-        console.log('Gargantua cinematic experience | Gravitational lensing | Planet consumption active');
     </script>
 </body>
-    </html>
+</html>
