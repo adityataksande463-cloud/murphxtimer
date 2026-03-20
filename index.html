@@ -63,6 +63,40 @@
             pointer-events: none;
         }
 
+        /* Floating particles for desktop */
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .particle {
+            position: absolute;
+            background: rgba(157, 123, 255, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatParticle linear infinite;
+        }
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-20vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
         .app-container {
             position: relative;
             z-index: 10;
@@ -161,6 +195,7 @@
             margin-left: 0.5rem;
         }
 
+        /* Hero Section Enhanced for Desktop */
         .hero {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -232,8 +267,29 @@
             border-color: var(--accent-secondary);
             background: rgba(255,255,255,0.05);
         }
+        /* Desktop cosmic illustration */
+        .hero-illustration {
+            position: relative;
+            height: 100%;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-illustration svg {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            filter: drop-shadow(0 0 20px rgba(157,123,255,0.3));
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
 
-        /* Mudra Gallery - Enhanced with SVG Hands */
+        /* Mudra Gallery - Enhanced for Desktop */
         .cosmic-pulse {
             margin: 2rem 0 2rem;
         }
@@ -263,6 +319,7 @@
             transition: transform 0.2s, filter 0.2s;
             padding: 0.5rem;
             border-radius: 20px;
+            position: relative;
         }
         .mudra-item:hover {
             transform: translateY(-4px);
@@ -280,6 +337,10 @@
             width: 100%;
             height: 100%;
             filter: drop-shadow(0 0 4px var(--accent-glow));
+            transition: filter 0.3s;
+        }
+        .mudra-item:hover .mudra-svg svg {
+            filter: drop-shadow(0 0 12px var(--accent));
         }
         .mudra-name {
             font-size: 0.7rem;
@@ -291,6 +352,34 @@
             font-size: 0.6rem;
             color: var(--text-secondary);
             margin-top: 0.2rem;
+        }
+        /* Desktop: Show full description on hover */
+        @media (min-width: 1200px) {
+            .mudra-item {
+                position: relative;
+            }
+            .mudra-item .full-desc {
+                position: absolute;
+                bottom: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0,0,0,0.8);
+                backdrop-filter: blur(8px);
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 12px;
+                font-size: 0.7rem;
+                width: 180px;
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 0.2s;
+                z-index: 100;
+                white-space: normal;
+                text-align: center;
+            }
+            .mudra-item:hover .full-desc {
+                opacity: 1;
+            }
         }
 
         .xp-container {
@@ -315,6 +404,7 @@
             font-weight: 600;
         }
 
+        /* Profession Grid */
         .profession-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -510,16 +600,31 @@
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
+        /* Quotes Section */
         .quotes-home {
             margin: 2rem 0 1rem;
             padding: 2rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .quotes-home::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(157,123,255,0.05) 0%, transparent 70%);
+            animation: rotateSlow 60s linear infinite;
+            pointer-events: none;
         }
         .quote-text-large {
             font-size: 1.6rem;
             font-style: italic;
             line-height: 1.4;
             margin: 1rem 0;
+            position: relative;
         }
         .quote-author {
             color: var(--accent-secondary);
@@ -536,6 +641,7 @@
             margin-top: 1rem;
         }
 
+        /* Timer, Diary, etc. */
         .timer-section, .diary-section, .audio-section, .plan-section, .profile-section, .breathwork-section {
             padding: 2rem;
             text-align: center;
@@ -660,6 +766,41 @@
             flex-wrap: wrap;
             border-top: 1px solid var(--glass-border);
         }
+        /* Desktop enhancements */
+        @media (min-width: 1200px) {
+            .hero-illustration {
+                display: block;
+            }
+            .hero {
+                margin-bottom: 4rem;
+            }
+            .hero h2 {
+                font-size: 4.5rem;
+            }
+            .mudra-grid {
+                grid-template-columns: repeat(6, 1fr);
+                gap: 1.5rem;
+            }
+            .mudra-svg {
+                width: 80px;
+                height: 80px;
+            }
+            .quotes-home {
+                padding: 3rem;
+                margin-top: 3rem;
+            }
+            .quote-text-large {
+                font-size: 2rem;
+            }
+            .tech-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 1199px) {
+            .hero-illustration {
+                display: none;
+            }
+        }
         @media (max-width: 900px) {
             .hero { grid-template-columns: 1fr; text-align: center; }
             .hero h2 { font-size: 2.5rem; }
@@ -695,6 +836,7 @@
 </head>
 <body>
     <canvas id="blackhole-canvas"></canvas>
+    <div class="floating-particles" id="floatingParticles"></div>
     <div class="app-container">
         <header class="header glass-card">
             <div class="logo">
@@ -731,7 +873,24 @@
                         <button class="btn-outline" id="dailyBtn">Daily Technique</button>
                     </div>
                 </div>
-                <div></div>
+                <div class="hero-illustration">
+                    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="100" cy="100" r="80" stroke="url(#grad)" stroke-width="1.5" stroke-dasharray="5 8" fill="none"/>
+                        <circle cx="100" cy="100" r="60" stroke="url(#grad)" stroke-width="1.2" stroke-dasharray="3 6" fill="none"/>
+                        <circle cx="100" cy="100" r="40" stroke="url(#grad)" stroke-width="1" stroke-dasharray="2 4" fill="none"/>
+                        <path d="M100 20 L100 180 M20 100 L180 100" stroke="url(#grad)" stroke-width="1" stroke-dasharray="3 5"/>
+                        <path d="M35 35 L165 165 M35 165 L165 35" stroke="url(#grad)" stroke-width="1" stroke-dasharray="3 5"/>
+                        <circle cx="100" cy="100" r="12" fill="var(--accent)" opacity="0.6">
+                            <animate attributeName="r" values="12;15;12" dur="3s" repeatCount="indefinite"/>
+                        </circle>
+                        <defs>
+                            <radialGradient id="grad" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#9d7bff"/>
+                                <stop offset="100%" stop-color="#ffb3a0"/>
+                            </radialGradient>
+                        </defs>
+                    </svg>
+                </div>
             </div>
             
             <!-- Mudra Gallery with SVG Hand Illustrations -->
@@ -981,9 +1140,27 @@
     </script>
 
     <script type="text/javascript">
+        // Floating particles for desktop
+        function createFloatingParticles() {
+            const container = document.getElementById('floatingParticles');
+            if (!container) return;
+            for (let i = 0; i < 80; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 4 + 1;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = Math.random() * 15 + 10 + 's';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                container.appendChild(particle);
+            }
+        }
+        createFloatingParticles();
+
         // ==================== 112 TECHNIQUES ====================
         const techniques = {};
-        // Generate 112 techniques with proper names (first 5 detailed)
         const techniqueNames = [
             "Witnessing the Breath", "Awareness of the Gap Between Breaths", "Breath Traveling Through the Spine", "Concentration on the Third Eye", "Witnessing Thoughts",
             "Listening to External Sounds Without Labeling", "Inner Sound Meditation", "Gazing Into Darkness", "Sudden Awareness Technique", "Mantra with Breath",
@@ -1048,19 +1225,19 @@
             benefits:{ student:"freedom from overthinking", employee:"emotional stability", seeker:"self-awareness" }
         };
 
-        // Mudra Gallery with SVG Hand Illustrations
+        // Mudra Gallery with SVG Hand Illustrations and full descriptions
         const mudras = [
-            { name:"Bhumisparsa", desc:"The Buddha touched the ground to call the earth goddess to bear witness to his awakening.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M50,70 L50,30 M30,50 L70,50 M40,60 L60,40 M40,40 L60,60" stroke-linecap="round"/><circle cx="50" cy="50" r="25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M35,45 L45,55 M55,45 L65,55" stroke="currentColor" stroke-width="1.5"/></svg>` },
-            { name:"Dhyana", desc:"Gesture of absolute balance & meditative poise. Hands relaxed in lap, thumbs and fingers touching.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M35,65 L65,65 M40,55 L60,55 M45,45 L55,45" stroke-linecap="round"/><circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="15" fill="none" stroke="currentColor" stroke-width="1"/></svg>` },
-            { name:"Abhaya", desc:"Gesture of reassurance, blessing, and protection.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M40,60 L60,60 M50,70 L50,40" stroke-linecap="round"/><path d="M35,50 L45,50 M55,50 L65,50" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>` },
-            { name:"Dharmachakra", desc:"Gesture of teaching, turning the Wheel of Law. Hands level with heart, thumbs and index fingers form circles.", svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="10" fill="none" stroke="currentColor" stroke-width="1"/><path d="M40,35 L60,65 M60,35 L40,65" stroke="currentColor" stroke-width="1.5"/></svg>` },
-            { name:"Vitarka", desc:"Intellectual argument, discussion. Circle formed by thumb and index finger is the sign of the Wheel of Law.", svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M38,45 L62,55 M38,55 L62,45" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="8" fill="none" stroke="currentColor"/></svg>` },
-            { name:"Tarjani", desc:"Threat, warning. Extended index finger pointed at ignorance; antidote is wakefulness.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M50,65 L50,30 M40,45 L60,45" stroke-linecap="round"/><circle cx="50" cy="30" r="4" fill="none" stroke="currentColor"/><circle cx="50" cy="50" r="22" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>` },
-            { name:"Namaskara", desc:"Gesture of greeting, prayer, and respect made by those devoted to the path.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M30,60 L70,60 M50,40 L50,70 M40,45 L60,55 M40,55 L60,45" stroke-linecap="round"/><circle cx="50" cy="50" r="25" fill="none" stroke="currentColor"/></svg>` },
-            { name:"Jnana", desc:"Teaching. Hand at chest level, thumb and index finger form the Wheel of Law.", svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M42,42 L58,58 M42,58 L58,42" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="8" fill="none" stroke="currentColor"/></svg>` },
-            { name:"Karana", desc:"Gesture with which demons are expelled.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M35,55 L65,45 M35,45 L65,55 M50,65 L50,35" stroke-linecap="round"/><circle cx="50" cy="50" r="25" fill="none" stroke="currentColor"/></svg>` },
-            { name:"Kesapana", desc:"Two hands together in the gesture of 'sprinkling' the nectar of immortality.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M35,55 L65,45 M35,45 L65,55 M45,65 L55,35 M45,35 L55,65" stroke-linecap="round"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor"/></svg>` },
-            { name:"Uttarabodhi", desc:"Two hands placed together above the head with index fingers together, other fingers intertwined. Gesture of supreme enlightenment.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M30,55 L70,55 M50,30 L50,70 M40,40 L60,60 M40,60 L60,40" stroke-linecap="round"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor"/></svg>` }
+            { name:"Bhumisparsa", desc:"The Buddha touched the ground to call the earth goddess to bear witness to his awakening.", fullDesc:"The Buddha touched the ground to call the earth goddess, Sthavara, to bear witness to his awakening.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M50,70 L50,30 M30,50 L70,50 M40,60 L60,40 M40,40 L60,60" stroke-linecap="round"/><circle cx="50" cy="50" r="25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M35,45 L45,55 M55,45 L65,55" stroke="currentColor" stroke-width="1.5"/></svg>` },
+            { name:"Dhyana", desc:"Gesture of absolute balance & meditative poise. Hands relaxed in lap, thumbs and fingers touching.", fullDesc:"Gesture of absolute balance & meditative poise. The hands are relaxed in the lap, and the tips of the thumbs and fingers touch each other.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M35,65 L65,65 M40,55 L60,55 M45,45 L55,45" stroke-linecap="round"/><circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="15" fill="none" stroke="currentColor" stroke-width="1"/></svg>` },
+            { name:"Abhaya", desc:"Gesture of reassurance, blessing, and protection.", fullDesc:"Gesture of reassurance, blessing, and protection.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M40,60 L60,60 M50,70 L50,40" stroke-linecap="round"/><path d="M35,50 L45,50 M55,50 L65,50" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>` },
+            { name:"Dharmachakra", desc:"Gesture of teaching, turning the Wheel of Law. Hands level with heart, thumbs and index fingers form circles.", fullDesc:"The gesture of teaching interpreted as turning the Wheel of Law. The hands are held level with the heart, the thumbs and index fingers form circles.", svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="10" fill="none" stroke="currentColor" stroke-width="1"/><path d="M40,35 L60,65 M60,35 L40,65" stroke="currentColor" stroke-width="1.5"/></svg>` },
+            { name:"Vitarka", desc:"Intellectual argument, discussion. Circle formed by thumb and index finger is the sign of the Wheel of Law.", fullDesc:"Intellectual argument, discussion. The circle formed by the thumb and index finger is the sign of the Wheel of Law.", svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M38,45 L62,55 M38,55 L62,45" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="8" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Tarjani", desc:"Threat, warning. Extended index finger pointed at ignorance; antidote is wakefulness.", fullDesc:"Threat, warning. The extended index finger is pointed at the opposite hand, which is ignorance or delusion and the antidote is wakefulness or mindfulness.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M50,65 L50,30 M40,45 L60,45" stroke-linecap="round"/><circle cx="50" cy="30" r="4" fill="none" stroke="currentColor"/><circle cx="50" cy="50" r="22" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>` },
+            { name:"Namaskara", desc:"Gesture of greeting, prayer, and respect made by those devoted to the path.", fullDesc:"Gesture of greeting, prayer, and respect made by those devoted to the path taught by the Buddha.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M30,60 L70,60 M50,40 L50,70 M40,45 L60,55 M40,55 L60,45" stroke-linecap="round"/><circle cx="50" cy="50" r="25" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Jnana", desc:"Teaching. Hand at chest level, thumb and index finger form the Wheel of Law.", fullDesc:"Teaching. The hand is held at chest level and the thumb and index finger again form the Wheel of Law.", svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M42,42 L58,58 M42,58 L58,42" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="8" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Karana", desc:"Gesture with which demons are expelled.", fullDesc:"Gesture with which demons are expelled.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M35,55 L65,45 M35,45 L65,55 M50,65 L50,35" stroke-linecap="round"/><circle cx="50" cy="50" r="25" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Kesapana", desc:"Two hands together in the gesture of 'sprinkling' the nectar of immortality.", fullDesc:"Two hands together in the gesture of 'sprinkling' the nectar of immortality.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M35,55 L65,45 M35,45 L65,55 M45,65 L55,35 M45,35 L55,65" stroke-linecap="round"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Uttarabodhi", desc:"Two hands placed together above the head with index fingers together, other fingers intertwined. Gesture of supreme enlightenment.", fullDesc:"Two hands placed together above the head with the index fingers together and the other fingers intertwined. The gesture of supreme enlightenment.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M30,55 L70,55 M50,30 L50,70 M40,40 L60,60 M40,60 L60,40" stroke-linecap="round"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor"/></svg>` }
         ];
 
         const mudraGrid = document.getElementById('mudraGrid');
@@ -1069,6 +1246,7 @@
                 <div class="mudra-svg">${m.svg}</div>
                 <div class="mudra-name">${m.name}</div>
                 <div class="mudra-desc">${m.desc.substring(0, 45)}${m.desc.length > 45 ? '…' : ''}</div>
+                <div class="full-desc">${m.fullDesc}</div>
             </div>
         `).join('');
 
