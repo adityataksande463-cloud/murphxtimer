@@ -233,7 +233,7 @@
             background: rgba(255,255,255,0.05);
         }
 
-        /* Cosmic Pulse - Now Mudra Gallery */
+        /* Mudra Gallery - Enhanced with SVG Hands */
         .cosmic-pulse {
             margin: 2rem 0 2rem;
         }
@@ -253,7 +253,7 @@
         }
         .mudra-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
             gap: 1rem;
             margin-top: 0.5rem;
         }
@@ -268,21 +268,22 @@
             transform: translateY(-4px);
             background: rgba(157,123,255,0.2);
         }
-        .mudra-icon {
-            width: 60px;
-            height: 60px;
+        .mudra-svg {
+            width: 70px;
+            height: 70px;
             margin: 0 auto 0.5rem;
-            background: rgba(157,123,255,0.15);
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-            color: var(--accent-secondary);
+        }
+        .mudra-svg svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 4px var(--accent-glow));
         }
         .mudra-name {
             font-size: 0.7rem;
-            font-weight: 500;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -349,6 +350,7 @@
             font-size: 0.75rem;
         }
 
+        /* TECH CARD with Background Mandala */
         .tech-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
@@ -361,25 +363,39 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+            isolation: isolate;
         }
         .tech-card:hover {
             transform: translateY(-5px);
             border-color: var(--accent);
             box-shadow: 0 20px 35px -12px black;
         }
-        .mandala {
+        .tech-bg-mandala {
             position: absolute;
-            bottom: -30px;
-            right: -30px;
-            width: 100px;
-            height: 100px;
-            opacity: 0.1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
             pointer-events: none;
-            transition: transform 0.5s ease;
+            opacity: 0.12;
+            transition: opacity 0.3s ease;
         }
-        .tech-card:hover .mandala {
-            transform: rotate(180deg) scale(1.1);
-            opacity: 0.2;
+        .tech-card:hover .tech-bg-mandala {
+            opacity: 0.22;
+        }
+        .tech-bg-mandala svg {
+            width: 100%;
+            height: 100%;
+            animation: rotateSlow 30s linear infinite;
+        }
+        @keyframes rotateSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .tech-card > * {
+            position: relative;
+            z-index: 1;
         }
         .tech-header {
             display: flex;
@@ -440,7 +456,7 @@
             color: var(--accent-secondary);
         }
 
-        /* Modal - Enhanced with Mandala */
+        /* Modal */
         .modal {
             position: fixed;
             top: 0;
@@ -647,8 +663,8 @@
         @media (max-width: 900px) {
             .hero { grid-template-columns: 1fr; text-align: center; }
             .hero h2 { font-size: 2.5rem; }
-            .mudra-grid { grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); }
-            .mudra-icon { width: 50px; height: 50px; font-size: 1.4rem; }
+            .mudra-grid { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); }
+            .mudra-svg { width: 55px; height: 55px; }
         }
         @media (max-width: 640px) {
             .app-container { padding: 1rem; }
@@ -718,7 +734,7 @@
                 <div></div>
             </div>
             
-            <!-- Mudra Gallery (replaces old mantra) -->
+            <!-- Mudra Gallery with SVG Hand Illustrations -->
             <div class="cosmic-pulse">
                 <div class="mudra-gallery">
                     <h3>🌀 Sacred Mudras · Gestures of Awakening</h3>
@@ -965,15 +981,14 @@
     </script>
 
     <script type="text/javascript">
-        // ==================== 112 TECHNIQUES (abridged for brevity but fully functional) ====================
+        // ==================== 112 TECHNIQUES ====================
         const techniques = {};
-        // Generate 112 techniques with proper names (first 5 from earlier, rest generic)
+        // Generate 112 techniques with proper names (first 5 detailed)
         const techniqueNames = [
             "Witnessing the Breath", "Awareness of the Gap Between Breaths", "Breath Traveling Through the Spine", "Concentration on the Third Eye", "Witnessing Thoughts",
             "Listening to External Sounds Without Labeling", "Inner Sound Meditation", "Gazing Into Darkness", "Sudden Awareness Technique", "Mantra with Breath",
             "Sky Awareness Meditation", "Candle Flame Concentration", "Heart Center Meditation", "Body Sensation Awareness", "Slow Breath Meditation",
-            "Walking Awareness Meditation", "Observation of Emotions", "Listening to Silence", "Whole-Body Awareness", "Breath Touch Awareness",
-            "Expansion of Awareness", "Spine Awareness Meditation", "Total Relaxation Meditation", "Awareness at the Edge of Sleep", "Momentary Breath Suspension"
+            "Walking Awareness Meditation", "Observation of Emotions", "Listening to Silence", "Whole-Body Awareness", "Breath Touch Awareness"
         ];
         const categoriesList = ['breath','body','heart','sound','gaze','void','energy','light','sleep','emotion'];
         for (let i = 1; i <= 112; i++) {
@@ -1033,32 +1048,31 @@
             benefits:{ student:"freedom from overthinking", employee:"emotional stability", seeker:"self-awareness" }
         };
 
-        // Mudra Gallery Data
+        // Mudra Gallery with SVG Hand Illustrations
         const mudras = [
-            { name:"Bhumisparsa", desc:"The Buddha touched the ground to call the earth goddess to bear witness to his awakening.", icon:"fa-hand-peace" },
-            { name:"Dhyana", desc:"Gesture of absolute balance & meditative poise. Hands relaxed in lap, thumbs and fingers touching.", icon:"fa-hand-sparkles" },
-            { name:"Abhaya", desc:"Gesture of reassurance, blessing, and protection.", icon:"fa-hand-peace-o" },
-            { name:"Dharmachakra", desc:"Gesture of teaching, turning the Wheel of Law. Hands level with heart, thumbs and index fingers form circles.", icon:"fa-chakra" },
-            { name:"Vitarka", desc:"Intellectual argument, discussion. Circle formed by thumb and index finger is the sign of the Wheel of Law.", icon:"fa-hand-peace" },
-            { name:"Tarjani", desc:"Threat, warning. Extended index finger pointed at ignorance; antidote is wakefulness.", icon:"fa-hand-point-up" },
-            { name:"Namaskara", desc:"Gesture of greeting, prayer, and respect made by those devoted to the path.", icon:"fa-hands-praying" },
-            { name:"Jnana", desc:"Teaching. Hand at chest level, thumb and index finger form the Wheel of Law.", icon:"fa-hand-peace" },
-            { name:"Karana", desc:"Gesture with which demons are expelled.", icon:"fa-hand-back-fist" },
-            { name:"Kesapana", desc:"Two hands together in the gesture of 'sprinkling' the nectar of immortality.", icon:"fa-hand-holding-heart" },
-            { name:"Uttarabodhi", desc:"Two hands placed together above the head with index fingers together, other fingers intertwined. Gesture of supreme enlightenment.", icon:"fa-hands-helping" }
+            { name:"Bhumisparsa", desc:"The Buddha touched the ground to call the earth goddess to bear witness to his awakening.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M50,70 L50,30 M30,50 L70,50 M40,60 L60,40 M40,40 L60,60" stroke-linecap="round"/><circle cx="50" cy="50" r="25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M35,45 L45,55 M55,45 L65,55" stroke="currentColor" stroke-width="1.5"/></svg>` },
+            { name:"Dhyana", desc:"Gesture of absolute balance & meditative poise. Hands relaxed in lap, thumbs and fingers touching.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M35,65 L65,65 M40,55 L60,55 M45,45 L55,45" stroke-linecap="round"/><circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="15" fill="none" stroke="currentColor" stroke-width="1"/></svg>` },
+            { name:"Abhaya", desc:"Gesture of reassurance, blessing, and protection.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M40,60 L60,60 M50,70 L50,40" stroke-linecap="round"/><path d="M35,50 L45,50 M55,50 L65,50" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>` },
+            { name:"Dharmachakra", desc:"Gesture of teaching, turning the Wheel of Law. Hands level with heart, thumbs and index fingers form circles.", svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="10" fill="none" stroke="currentColor" stroke-width="1"/><path d="M40,35 L60,65 M60,35 L40,65" stroke="currentColor" stroke-width="1.5"/></svg>` },
+            { name:"Vitarka", desc:"Intellectual argument, discussion. Circle formed by thumb and index finger is the sign of the Wheel of Law.", svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M38,45 L62,55 M38,55 L62,45" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="8" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Tarjani", desc:"Threat, warning. Extended index finger pointed at ignorance; antidote is wakefulness.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M50,65 L50,30 M40,45 L60,45" stroke-linecap="round"/><circle cx="50" cy="30" r="4" fill="none" stroke="currentColor"/><circle cx="50" cy="50" r="22" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>` },
+            { name:"Namaskara", desc:"Gesture of greeting, prayer, and respect made by those devoted to the path.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M30,60 L70,60 M50,40 L50,70 M40,45 L60,55 M40,55 L60,45" stroke-linecap="round"/><circle cx="50" cy="50" r="25" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Jnana", desc:"Teaching. Hand at chest level, thumb and index finger form the Wheel of Law.", svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M42,42 L58,58 M42,58 L58,42" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="8" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Karana", desc:"Gesture with which demons are expelled.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M35,55 L65,45 M35,45 L65,55 M50,65 L50,35" stroke-linecap="round"/><circle cx="50" cy="50" r="25" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Kesapana", desc:"Two hands together in the gesture of 'sprinkling' the nectar of immortality.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M35,55 L65,45 M35,45 L65,55 M45,65 L55,35 M45,35 L55,65" stroke-linecap="round"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor"/></svg>` },
+            { name:"Uttarabodhi", desc:"Two hands placed together above the head with index fingers together, other fingers intertwined. Gesture of supreme enlightenment.", svg: `<svg viewBox="0 0 100 100"><path fill="none" stroke="currentColor" stroke-width="2" d="M30,55 L70,55 M50,30 L50,70 M40,40 L60,60 M40,60 L60,40" stroke-linecap="round"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor"/></svg>` }
         ];
 
-        // Populate mudra gallery
         const mudraGrid = document.getElementById('mudraGrid');
         mudraGrid.innerHTML = mudras.map(m => `
             <div class="mudra-item" title="${m.desc}">
-                <div class="mudra-icon"><i class="fas ${m.icon}"></i></div>
+                <div class="mudra-svg">${m.svg}</div>
                 <div class="mudra-name">${m.name}</div>
-                <div class="mudra-desc">${m.desc.substring(0, 40)}${m.desc.length > 40 ? '…' : ''}</div>
+                <div class="mudra-desc">${m.desc.substring(0, 45)}${m.desc.length > 45 ? '…' : ''}</div>
             </div>
         `).join('');
 
-        // Profession data (unchanged)
+        // Profession data
         const professions = [
             { name:"Student", icon:"fa-graduation-cap", desc:"focus · exams", keywords:["focus","concentration","memory","exam","study","student"] },
             { name:"Employee", icon:"fa-briefcase", desc:"stress · work-life", keywords:["stress","work","balance","employee","pressure"] },
@@ -1168,24 +1182,26 @@
             }
         }
 
-        // Tech card creation
+        // TECH CARD with rotating background mandala
         function createTechCard(t) {
             const div = document.createElement('div'); div.className = 'tech-card glass-card';
             const isFav = user.favorites.includes(t.id);
-            div.innerHTML = `
+            const mandalaSvg = `<div class="tech-bg-mandala"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+                <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+                <circle cx="100" cy="100" r="50" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+                <circle cx="100" cy="100" r="30" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+                <circle cx="100" cy="100" r="10" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+                <path d="M100 10 L100 190 M10 100 L190 100" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+                <path d="M30 30 L170 170 M30 170 L170 30" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+            </svg></div>`;
+            div.innerHTML = mandalaSvg + `
                 <div class="tech-header"><span class="tech-number">#${t.id}</span><span class="tech-sanskrit">${t.sanskrit}</span></div>
                 <div class="tech-name">${t.name}</div>
                 <div class="tech-category">${t.category}</div>
                 <div class="tech-essence">“${t.essence}”</div>
                 <div class="tech-details"><i class="fas fa-arrows-alt"></i> ${t.posture} · <i class="fas fa-hand-peace"></i> ${t.mudra}</div>
                 <div class="tech-footer"><span><i class="far fa-clock"></i> ${t.duration}</span><button class="favorite-btn ${isFav ? 'fas' : 'far'} fa-heart" data-id="${t.id}"></button></div>
-                <svg class="mandala" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" stroke-width="0.5"/>
-                    <circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" stroke-width="0.5"/>
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="0.5"/>
-                    <path d="M50 5 L50 95 M5 50 L95 50" stroke="currentColor" stroke-width="0.5"/>
-                    <path d="M20 20 L80 80 M20 80 L80 20" stroke="currentColor" stroke-width="0.5"/>
-                </svg>
             `;
             div.querySelector('.favorite-btn').addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -1204,7 +1220,6 @@
         function showModal(t) {
             const modal = document.getElementById('detailModal') || (() => { const m = document.createElement('div'); m.id='detailModal'; m.className='modal'; document.body.appendChild(m); return m; })();
             const content = document.createElement('div'); content.className='modal-content glass-card';
-            // Create rotating mandala SVG
             const mandalaSvg = `<svg class="modal-mandala" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="1" opacity="0.6"/>
                 <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="1" opacity="0.6"/>
