@@ -7,12 +7,15 @@
     <meta name="description" content="Gargantua black hole meditation experience with 112 authentic Tantra techniques, interactive breathwork, cosmic diary, wisdom quotes, and immersive visuals.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        /* ========== GLOBAL & VARIABLES ========== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         :root {
             --bg-deep: #050210;
@@ -58,29 +61,6 @@
             z-index: 0;
             display: block;
             pointer-events: none;
-        }
-
-        .floating-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        .particle {
-            position: absolute;
-            background: rgba(157, 123, 255, 0.3);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: floatParticle linear infinite;
-        }
-        @keyframes floatParticle {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.5; }
-            90% { opacity: 0.5; }
-            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
         }
 
         .app-container {
@@ -256,7 +236,11 @@
             filter: drop-shadow(0 0 20px rgba(157,123,255,0.3));
             animation: float 6s ease-in-out infinite;
         }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
 
         /* Mudra Gallery */
         .mudra-gallery {
@@ -266,6 +250,12 @@
             padding: 1.5rem;
             border: 1px solid var(--glass-border);
             margin-bottom: 2rem;
+        }
+        .mudra-gallery h3 {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            font-weight: 500;
         }
         .mudra-grid {
             display: grid;
@@ -346,16 +336,11 @@
             border: 1px solid var(--glass-border);
             position: relative;
             overflow: hidden;
+            transition: transform 0.3s;
         }
-        .practice-card .mandala-bg {
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            opacity: 0.05;
-            pointer-events: none;
-            animation: rotateSlow 40s linear infinite;
+        .practice-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
         }
         .practice-header {
             display: flex;
@@ -379,11 +364,18 @@
             height: 36px;
             border-radius: 50%;
             cursor: pointer;
+            transition: 0.2s;
+        }
+        .practice-refresh:hover {
+            background: var(--accent);
+            color: white;
+            transform: rotate(180deg);
         }
         .practice-technique-name {
             font-size: 1.8rem;
             font-weight: 700;
             margin: 1rem 0 0.5rem;
+            line-height: 1.2;
         }
         .practice-essence {
             font-style: italic;
@@ -424,6 +416,7 @@
         .prof-card:hover {
             transform: translateY(-6px);
             border-color: var(--accent);
+            box-shadow: 0 15px 30px -12px rgba(0,0,0,0.5);
         }
         .prof-card i {
             font-size: 2.5rem;
@@ -443,7 +436,7 @@
             font-size: 0.75rem;
         }
 
-        /* TECH CARD with ROTATING MANDALA BACKGROUND */
+        /* TECH CARD - Modern Aesthetic */
         .tech-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
@@ -451,45 +444,34 @@
             margin-top: 1.5rem;
         }
         .tech-card {
+            background: linear-gradient(135deg, rgba(20, 16, 44, 0.85), rgba(8, 6, 20, 0.9));
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(157, 123, 255, 0.2);
+            border-radius: 24px;
             padding: 1.5rem;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            isolation: isolate;
         }
-        .tech-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 35px -12px black;
-        }
-        /* Rotating mandala background */
-        .tech-bg-mandala {
+        .tech-card::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.15;
-            transition: opacity 0.3s ease;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
         }
-        .tech-card:hover .tech-bg-mandala {
-            opacity: 0.28;
+        .tech-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(157, 123, 255, 0.6);
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.5);
         }
-        .tech-bg-mandala svg {
-            width: 100%;
-            height: 100%;
-            animation: rotateSlow 25s linear infinite;
-        }
-        @keyframes rotateSlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        .tech-card > * {
-            position: relative;
-            z-index: 1;
+        .tech-card:hover::before {
+            transform: scaleX(1);
         }
         .tech-header {
             display: flex;
@@ -497,28 +479,33 @@
             margin-bottom: 0.8rem;
         }
         .tech-number {
-            background: rgba(157,123,255,0.2);
+            background: rgba(157, 123, 255, 0.2);
             padding: 0.2rem 0.8rem;
             border-radius: 30px;
             font-size: 0.7rem;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
         }
         .tech-sanskrit {
             font-style: italic;
             color: #7fdbda;
             font-size: 0.8rem;
+            font-weight: 400;
         }
         .tech-name {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin: 0.3rem 0;
+            margin: 0.5rem 0 0.3rem;
+            line-height: 1.3;
         }
         .tech-category {
             display: inline-block;
-            background: rgba(127,219,218,0.15);
+            background: rgba(127, 219, 218, 0.15);
             padding: 0.2rem 0.8rem;
             border-radius: 30px;
             font-size: 0.7rem;
             margin-bottom: 0.8rem;
+            text-transform: capitalize;
         }
         .tech-essence {
             font-style: italic;
@@ -526,6 +513,7 @@
             padding-left: 0.8rem;
             margin: 0.8rem 0;
             font-size: 0.9rem;
+            color: var(--text-secondary);
         }
         .tech-details {
             display: flex;
@@ -534,12 +522,16 @@
             font-size: 0.75rem;
             margin: 0.8rem 0;
         }
+        .tech-details i {
+            margin-right: 0.3rem;
+            color: var(--accent-secondary);
+        }
         .tech-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-top: 1rem;
-            border-top: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255,255,255,0.1);
             padding-top: 0.8rem;
         }
         .favorite-btn {
@@ -548,6 +540,10 @@
             font-size: 1.3rem;
             cursor: pointer;
             color: var(--accent-secondary);
+            transition: transform 0.2s;
+        }
+        .favorite-btn:hover {
+            transform: scale(1.1);
         }
 
         /* Modal */
@@ -572,7 +568,6 @@
             pointer-events: auto;
         }
         .modal-content {
-            position: relative;
             max-width: 800px;
             width: 90%;
             max-height: 85vh;
@@ -582,26 +577,6 @@
             border-radius: 32px;
             backdrop-filter: blur(24px);
             border: 1px solid var(--glass-border);
-        }
-        .modal-mandala {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 400px;
-            height: 400px;
-            transform: translate(-50%, -50%);
-            opacity: 0.1;
-            pointer-events: none;
-            animation: spin 30s linear infinite;
-            z-index: 0;
-        }
-        .modal-content > * {
-            position: relative;
-            z-index: 1;
-        }
-        @keyframes spin {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
         /* Quotes */
@@ -700,6 +675,7 @@
         .breath-card {
             cursor: pointer;
             transition: all 0.2s;
+            padding: 1rem;
         }
         .breath-card:hover {
             transform: translateY(-5px);
@@ -800,7 +776,6 @@
 </head>
 <body>
     <canvas id="blackhole-canvas"></canvas>
-    <div class="floating-particles" id="floatingParticles"></div>
     <div class="app-container">
         <header class="header glass-card">
             <div class="logo"><h1>VIGYAN BHAIRAV</h1><p>GARGANTUA · 112 PORTALS</p></div>
@@ -834,7 +809,6 @@
             </div>
             <div class="cosmic-practice-widget">
                 <div class="practice-card glass-card">
-                    <div class="mandala-bg"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="currentColor"/><circle cx="100" cy="100" r="60" fill="none" stroke="currentColor"/><circle cx="100" cy="100" r="40" fill="none" stroke="currentColor"/><path d="M100 20 L100 180 M20 100 L180 100" stroke="currentColor"/></svg></div>
                     <div class="practice-header"><h3>✨ Cosmic Practice of the Moment</h3><button class="practice-refresh" id="refreshPracticeBtn"><i class="fas fa-sync-alt"></i></button></div>
                     <div class="practice-technique-name" id="practiceTechName">Witnessing the Breath</div>
                     <div class="practice-essence" id="practiceTechEssence">Breath is the bridge between body and mind...</div>
@@ -952,28 +926,15 @@
     </script>
 
     <script type="text/javascript">
-        // Floating particles
-        function createFloatingParticles() {
-            const container = document.getElementById('floatingParticles');
-            if (!container) return;
-            for (let i = 0; i < 80; i++) {
-                const p = document.createElement('div');
-                p.classList.add('particle');
-                const size = Math.random() * 4 + 1;
-                p.style.width = size + 'px';
-                p.style.height = size + 'px';
-                p.style.left = Math.random() * 100 + '%';
-                p.style.animationDuration = Math.random() * 15 + 10 + 's';
-                p.style.animationDelay = Math.random() * 20 + 's';
-                p.style.opacity = Math.random() * 0.5 + 0.2;
-                container.appendChild(p);
-            }
-        }
-        createFloatingParticles();
-
         // ==================== 112 TECHNIQUES ====================
         const techniques = {};
-        const techniqueNames = ["Witnessing the Breath","Awareness of the Gap Between Breaths","Breath Traveling Through the Spine","Concentration on the Third Eye","Witnessing Thoughts","Listening to External Sounds Without Labeling","Inner Sound Meditation","Gazing Into Darkness","Sudden Awareness Technique","Mantra with Breath","Sky Awareness Meditation","Candle Flame Concentration","Heart Center Meditation","Body Sensation Awareness","Slow Breath Meditation","Walking Awareness Meditation","Observation of Emotions","Listening to Silence","Whole-Body Awareness","Breath Touch Awareness"];
+        const techniqueNames = [
+            "Witnessing the Breath","Awareness of the Gap Between Breaths","Breath Traveling Through the Spine","Concentration on the Third Eye","Witnessing Thoughts",
+            "Listening to External Sounds Without Labeling","Inner Sound Meditation","Gazing Into Darkness","Sudden Awareness Technique","Mantra with Breath",
+            "Sky Awareness Meditation","Candle Flame Concentration","Heart Center Meditation","Body Sensation Awareness","Slow Breath Meditation",
+            "Walking Awareness Meditation","Observation of Emotions","Listening to Silence","Whole-Body Awareness","Breath Touch Awareness",
+            "Expansion of Awareness","Spine Awareness Meditation","Total Relaxation Meditation","Awareness at the Edge of Sleep","Momentary Breath Suspension"
+        ];
         const categoriesList = ['breath','body','heart','sound','gaze','void','energy','light','sleep','emotion'];
         for (let i = 1; i <= 112; i++) {
             const cat = categoriesList[i % categoriesList.length];
@@ -989,6 +950,7 @@
                 benefits: { student: 'focus', employee: 'calm', seeker: 'awareness' }
             };
         }
+        // Detailed first few
         techniques[1] = { id:1, name:"Witnessing the Breath", sanskrit:"Śvāsa–Praśvāsa Dharana", category:"breath", essence:"Breath is the bridge between body and mind.", wisdom:"Osho: 'Just watch the breath. Don't control it. Simply be a witness.'", posture:"Sukhasana", mudra:"Chin mudra", breath:"Natural observation", duration:"10-20 min", steps:["Sit comfortably.","Close eyes.","Observe natural breath.","Return when distracted."], benefits:{ student:"concentration", employee:"stress relief", seeker:"calm mind" } };
         techniques[2] = { id:2, name:"Awareness of the Gap Between Breaths", sanskrit:"Madhya Dharana", category:"breath", essence:"Between inhale and exhale there is a tiny moment of stillness.", wisdom:"Osho: 'The pause is the most precious.'", posture:"Any", mudra:"Dhyana mudra", breath:"Observing pauses", duration:"15 min", steps:["Inhale slowly.","Notice the pause at the top.","Exhale.","Notice the pause at the bottom."], benefits:{ student:"deep silence", employee:"meditation depth", seeker:"sharp awareness" } };
         techniques[3] = { id:3, name:"Breath Traveling Through the Spine", sanskrit:"Sushumna Dharana", category:"energy", essence:"Breath carries awareness through the body's central channel.", wisdom:"Osho: 'When breath moves through the spine, the energy becomes centered.'", posture:"Spine straight", mudra:"Chin mudra", breath:"Visualized flow", duration:"10-15 min", steps:["Sit straight.","Imagine energy moving from base to head on inhale, back down on exhale."], benefits:{ student:"focus", employee:"vitality", seeker:"body awareness" } };
@@ -1090,12 +1052,11 @@
             }
         }
 
-        // TECH CARD with rotating mandala background
+        // TECH CARD creation
         function createTechCard(t) {
-            const div = document.createElement('div'); div.className = 'tech-card glass-card';
+            const div = document.createElement('div'); div.className = 'tech-card';
             const isFav = user.favorites.includes(t.id);
-            const mandalaSvg = `<div class="tech-bg-mandala"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" stroke-width="0.8"/><circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" stroke-width="0.8"/><circle cx="100" cy="100" r="50" fill="none" stroke="currentColor" stroke-width="0.8"/><circle cx="100" cy="100" r="30" fill="none" stroke="currentColor" stroke-width="0.8"/><circle cx="100" cy="100" r="10" fill="none" stroke="currentColor" stroke-width="0.8"/><path d="M100 10 L100 190 M10 100 L190 100" stroke="currentColor" stroke-width="0.8"/><path d="M30 30 L170 170 M30 170 L170 30" stroke="currentColor" stroke-width="0.8"/></svg></div>`;
-            div.innerHTML = mandalaSvg + `
+            div.innerHTML = `
                 <div class="tech-header"><span class="tech-number">#${t.id}</span><span class="tech-sanskrit">${t.sanskrit}</span></div>
                 <div class="tech-name">${t.name}</div>
                 <div class="tech-category">${t.category}</div>
@@ -1119,8 +1080,7 @@
         function showModal(t) {
             const modal = document.getElementById('detailModal') || (() => { const m = document.createElement('div'); m.id='detailModal'; m.className='modal'; document.body.appendChild(m); return m; })();
             const content = document.createElement('div'); content.className='modal-content glass-card';
-            const mandalaSvg = `<svg class="modal-mandala" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="100" cy="100" r="40" fill="none" stroke="currentColor" stroke-width="1"/><path d="M100 20 L100 180 M20 100 L180 100" stroke="currentColor" stroke-width="1"/><path d="M40 40 L160 160 M40 160 L160 40" stroke="currentColor" stroke-width="1"/><circle cx="100" cy="100" r="10" fill="var(--accent)" opacity="0.4"/></svg>`;
-            content.innerHTML = mandalaSvg + `
+            content.innerHTML = `
                 <h2>${t.name}</h2>
                 <p><em>${t.sanskrit}</em> · ${t.category}</p>
                 <div style="background: rgba(157,123,255,0.2); padding:1rem; border-radius:20px; margin:1rem 0;"><i class="fas fa-quote-left"></i> ${t.wisdom}</div>
