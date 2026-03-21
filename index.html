@@ -772,6 +772,31 @@
             margin-bottom: 0.8rem;
             padding: 0.8rem;
         }
+
+        /* Page Transition Styles */
+        .view-container {
+            transition: opacity 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            will-change: opacity, transform;
+        }
+        .view-exit {
+            opacity: 0 !important;
+            transform: scale(0.96) translateY(8px);
+            pointer-events: none;
+        }
+        .view-enter {
+            opacity: 0 !important;
+            transform: scale(1.02) translateY(-8px);
+        }
+        .view-enter-active {
+            opacity: 1 !important;
+            transform: scale(1) translateY(0);
+        }
+        body.transitioning {
+            cursor: wait;
+        }
+        .nav a, button {
+            transition: all 0.2s;
+        }
     </style>
 </head>
 <body>
@@ -790,7 +815,7 @@
         </header>
 
         <!-- HOME VIEW -->
-        <div id="homeView">
+        <div id="homeView" class="view-container">
             <div class="hero">
                 <div>
                     <div class="hero-badge">🌀 today's cosmic · witness the breath</div>
@@ -825,13 +850,15 @@
         </div>
 
         <!-- TECHNIQUES VIEW -->
-        <div id="techniquesView" class="hidden">
-            <div id="professionSelectionView"><div class="glass-card" style="padding:1.5rem;"><h3>🌀 Choose Your Archetype</h3><p>Select your path, and the cosmic wisdom will reveal techniques aligned with your journey.</p><div class="profession-grid" id="professionGrid"></div></div></div>
+        <div id="techniquesView" class="hidden view-container">
+            <div id="professionSelectionView">
+                <div class="glass-card" style="padding:1.5rem;"><h3>🌀 Choose Your Archetype</h3><p>Select your path, and the cosmic wisdom will reveal techniques aligned with your journey.</p><div class="profession-grid" id="professionGrid"></div></div>
+            </div>
             <div id="recommendedTechniquesView" class="hidden"><div class="glass-card" style="padding:1rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;"><h3 id="selectedProfessionTitle">Recommended Techniques</h3><button class="btn-outline" id="backToProfessionsBtn"><i class="fas fa-arrow-left"></i> Back to Archetypes</button></div><div class="tech-grid" id="techniquesGrid"></div></div>
         </div>
 
         <!-- BREATHWORK VIEW -->
-        <div id="breathworkView" class="hidden breathwork-section glass-card">
+        <div id="breathworkView" class="hidden breathwork-section glass-card view-container">
             <h2>🌬️ Sacred Breath Alchemy</h2>
             <div class="breath-container"><div class="breath-ring"><svg viewBox="0 0 300 300"><circle cx="150" cy="150" r="137" stroke="currentColor" fill="none" stroke-width="4"/><circle class="progress-circle" cx="150" cy="150" r="137" stroke="currentColor" fill="none" stroke-width="4" stroke-dasharray="860" stroke-dashoffset="860"/></svg><div class="breath-inner-ring"><div class="breath-phase" id="breathPhaseLabel">🌀</div><div class="breath-timer" id="breathTimerDisplay">0</div></div></div><div class="breath-text" id="breathPhaseText">Ready</div><div class="breath-controls"><button id="stopBreathBtn" class="btn-outline" style="display:none;">Stop</button></div></div>
             <div class="breath-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:1rem; margin-top:1rem;">
@@ -845,15 +872,15 @@
         </div>
 
         <!-- QUOTES LIBRARY -->
-        <div id="quotesView" class="hidden quotes-section glass-card"><h2>📚 Wisdom Library</h2><div id="quoteContainer"></div><div style="margin-top:1.5rem; display:flex; gap:1rem; justify-content:center;"><button class="btn-outline" id="prevLibQuote"><i class="fas fa-chevron-left"></i></button><button class="btn-outline" id="nextLibQuote"><i class="fas fa-chevron-right"></i></button><button class="btn-outline" id="saveLibQuoteBtn"><i class="fas fa-bookmark"></i> Save to Diary</button></div></div>
+        <div id="quotesView" class="hidden quotes-section glass-card view-container"><h2>📚 Wisdom Library</h2><div id="quoteContainer"></div><div style="margin-top:1.5rem; display:flex; gap:1rem; justify-content:center;"><button class="btn-outline" id="prevLibQuote"><i class="fas fa-chevron-left"></i></button><button class="btn-outline" id="nextLibQuote"><i class="fas fa-chevron-right"></i></button><button class="btn-outline" id="saveLibQuoteBtn"><i class="fas fa-bookmark"></i> Save to Diary</button></div></div>
 
         <!-- DIARY, TIMER, AUDIO, PLAN, PROFILE, ENHANCED -->
-        <div id="diaryView" class="hidden diary-section glass-card"><h2>🌙 cosmic diary</h2><textarea id="diaryEntry" rows="3" style="width:100%; background:rgba(0,0,0,0.4); border:1px solid var(--glass-border); border-radius:28px; padding:1rem; color:white; margin:1rem 0;"></textarea><button class="btn-primary" id="saveDiary">save reflection</button><div id="diaryList" style="margin-top:2rem; text-align:left;"></div></div>
-        <div id="timerView" class="hidden timer-section glass-card"><h2>⏱️ meditation timer</h2><div class="timer-display" id="timerDisplay">05:00</div><div style="display:flex; gap:1rem; justify-content:center; margin:1rem 0;"><button class="timer-pill btn-outline" data-min="5">5 min</button><button class="timer-pill btn-outline" data-min="10">10 min</button><button class="timer-pill btn-outline" data-min="15">15 min</button><button class="timer-pill btn-outline" data-min="20">20 min</button></div><div style="display:flex; gap:1rem; justify-content:center;"><button class="btn-primary" id="startTimer">start</button><button class="btn-outline" id="pauseTimer">pause</button><button class="btn-outline" id="resetTimer">reset</button></div><p id="timerMsg"></p></div>
-        <div id="audioView" class="hidden audio-section glass-card"><h2>🎧 guided audio (ambient)</h2><div id="trackList"><div class="track-item" data-track="0">🌊 Witnessing Breath (10 min)</div><div class="track-item" data-track="1">💓 Heart Center (12 min)</div><div class="track-item" data-track="2">🔊 Inner Sound (15 min)</div><div class="track-item" data-track="3">🌀 Void Gazing (8 min)</div></div></div>
-        <div id="planView" class="hidden plan-section glass-card"><h2>📋 my practice plan</h2><div id="planItems"></div><div style="margin-top:1.5rem;"><input id="promoCode" placeholder="promo code" style="padding:0.6rem; border-radius:40px;"><button class="btn-outline" id="applyPromo">apply</button></div><div>total: <span id="planTotal">0</span> min</div></div>
-        <div id="profileView" class="hidden profile-section glass-card"><h2>your profile</h2><div class="stats" style="grid-template-columns:repeat(2,1fr); gap:1rem; margin-bottom:1rem;"><div class="stat-card glass-card" style="padding:1rem;"><div class="stat-number" id="profStreak">1</div><div>streak</div></div><div class="stat-card glass-card" style="padding:1rem;"><div class="stat-number" id="profPractices">1248</div><div>practices</div></div></div><div id="recentActivity"></div></div>
-        <div id="enhancedView" class="hidden profile-section glass-card"><h2>cosmic me · stellar insights</h2><div class="stats" style="grid-template-columns:repeat(3,1fr); gap:1rem;"><div class="stat-card"><span id="enhTotalPractices">0</span><div>practices</div></div><div class="stat-card"><span id="enhTotalMinutes">0</span><div>minutes</div></div><div class="stat-card"><span id="enhStreak">0</span><div>streak</div></div></div><h3>📅 Practice Tracker (click to mark)</h3><div id="calendarTracker" class="calendar-grid"></div><canvas id="progressChart" width="400" height="200" style="width:100%; max-width:500px; margin:1rem auto;"></canvas></div>
+        <div id="diaryView" class="hidden diary-section glass-card view-container"><h2>🌙 cosmic diary</h2><textarea id="diaryEntry" rows="3" style="width:100%; background:rgba(0,0,0,0.4); border:1px solid var(--glass-border); border-radius:28px; padding:1rem; color:white; margin:1rem 0;"></textarea><button class="btn-primary" id="saveDiary">save reflection</button><div id="diaryList" style="margin-top:2rem; text-align:left;"></div></div>
+        <div id="timerView" class="hidden timer-section glass-card view-container"><h2>⏱️ meditation timer</h2><div class="timer-display" id="timerDisplay">05:00</div><div style="display:flex; gap:1rem; justify-content:center; margin:1rem 0;"><button class="timer-pill btn-outline" data-min="5">5 min</button><button class="timer-pill btn-outline" data-min="10">10 min</button><button class="timer-pill btn-outline" data-min="15">15 min</button><button class="timer-pill btn-outline" data-min="20">20 min</button></div><div style="display:flex; gap:1rem; justify-content:center;"><button class="btn-primary" id="startTimer">start</button><button class="btn-outline" id="pauseTimer">pause</button><button class="btn-outline" id="resetTimer">reset</button></div><p id="timerMsg"></p></div>
+        <div id="audioView" class="hidden audio-section glass-card view-container"><h2>🎧 guided audio (ambient)</h2><div id="trackList"><div class="track-item" data-track="0">🌊 Witnessing Breath (10 min)</div><div class="track-item" data-track="1">💓 Heart Center (12 min)</div><div class="track-item" data-track="2">🔊 Inner Sound (15 min)</div><div class="track-item" data-track="3">🌀 Void Gazing (8 min)</div></div></div>
+        <div id="planView" class="hidden plan-section glass-card view-container"><h2>📋 my practice plan</h2><div id="planItems"></div><div style="margin-top:1.5rem;"><input id="promoCode" placeholder="promo code" style="padding:0.6rem; border-radius:40px;"><button class="btn-outline" id="applyPromo">apply</button></div><div>total: <span id="planTotal">0</span> min</div></div>
+        <div id="profileView" class="hidden profile-section glass-card view-container"><h2>your profile</h2><div class="stats" style="grid-template-columns:repeat(2,1fr); gap:1rem; margin-bottom:1rem;"><div class="stat-card glass-card" style="padding:1rem;"><div class="stat-number" id="profStreak">1</div><div>streak</div></div><div class="stat-card glass-card" style="padding:1rem;"><div class="stat-number" id="profPractices">1248</div><div>practices</div></div></div><div id="recentActivity"></div></div>
+        <div id="enhancedView" class="hidden profile-section glass-card view-container"><h2>cosmic me · stellar insights</h2><div class="stats" style="grid-template-columns:repeat(3,1fr); gap:1rem;"><div class="stat-card"><span id="enhTotalPractices">0</span><div>practices</div></div><div class="stat-card"><span id="enhTotalMinutes">0</span><div>minutes</div></div><div class="stat-card"><span id="enhStreak">0</span><div>streak</div></div></div><h3>📅 Practice Tracker (click to mark)</h3><div id="calendarTracker" class="calendar-grid"></div><canvas id="progressChart" width="400" height="200" style="width:100%; max-width:500px; margin:1rem auto;"></canvas></div>
 
         <footer><div>© 2026 · 112 portals of imagination</div><div><a data-view="home">Home</a> <a data-view="techniques">Techniques</a> <a data-view="breathwork">Breathwork</a> <a data-view="enhanced">Cosmic Me</a></div></footer>
     </div>
@@ -867,62 +894,268 @@
         import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
         const canvas = document.getElementById('blackhole-canvas');
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.toneMapping = THREE.ReinhardToneMapping;
+        renderer.toneMappingExposure = 1.2;
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x010008);
-        scene.fog = new THREE.FogExp2(0x010008, 0.00025);
+        scene.fog = new THREE.FogExp2(0x010008, 0.00015);
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(5, 2, 7.5);
+        camera.position.set(4, 2.2, 6.5);
+        camera.lookAt(0, 0, 0);
+        
         const composer = new EffectComposer(renderer);
         composer.addPass(new RenderPass(scene, camera));
-        composer.addPass(new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.2, 0.5, 0.8));
+        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.5, 0.9);
+        bloomPass.threshold = 0.1;
+        bloomPass.strength = 1.2;
+        bloomPass.radius = 0.8;
+        composer.addPass(bloomPass);
+        
+        // Enhanced starfield
+        const starCount = 8000;
         const starGeo = new THREE.BufferGeometry();
-        const starPos = [];
-        for (let i = 0; i < 5000; i++) starPos.push((Math.random() - 0.5) * 800, (Math.random() - 0.5) * 600, (Math.random() - 0.5) * 500 - 100);
-        starGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(starPos), 3));
-        const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.2, transparent: true, blending: THREE.AdditiveBlending }));
+        const starPositions = new Float32Array(starCount * 3);
+        for (let i = 0; i < starCount; i++) {
+            starPositions[i*3] = (Math.random() - 0.5) * 800;
+            starPositions[i*3+1] = (Math.random() - 0.5) * 500;
+            starPositions[i*3+2] = (Math.random() - 0.5) * 600 - 150;
+        }
+        starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+        const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.18, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending });
+        const stars = new THREE.Points(starGeo, starMaterial);
         scene.add(stars);
-        const core = new THREE.Mesh(new THREE.SphereGeometry(1.0, 128, 128), new THREE.MeshStandardMaterial({ color: 0x000000, emissive: 0x220000, emissiveIntensity: 0.4, metalness: 0.9 }));
-        scene.add(core);
-        const ring = new THREE.Mesh(new THREE.TorusGeometry(1.18, 0.04, 64, 200), new THREE.MeshStandardMaterial({ color: 0xff7744, emissive: 0xff4422, emissiveIntensity: 1.2, transparent: true, blending: THREE.AdditiveBlending }));
-        scene.add(ring);
-        const partCount = 18000, partPos = [], partColors = [];
-        for (let i = 0; i < partCount; i++) {
-            const r = 1.3 + Math.random() * 4.2, angle = Math.random() * Math.PI * 2, y = (Math.random() - 0.5) * 0.2 * (r / 4);
-            partPos.push(Math.cos(angle) * r, y, Math.sin(angle) * r);
-            const t = (r - 1.3) / 4;
-            partColors.push(1.0 - t * 0.5, 0.5 + Math.random() * 0.3, 0.2 + t * 0.8);
+        
+        // Brighter star cluster
+        const brightStarCount = 2000;
+        const brightStarGeo = new THREE.BufferGeometry();
+        const brightPos = new Float32Array(brightStarCount * 3);
+        for (let i = 0; i < brightStarCount; i++) {
+            brightPos[i*3] = (Math.random() - 0.5) * 600;
+            brightPos[i*3+1] = (Math.random() - 0.5) * 400;
+            brightPos[i*3+2] = (Math.random() - 0.5) * 400 - 80;
         }
-        const partGeo = new THREE.BufferGeometry();
-        partGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(partPos), 3));
-        partGeo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(partColors), 3));
-        const particles = new THREE.Points(partGeo, new THREE.PointsMaterial({ size: 0.045, vertexColors: true, blending: THREE.AdditiveBlending }));
+        brightStarGeo.setAttribute('position', new THREE.BufferAttribute(brightPos, 3));
+        const brightStars = new THREE.Points(brightStarGeo, new THREE.PointsMaterial({ color: 0xffeedd, size: 0.28, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.9 }));
+        scene.add(brightStars);
+        
+        // Black hole core (darker but with intense emissive rim)
+        const coreGeo = new THREE.SphereGeometry(1.05, 128, 128);
+        const coreMat = new THREE.MeshStandardMaterial({ color: 0x000000, roughness: 0.2, metalness: 0.95, emissive: 0x330000, emissiveIntensity: 0.6 });
+        const blackHole = new THREE.Mesh(coreGeo, coreMat);
+        scene.add(blackHole);
+        
+        // Inner accretion ring (glowing)
+        const innerRingGeo = new THREE.TorusGeometry(1.22, 0.05, 128, 260);
+        const innerRingMat = new THREE.MeshStandardMaterial({ color: 0xff8844, emissive: 0xff4422, emissiveIntensity: 1.8, transparent: true, blending: THREE.AdditiveBlending });
+        const innerRing = new THREE.Mesh(innerRingGeo, innerRingMat);
+        scene.add(innerRing);
+        
+        // Outer photon ring
+        const photonRingGeo = new THREE.TorusGeometry(1.42, 0.04, 128, 280);
+        const photonMat = new THREE.MeshStandardMaterial({ color: 0xffaa66, emissive: 0xff5533, emissiveIntensity: 1.4, transparent: true, blending: THREE.AdditiveBlending });
+        const photonRing = new THREE.Mesh(photonRingGeo, photonMat);
+        scene.add(photonRing);
+        
+        // Gravitational halo (transparent sphere)
+        const haloGeo = new THREE.SphereGeometry(1.68, 64, 64);
+        const haloMat = new THREE.MeshBasicMaterial({ color: 0xaa6644, transparent: true, opacity: 0.12, side: THREE.BackSide, blending: THREE.AdditiveBlending });
+        const halo = new THREE.Mesh(haloGeo, haloMat);
+        scene.add(halo);
+        
+        // Accretion disk particles (larger set, more colorful)
+        const particleCount = 28000;
+        const particlePositions = new Float32Array(particleCount * 3);
+        const particleColors = new Float32Array(particleCount * 3);
+        const particleSpeeds = new Float32Array(particleCount);
+        const innerDiskR = 1.28;
+        const outerDiskR = 5.8;
+        for (let i = 0; i < particleCount; i++) {
+            const r = innerDiskR + Math.pow(Math.random(), 1.4) * (outerDiskR - innerDiskR);
+            const angle = Math.random() * Math.PI * 2;
+            const thickness = 0.14 * (r / outerDiskR) * 1.5;
+            const y = (Math.random() - 0.5) * thickness;
+            particlePositions[i*3] = Math.cos(angle) * r;
+            particlePositions[i*3+1] = y;
+            particlePositions[i*3+2] = Math.sin(angle) * r;
+            const t = (r - innerDiskR) / (outerDiskR - innerDiskR);
+            const colorHue = 0.05 + t * 0.4;
+            const sat = 0.7 + Math.random() * 0.3;
+            const light = 0.6 + (1 - t) * 0.4;
+            particleColors[i*3] = Math.min(1.0, (1.0 - t * 0.4) * (0.8 + Math.sin(angle) * 0.2));
+            particleColors[i*3+1] = Math.min(1.0, (0.6 + Math.random() * 0.4 - t * 0.2) * (0.8 + Math.cos(angle) * 0.2));
+            particleColors[i*3+2] = Math.min(1.0, (0.3 + t * 0.7) * (0.9 + Math.sin(angle * 2) * 0.1));
+            particleSpeeds[i] = 0.028 * Math.pow(r, -1.4);
+        }
+        const particleGeo = new THREE.BufferGeometry();
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+        particleGeo.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
+        const particleMat = new THREE.PointsMaterial({ size: 0.048, vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, opacity: 0.9 });
+        const particles = new THREE.Points(particleGeo, particleMat);
         scene.add(particles);
-        const ambient = new THREE.AmbientLight(0x111122);
-        scene.add(ambient);
-        const coreLight = new THREE.PointLight(0xff5533, 1.2, 12);
-        coreLight.position.set(0, 0, 0);
-        scene.add(coreLight);
-        let time = 0;
-        function animate() {
-            requestAnimationFrame(animate);
-            time += 0.016;
-            ring.rotation.z += 0.01;
-            particles.rotation.y += 0.002;
-            stars.rotation.y += 0.0002;
-            coreLight.intensity = 0.9 + Math.sin(time * 3) * 0.3;
-            composer.render();
+        
+        // Hot inner particles (small, fast)
+        const hotCount = 12000;
+        const hotPos = new Float32Array(hotCount * 3);
+        const hotSpeeds = new Float32Array(hotCount);
+        for (let i = 0; i < hotCount; i++) {
+            const r = innerDiskR + Math.random() * 2.0;
+            const angle = Math.random() * Math.PI * 2;
+            const y = (Math.random() - 0.5) * 0.09;
+            hotPos[i*3] = Math.cos(angle) * r;
+            hotPos[i*3+1] = y;
+            hotPos[i*3+2] = Math.sin(angle) * r;
+            hotSpeeds[i] = 0.038 * Math.pow(r, -1.4);
         }
-        animate();
+        const hotGeo = new THREE.BufferGeometry();
+        hotGeo.setAttribute('position', new THREE.BufferAttribute(hotPos, 3));
+        const hotParticles = new THREE.Points(hotGeo, new THREE.PointsMaterial({ color: 0xffaa77, size: 0.032, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.85 }));
+        scene.add(hotParticles);
+        
+        // Outer faint dust
+        const dustCount = 15000;
+        const dustPos = new Float32Array(dustCount * 3);
+        const dustSpeeds = new Float32Array(dustCount);
+        for (let i = 0; i < dustCount; i++) {
+            const r = 3.2 + Math.random() * 3.2;
+            const angle = Math.random() * Math.PI * 2;
+            const y = (Math.random() - 0.5) * 0.32;
+            dustPos[i*3] = Math.cos(angle) * r;
+            dustPos[i*3+1] = y;
+            dustPos[i*3+2] = Math.sin(angle) * r;
+            dustSpeeds[i] = 0.012 * Math.pow(r, -1.3);
+        }
+        const dustGeo = new THREE.BufferGeometry();
+        dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+        const dustMat = new THREE.PointsMaterial({ color: 0xaa88cc, size: 0.058, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.5 });
+        const dustParticles = new THREE.Points(dustGeo, dustMat);
+        scene.add(dustParticles);
+        
+        // Spiral stream (in-falling particles)
+        const streamCount = 5000;
+        const streamPos = new Float32Array(streamCount * 3);
+        const streamAngles = new Array(streamCount);
+        const streamRadii = new Array(streamCount);
+        const streamSpeedsArr = new Array(streamCount);
+        for (let i = 0; i < streamCount; i++) {
+            const r = 3.8 + Math.random() * 2.5;
+            const angle = Math.random() * Math.PI * 2;
+            streamPos[i*3] = Math.cos(angle) * r;
+            streamPos[i*3+1] = (Math.random() - 0.5) * 0.22;
+            streamPos[i*3+2] = Math.sin(angle) * r;
+            streamAngles[i] = angle;
+            streamRadii[i] = r;
+            streamSpeedsArr[i] = 0.022 * Math.pow(r, -1.3);
+        }
+        const streamGeo = new THREE.BufferGeometry();
+        streamGeo.setAttribute('position', new THREE.BufferAttribute(streamPos, 3));
+        const streamMat = new THREE.PointsMaterial({ color: 0xffaa88, size: 0.062, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.8 });
+        const streamPoints = new THREE.Points(streamGeo, streamMat);
+        scene.add(streamPoints);
+        
+        // Lighting enhancements
+        const ambientLight = new THREE.AmbientLight(0x221133, 0.5);
+        scene.add(ambientLight);
+        const mainLight = new THREE.DirectionalLight(0xffccaa, 1.0);
+        mainLight.position.set(2, 3, 4);
+        scene.add(mainLight);
+        const fillLight = new THREE.PointLight(0x8866ff, 0.7);
+        fillLight.position.set(-1, 1.5, 2);
+        scene.add(fillLight);
+        const coreLight = new THREE.PointLight(0xff6633, 1.6, 14);
+        coreLight.position.set(0, 0.1, 0);
+        scene.add(coreLight);
+        const backLight = new THREE.PointLight(0xff8844, 0.9);
+        backLight.position.set(0.5, 0.8, -3.5);
+        scene.add(backLight);
+        
+        // Additional glowing rings
+        const glowRingGeo = new THREE.RingGeometry(1.45, 5.6, 200, 120);
+        const glowRingMat = new THREE.MeshStandardMaterial({ color: 0xff8844, emissive: 0xff5522, emissiveIntensity: 0.5, transparent: true, opacity: 0.28, side: THREE.DoubleSide, blending: THREE.AdditiveBlending });
+        const glowRing = new THREE.Mesh(glowRingGeo, glowRingMat);
+        glowRing.rotation.x = Math.PI / 2;
+        scene.add(glowRing);
+        
+        const outerRingGeo = new THREE.TorusGeometry(5.2, 0.08, 128, 360);
+        const outerRingMat = new THREE.MeshStandardMaterial({ color: 0xffaa77, emissive: 0xff6633, emissiveIntensity: 0.7, transparent: true, blending: THREE.AdditiveBlending });
+        const outerRing = new THREE.Mesh(outerRingGeo, outerRingMat);
+        outerRing.rotation.x = Math.PI / 2;
+        scene.add(outerRing);
+        
+        // Animation state
+        const anglesMain = new Array(particleCount);
+        const anglesHot = new Array(hotCount);
+        const anglesDust = new Array(dustCount);
+        for (let i = 0; i < particleCount; i++) anglesMain[i] = Math.atan2(particlePositions[i*3+2], particlePositions[i*3]);
+        for (let i = 0; i < hotCount; i++) anglesHot[i] = Math.atan2(hotPos[i*3+2], hotPos[i*3]);
+        for (let i = 0; i < dustCount; i++) anglesDust[i] = Math.atan2(dustPos[i*3+2], dustPos[i*3]);
+        
+        function updateParticleSet(positions, speeds, angles, count, attr) {
+            for (let i = 0; i < count; i++) {
+                angles[i] += speeds[i] * 0.016;
+                const r = Math.hypot(positions[i*3], positions[i*3+2]);
+                positions[i*3] = Math.cos(angles[i]) * r;
+                positions[i*3+2] = Math.sin(angles[i]) * r;
+            }
+            attr.needsUpdate = true;
+        }
+        
+        let time = 0;
+        let lastTimestamp = performance.now();
+        
+        function animate() {
+            const now = performance.now();
+            let dt = Math.min(0.033, (now - lastTimestamp) / 1000);
+            lastTimestamp = now;
+            time += dt;
+            
+            updateParticleSet(particlePositions, particleSpeeds, anglesMain, particleCount, particleGeo.attributes.position);
+            updateParticleSet(hotPos, hotSpeeds, anglesHot, hotCount, hotGeo.attributes.position);
+            updateParticleSet(dustPos, dustSpeeds, anglesDust, dustCount, dustGeo.attributes.position);
+            
+            for (let i = 0; i < streamCount; i++) {
+                streamRadii[i] -= 0.007 * dt * 30;
+                if (streamRadii[i] < 1.2) {
+                    streamRadii[i] = 3.6 + Math.random() * 2.2;
+                    streamAngles[i] = Math.random() * Math.PI * 2;
+                }
+                streamAngles[i] += streamSpeedsArr[i] * dt * 30;
+                const x = Math.cos(streamAngles[i]) * streamRadii[i];
+                const z = Math.sin(streamAngles[i]) * streamRadii[i];
+                streamPos[i*3] = x;
+                streamPos[i*3+2] = z;
+                streamPos[i*3+1] = Math.sin(streamAngles[i] * 4) * 0.07;
+            }
+            streamGeo.attributes.position.needsUpdate = true;
+            
+            const pulse = 0.8 + Math.sin(time * 3.6) * 0.5;
+            coreLight.intensity = 1.2 + Math.sin(time * 2.8) * 0.6;
+            innerRingMat.emissiveIntensity = 1.4 + Math.sin(time * 5) * 0.6;
+            photonMat.emissiveIntensity = 1.0 + Math.sin(time * 4.2) * 0.5;
+            outerRingMat.emissiveIntensity = 0.5 + Math.sin(time * 2) * 0.3;
+            
+            innerRing.rotation.z += 0.008;
+            photonRing.rotation.z += 0.005;
+            glowRing.rotation.y += 0.003;
+            outerRing.rotation.y += 0.002;
+            
+            stars.rotation.y += 0.0001;
+            brightStars.rotation.x += 0.00008;
+            
+            composer.render();
+            requestAnimationFrame(animate);
+        }
+        
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
             composer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setSize(window.innerWidth, window.innerHeight);
         });
+        
+        animate();
     </script>
 
     <script type="text/javascript">
@@ -950,7 +1183,6 @@
                 benefits: { student: 'focus', employee: 'calm', seeker: 'awareness' }
             };
         }
-        // Detailed first few
         techniques[1] = { id:1, name:"Witnessing the Breath", sanskrit:"Śvāsa–Praśvāsa Dharana", category:"breath", essence:"Breath is the bridge between body and mind.", wisdom:"Osho: 'Just watch the breath. Don't control it. Simply be a witness.'", posture:"Sukhasana", mudra:"Chin mudra", breath:"Natural observation", duration:"10-20 min", steps:["Sit comfortably.","Close eyes.","Observe natural breath.","Return when distracted."], benefits:{ student:"concentration", employee:"stress relief", seeker:"calm mind" } };
         techniques[2] = { id:2, name:"Awareness of the Gap Between Breaths", sanskrit:"Madhya Dharana", category:"breath", essence:"Between inhale and exhale there is a tiny moment of stillness.", wisdom:"Osho: 'The pause is the most precious.'", posture:"Any", mudra:"Dhyana mudra", breath:"Observing pauses", duration:"15 min", steps:["Inhale slowly.","Notice the pause at the top.","Exhale.","Notice the pause at the bottom."], benefits:{ student:"deep silence", employee:"meditation depth", seeker:"sharp awareness" } };
         techniques[3] = { id:3, name:"Breath Traveling Through the Spine", sanskrit:"Sushumna Dharana", category:"energy", essence:"Breath carries awareness through the body's central channel.", wisdom:"Osho: 'When breath moves through the spine, the energy becomes centered.'", posture:"Spine straight", mudra:"Chin mudra", breath:"Visualized flow", duration:"10-15 min", steps:["Sit straight.","Imagine energy moving from base to head on inhale, back down on exhale."], benefits:{ student:"focus", employee:"vitality", seeker:"body awareness" } };
@@ -1262,35 +1494,107 @@
         document.querySelectorAll('.start-breath').forEach(btn=>btn.addEventListener('click',(e)=>{ e.stopPropagation(); const type=btn.closest('.breath-card').dataset.breath; startBreathPractice(type); }));
         document.getElementById('stopBreathBtn').addEventListener('click',resetBreathUI);
 
-        // Navigation
-        const views = { home:'homeView', techniques:'techniquesView', breathwork:'breathworkView', quotes:'quotesView', diary:'diaryView', timer:'timerView', audio:'audioView', plan:'planView', profile:'profileView', enhanced:'enhancedView' };
-        function showView(view) { Object.values(views).forEach(v=>document.getElementById(v).classList.add('hidden')); document.getElementById(views[view]).classList.remove('hidden'); document.querySelectorAll('.nav a').forEach(a=>a.classList.remove('active')); document.querySelector(`.nav a[data-view="${view}"]`)?.classList.add('active'); }
-        document.querySelectorAll('[data-view]').forEach(el=>el.addEventListener('click',(e)=>{ e.preventDefault(); showView(el.dataset.view); }));
-
+        // Navigation with transition effect
+        let isTransitioning = false;
+        const viewsMap = { home:'homeView', techniques:'techniquesView', breathwork:'breathworkView', quotes:'quotesView', diary:'diaryView', timer:'timerView', audio:'audioView', plan:'planView', profile:'profileView', enhanced:'enhancedView' };
+        
+        function showViewWithTransition(viewName) {
+            if (isTransitioning) return;
+            const targetViewId = viewsMap[viewName];
+            if (!targetViewId) return;
+            const currentView = document.querySelector('.view-container:not(.hidden)');
+            const targetView = document.getElementById(targetViewId);
+            if (currentView === targetView) return;
+            
+            isTransitioning = true;
+            document.body.classList.add('transitioning');
+            
+            // Animate out current view
+            if (currentView) {
+                currentView.classList.add('view-exit');
+                currentView.addEventListener('transitionend', function onExit(e) {
+                    if (e.target !== currentView) return;
+                    currentView.removeEventListener('transitionend', onExit);
+                    currentView.classList.remove('view-exit');
+                    currentView.classList.add('hidden');
+                    
+                    // Animate in new view
+                    targetView.classList.remove('hidden');
+                    targetView.classList.add('view-enter');
+                    // Force reflow
+                    void targetView.offsetWidth;
+                    targetView.classList.add('view-enter-active');
+                    
+                    targetView.addEventListener('transitionend', function onEnter(e) {
+                        if (e.target !== targetView) return;
+                        targetView.removeEventListener('transitionend', onEnter);
+                        targetView.classList.remove('view-enter', 'view-enter-active');
+                        isTransitioning = false;
+                        document.body.classList.remove('transitioning');
+                    });
+                });
+            } else {
+                // No current view, just show target
+                targetView.classList.remove('hidden');
+                targetView.classList.add('view-enter');
+                void targetView.offsetWidth;
+                targetView.classList.add('view-enter-active');
+                targetView.addEventListener('transitionend', function onEnter(e) {
+                    if (e.target !== targetView) return;
+                    targetView.removeEventListener('transitionend', onEnter);
+                    targetView.classList.remove('view-enter', 'view-enter-active');
+                    isTransitioning = false;
+                    document.body.classList.remove('transitioning');
+                });
+            }
+            
+            // Update active nav link
+            document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
+            const activeNav = document.querySelector(`.nav a[data-view="${viewName}"]`);
+            if (activeNav) activeNav.classList.add('active');
+        }
+        
+        // Override navigation event handlers
+        document.querySelectorAll('[data-view]').forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.preventDefault();
+                const view = el.dataset.view;
+                if (view) showViewWithTransition(view);
+            });
+        });
+        
+        // Initial active view
+        showViewWithTransition('home');
+        
+        // Additional elements that need to call showViewWithTransition
+        document.getElementById('exploreBtn').addEventListener('click', () => showViewWithTransition('techniques'));
+        document.getElementById('dailyBtn').addEventListener('click', () => {
+            const ids = Object.keys(techniques);
+            alert(`Today's technique: ${techniques[ids[Math.floor(Math.random()*ids.length)]].name}`);
+        });
         document.getElementById('applyPromo').addEventListener('click',()=>showToast('promo applied (demo)'));
-        document.getElementById('exploreBtn').addEventListener('click',()=>showView('techniques'));
-        document.getElementById('dailyBtn').addEventListener('click',()=>{ const ids = Object.keys(techniques); alert(`Today's technique: ${techniques[ids[Math.floor(Math.random()*ids.length)]].name}`); });
-
+        
+        // Scroll top
         const scrollBtn = document.getElementById('scrollTop');
         window.addEventListener('scroll',()=>scrollBtn.style.opacity = window.scrollY>200?'1':'0');
         scrollBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-
+        
         const themeBtn = document.getElementById('themeToggle');
         themeBtn.addEventListener('click',()=>{ const html = document.documentElement; const cur = html.getAttribute('data-theme'); html.setAttribute('data-theme', cur==='dark'?'light':'dark'); themeBtn.innerHTML = cur==='dark'?'<i class="fas fa-sun"></i>':'<i class="fas fa-moon"></i>'; localStorage.setItem('theme', html.getAttribute('data-theme')); });
         const savedTheme = localStorage.getItem('theme')||'dark'; document.documentElement.setAttribute('data-theme', savedTheme); themeBtn.innerHTML = savedTheme==='dark'?'<i class="fas fa-moon"></i>':'<i class="fas fa-sun"></i>';
-
+        
         function showToast(msg) { const t = document.createElement('div'); t.className='toast'; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),3000); }
-
+        
         const chartCtx = document.getElementById('progressChart')?.getContext('2d'); if(chartCtx) new Chart(chartCtx, { type:'line', data:{ labels:['M','T','W','T','F','S','S'], datasets:[{ label:'minutes', data:[25,40,18,35,50,42,30], borderColor:'#9d7bff', tension:0.3 }] } });
-
+        
         // Cosmic Practice Widget
         let currentPracticeTechId = 1;
         function updateCosmicPractice() { const tech = techniques[currentPracticeTechId]; if(tech){ document.getElementById('practiceTechName').innerText = tech.name; document.getElementById('practiceTechEssence').innerText = tech.essence; document.getElementById('practiceExploreBtn').onclick = () => showModal(tech); } }
         function randomPractice() { const ids = Object.keys(techniques); currentPracticeTechId = parseInt(ids[Math.floor(Math.random() * ids.length)]); updateCosmicPractice(); }
         document.getElementById('refreshPracticeBtn').addEventListener('click', randomPractice);
         randomPractice();
-
-        renderDiary(); saveAll(); showView('home');
+        
+        renderDiary(); saveAll();
     </script>
 </body>
 </html>
