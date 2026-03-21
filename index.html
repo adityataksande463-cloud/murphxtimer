@@ -883,23 +883,25 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.toneMapping = THREE.ReinhardToneMapping;
-        renderer.toneMappingExposure = 1.0;
+        renderer.toneMappingExposure = 1.2;
+        
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x010008);
         scene.fog = new THREE.FogExp2(0x010008, 0.0001);
+        
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(5, 2.2, 7);
+        camera.position.set(4.5, 2.5, 7);
         
         const composer = new EffectComposer(renderer);
         composer.addPass(new RenderPass(scene, camera));
-        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.0, 0.4, 0.6);
-        bloomPass.threshold = 0.15;
-        bloomPass.strength = 0.8;
+        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.2, 0.5, 0.7);
+        bloomPass.threshold = 0.1;
+        bloomPass.strength = 1.0;
         bloomPass.radius = 0.6;
         composer.addPass(bloomPass);
         
         // Stars
-        const starCount = 12000;
+        const starCount = 15000;
         const starGeo = new THREE.BufferGeometry();
         const starPositions = new Float32Array(starCount * 3);
         for (let i = 0; i < starCount; i++) {
@@ -908,160 +910,160 @@
             starPositions[i*3+2] = (Math.random() - 0.5) * 700 - 200;
         }
         starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-        const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.18, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending });
+        const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.2, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending });
         const stars = new THREE.Points(starGeo, starMaterial);
         scene.add(stars);
         
-        // Brighter stars
-        const brightStarCount = 3500;
+        // Bright stars
+        const brightStarCount = 4000;
         const brightStarGeo = new THREE.BufferGeometry();
         const brightPos = new Float32Array(brightStarCount * 3);
         for (let i = 0; i < brightStarCount; i++) {
-            brightPos[i*3] = (Math.random() - 0.5) * 650;
-            brightPos[i*3+1] = (Math.random() - 0.5) * 450;
-            brightPos[i*3+2] = (Math.random() - 0.5) * 500 - 100;
+            brightPos[i*3] = (Math.random() - 0.5) * 700;
+            brightPos[i*3+1] = (Math.random() - 0.5) * 500;
+            brightPos[i*3+2] = (Math.random() - 0.5) * 600 - 150;
         }
         brightStarGeo.setAttribute('position', new THREE.BufferAttribute(brightPos, 3));
-        const brightStars = new THREE.Points(brightStarGeo, new THREE.PointsMaterial({ color: 0xffeedd, size: 0.28, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.9 }));
+        const brightStars = new THREE.Points(brightStarGeo, new THREE.PointsMaterial({ color: 0xffeedd, size: 0.32, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.9 }));
         scene.add(brightStars);
         
-        // Black hole core with subtle inner glow
-        const coreGeo = new THREE.SphereGeometry(1.05, 128, 128);
-        const coreMat = new THREE.MeshStandardMaterial({ color: 0x000000, roughness: 0.2, metalness: 0.98, emissive: 0x331100, emissiveIntensity: 0.35 });
+        // Black hole core
+        const coreGeo = new THREE.SphereGeometry(1.08, 128, 128);
+        const coreMat = new THREE.MeshStandardMaterial({ color: 0x000000, roughness: 0.2, metalness: 0.98, emissive: 0x331100, emissiveIntensity: 0.5 });
         const blackHole = new THREE.Mesh(coreGeo, coreMat);
         scene.add(blackHole);
         
-        // Inner accretion ring (glowing)
-        const innerRingGeo = new THREE.TorusGeometry(1.22, 0.055, 128, 260);
-        const innerRingMat = new THREE.MeshStandardMaterial({ color: 0xff8844, emissive: 0xff5533, emissiveIntensity: 0.9, transparent: true, blending: THREE.AdditiveBlending });
+        // Inner photon ring (bright)
+        const innerRingGeo = new THREE.TorusGeometry(1.25, 0.06, 128, 260);
+        const innerRingMat = new THREE.MeshStandardMaterial({ color: 0xff8844, emissive: 0xff5533, emissiveIntensity: 1.2, transparent: true, blending: THREE.AdditiveBlending });
         const innerRing = new THREE.Mesh(innerRingGeo, innerRingMat);
         scene.add(innerRing);
         
         // Outer photon ring
-        const photonRingGeo = new THREE.TorusGeometry(1.45, 0.045, 128, 280);
-        const photonMat = new THREE.MeshStandardMaterial({ color: 0xffaa77, emissive: 0xff6644, emissiveIntensity: 0.7, transparent: true, blending: THREE.AdditiveBlending });
-        const photonRing = new THREE.Mesh(photonRingGeo, photonMat);
-        scene.add(photonRing);
+        const outerRingGeo = new THREE.TorusGeometry(1.48, 0.05, 128, 280);
+        const outerRingMat = new THREE.MeshStandardMaterial({ color: 0xffaa77, emissive: 0xff6644, emissiveIntensity: 0.9, transparent: true, blending: THREE.AdditiveBlending });
+        const outerRing = new THREE.Mesh(outerRingGeo, outerRingMat);
+        scene.add(outerRing);
         
-        // Gravitational halo
-        const haloGeo = new THREE.SphereGeometry(1.72, 64, 64);
-        const haloMat = new THREE.MeshBasicMaterial({ color: 0xaa6644, transparent: true, opacity: 0.12, side: THREE.BackSide, blending: THREE.AdditiveBlending });
+        // Gravitational lensing halo
+        const haloGeo = new THREE.SphereGeometry(1.78, 64, 64);
+        const haloMat = new THREE.MeshBasicMaterial({ color: 0xaa6644, transparent: true, opacity: 0.15, side: THREE.BackSide, blending: THREE.AdditiveBlending });
         const halo = new THREE.Mesh(haloGeo, haloMat);
         scene.add(halo);
         
-        // Accretion disk particles (more visible)
-        const particleCount = 28000;
+        // Accretion disk particles
+        const particleCount = 32000;
         const particlePositions = new Float32Array(particleCount * 3);
         const particleColors = new Float32Array(particleCount * 3);
         const particleSpeeds = new Float32Array(particleCount);
-        const innerDiskR = 1.28;
-        const outerDiskR = 5.8;
+        const innerDiskR = 1.32;
+        const outerDiskR = 6.2;
         for (let i = 0; i < particleCount; i++) {
-            const r = innerDiskR + Math.pow(Math.random(), 1.4) * (outerDiskR - innerDiskR);
+            const r = innerDiskR + Math.pow(Math.random(), 1.3) * (outerDiskR - innerDiskR);
             const angle = Math.random() * Math.PI * 2;
-            const thickness = 0.13 * (r / outerDiskR) * 1.5;
+            const thickness = 0.15 * (r / outerDiskR) * 1.6;
             const y = (Math.random() - 0.5) * thickness;
             particlePositions[i*3] = Math.cos(angle) * r;
             particlePositions[i*3+1] = y;
             particlePositions[i*3+2] = Math.sin(angle) * r;
             const t = (r - innerDiskR) / (outerDiskR - innerDiskR);
-            particleColors[i*3] = 0.9 - t * 0.3;
-            particleColors[i*3+1] = 0.5 + Math.random() * 0.3 - t * 0.2;
-            particleColors[i*3+2] = 0.3 + t * 0.5;
-            particleSpeeds[i] = 0.022 * Math.pow(r, -1.4);
+            particleColors[i*3] = 1.0 - t * 0.3;
+            particleColors[i*3+1] = 0.6 + Math.random() * 0.3 - t * 0.2;
+            particleColors[i*3+2] = 0.3 + t * 0.6;
+            particleSpeeds[i] = 0.028 * Math.pow(r, -1.45);
         }
         const particleGeo = new THREE.BufferGeometry();
         particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
         particleGeo.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
-        const particleMat = new THREE.PointsMaterial({ size: 0.045, vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, opacity: 0.85 });
+        const particleMat = new THREE.PointsMaterial({ size: 0.05, vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, opacity: 0.9 });
         const particles = new THREE.Points(particleGeo, particleMat);
         scene.add(particles);
         
-        // Hot inner particles (brighter)
-        const hotCount = 10000;
+        // Hot inner particles
+        const hotCount = 12000;
         const hotPos = new Float32Array(hotCount * 3);
         const hotSpeeds = new Float32Array(hotCount);
         for (let i = 0; i < hotCount; i++) {
-            const r = innerDiskR + Math.random() * 2.1;
+            const r = innerDiskR + Math.random() * 2.2;
             const angle = Math.random() * Math.PI * 2;
-            const y = (Math.random() - 0.5) * 0.08;
+            const y = (Math.random() - 0.5) * 0.09;
             hotPos[i*3] = Math.cos(angle) * r;
             hotPos[i*3+1] = y;
             hotPos[i*3+2] = Math.sin(angle) * r;
-            hotSpeeds[i] = 0.03 * Math.pow(r, -1.4);
+            hotSpeeds[i] = 0.038 * Math.pow(r, -1.45);
         }
         const hotGeo = new THREE.BufferGeometry();
         hotGeo.setAttribute('position', new THREE.BufferAttribute(hotPos, 3));
-        const hotParticles = new THREE.Points(hotGeo, new THREE.PointsMaterial({ color: 0xffaa77, size: 0.035, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.9 }));
+        const hotParticles = new THREE.Points(hotGeo, new THREE.PointsMaterial({ color: 0xffaa88, size: 0.04, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.95 }));
         scene.add(hotParticles);
         
-        // Outer faint dust
-        const dustCount = 15000;
+        // Outer dust
+        const dustCount = 18000;
         const dustPos = new Float32Array(dustCount * 3);
         const dustSpeeds = new Float32Array(dustCount);
         for (let i = 0; i < dustCount; i++) {
-            const r = 3.2 + Math.random() * 3.2;
+            const r = 3.5 + Math.random() * 3.5;
             const angle = Math.random() * Math.PI * 2;
-            const y = (Math.random() - 0.5) * 0.3;
+            const y = (Math.random() - 0.5) * 0.32;
             dustPos[i*3] = Math.cos(angle) * r;
             dustPos[i*3+1] = y;
             dustPos[i*3+2] = Math.sin(angle) * r;
-            dustSpeeds[i] = 0.01 * Math.pow(r, -1.3);
+            dustSpeeds[i] = 0.012 * Math.pow(r, -1.3);
         }
         const dustGeo = new THREE.BufferGeometry();
         dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
-        const dustMat = new THREE.PointsMaterial({ color: 0xaa88cc, size: 0.055, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.5 });
+        const dustMat = new THREE.PointsMaterial({ color: 0xaa88cc, size: 0.065, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.55 });
         const dustParticles = new THREE.Points(dustGeo, dustMat);
         scene.add(dustParticles);
         
         // Spiral stream
-        const streamCount = 4500;
+        const streamCount = 5500;
         const streamPos = new Float32Array(streamCount * 3);
         const streamAngles = new Array(streamCount);
         const streamRadii = new Array(streamCount);
         const streamSpeedsArr = new Array(streamCount);
         for (let i = 0; i < streamCount; i++) {
-            const r = 3.6 + Math.random() * 2.5;
+            const r = 3.8 + Math.random() * 2.8;
             const angle = Math.random() * Math.PI * 2;
             streamPos[i*3] = Math.cos(angle) * r;
-            streamPos[i*3+1] = (Math.random() - 0.5) * 0.2;
+            streamPos[i*3+1] = (Math.random() - 0.5) * 0.22;
             streamPos[i*3+2] = Math.sin(angle) * r;
             streamAngles[i] = angle;
             streamRadii[i] = r;
-            streamSpeedsArr[i] = 0.018 * Math.pow(r, -1.3);
+            streamSpeedsArr[i] = 0.022 * Math.pow(r, -1.35);
         }
         const streamGeo = new THREE.BufferGeometry();
         streamGeo.setAttribute('position', new THREE.BufferAttribute(streamPos, 3));
-        const streamMat = new THREE.PointsMaterial({ color: 0xffaa88, size: 0.06, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.75 });
+        const streamMat = new THREE.PointsMaterial({ color: 0xffaa88, size: 0.07, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.8 });
         const streamPoints = new THREE.Points(streamGeo, streamMat);
         scene.add(streamPoints);
         
         // Lighting
-        const ambientLight = new THREE.AmbientLight(0x221133, 0.55);
+        const ambientLight = new THREE.AmbientLight(0x221133, 0.6);
         scene.add(ambientLight);
-        const mainLight = new THREE.DirectionalLight(0xffccaa, 0.9);
+        const mainLight = new THREE.DirectionalLight(0xffccaa, 1.0);
         mainLight.position.set(2, 3, 4);
         scene.add(mainLight);
-        const fillLight = new THREE.PointLight(0x8866ff, 0.6);
+        const fillLight = new THREE.PointLight(0x8866ff, 0.7);
         fillLight.position.set(-1, 1.5, 2);
         scene.add(fillLight);
-        const coreLight = new THREE.PointLight(0xff5533, 1.0, 13);
+        const coreLight = new THREE.PointLight(0xff5533, 1.2, 14);
         coreLight.position.set(0, 0.1, 0);
         scene.add(coreLight);
         
         // Outer glow ring
-        const glowRingGeo = new THREE.RingGeometry(1.48, 5.4, 180, 90);
-        const glowRingMat = new THREE.MeshStandardMaterial({ color: 0xff8844, emissive: 0xff5522, emissiveIntensity: 0.25, transparent: true, opacity: 0.2, side: THREE.DoubleSide, blending: THREE.AdditiveBlending });
+        const glowRingGeo = new THREE.RingGeometry(1.55, 5.8, 200, 100);
+        const glowRingMat = new THREE.MeshStandardMaterial({ color: 0xff8844, emissive: 0xff5522, emissiveIntensity: 0.35, transparent: true, opacity: 0.22, side: THREE.DoubleSide, blending: THREE.AdditiveBlending });
         const glowRing = new THREE.Mesh(glowRingGeo, glowRingMat);
         glowRing.rotation.x = Math.PI / 2;
         scene.add(glowRing);
         
         // Outer torus
-        const outerRingGeo = new THREE.TorusGeometry(5.3, 0.09, 128, 360);
-        const outerRingMat = new THREE.MeshStandardMaterial({ color: 0xffaa77, emissive: 0xff6633, emissiveIntensity: 0.5, transparent: true, blending: THREE.AdditiveBlending });
-        const outerRing = new THREE.Mesh(outerRingGeo, outerRingMat);
-        outerRing.rotation.x = Math.PI / 2;
-        scene.add(outerRing);
+        const farRingGeo = new THREE.TorusGeometry(5.6, 0.1, 128, 400);
+        const farRingMat = new THREE.MeshStandardMaterial({ color: 0xffaa77, emissive: 0xff6633, emissiveIntensity: 0.6, transparent: true, blending: THREE.AdditiveBlending });
+        const farRing = new THREE.Mesh(farRingGeo, farRingMat);
+        farRing.rotation.x = Math.PI / 2;
+        scene.add(farRing);
         
         // Animation state
         const anglesMain = new Array(particleCount);
@@ -1084,8 +1086,8 @@
         let time = 0;
         let lastTimestamp = performance.now();
         let cameraAngle = 0;
-        const cameraRadius = 6.5;
-        const cameraHeight = 2.2;
+        const cameraRadius = 6.2;
+        const cameraHeight = 2.3;
         
         function animate() {
             const now = performance.now();
@@ -1098,9 +1100,9 @@
             updateParticleSet(dustPos, dustSpeeds, anglesDust, dustCount, dustGeo.attributes.position);
             
             for (let i = 0; i < streamCount; i++) {
-                streamRadii[i] -= 0.006 * dt * 30;
-                if (streamRadii[i] < 1.25) {
-                    streamRadii[i] = 3.6 + Math.random() * 2.3;
+                streamRadii[i] -= 0.007 * dt * 30;
+                if (streamRadii[i] < 1.3) {
+                    streamRadii[i] = 3.9 + Math.random() * 2.6;
                     streamAngles[i] = Math.random() * Math.PI * 2;
                 }
                 streamAngles[i] += streamSpeedsArr[i] * dt * 30;
@@ -1108,30 +1110,31 @@
                 const z = Math.sin(streamAngles[i]) * streamRadii[i];
                 streamPos[i*3] = x;
                 streamPos[i*3+2] = z;
-                streamPos[i*3+1] = Math.sin(streamAngles[i] * 4) * 0.07;
+                streamPos[i*3+1] = Math.sin(streamAngles[i] * 4) * 0.08;
             }
             streamGeo.attributes.position.needsUpdate = true;
             
-            const pulse = 0.8 + Math.sin(time * 3.2) * 0.3;
-            coreLight.intensity = 0.8 + Math.sin(time * 2.5) * 0.3;
-            innerRingMat.emissiveIntensity = 0.7 + Math.sin(time * 4) * 0.3;
-            photonMat.emissiveIntensity = 0.5 + Math.sin(time * 3) * 0.2;
+            const pulse = 0.8 + Math.sin(time * 3.5) * 0.4;
+            coreLight.intensity = 0.9 + Math.sin(time * 2.8) * 0.4;
+            innerRingMat.emissiveIntensity = 0.9 + Math.sin(time * 4.2) * 0.4;
+            outerRingMat.emissiveIntensity = 0.7 + Math.sin(time * 3.2) * 0.3;
+            farRingMat.emissiveIntensity = 0.4 + Math.sin(time * 2.2) * 0.2;
             
-            innerRing.rotation.z += 0.005;
-            photonRing.rotation.z += 0.004;
-            glowRing.rotation.y += 0.002;
-            outerRing.rotation.y += 0.0015;
+            innerRing.rotation.z += 0.006;
+            outerRing.rotation.z += 0.005;
+            farRing.rotation.z += 0.003;
+            glowRing.rotation.y += 0.0025;
             
-            stars.rotation.y += 0.00012;
-            brightStars.rotation.x += 0.0001;
+            stars.rotation.y += 0.00015;
+            brightStars.rotation.x += 0.00012;
             
-            // Camera orbit
-            cameraAngle += 0.0012;
+            // Slow camera orbit
+            cameraAngle += 0.001;
             const targetX = Math.cos(cameraAngle) * cameraRadius;
             const targetZ = Math.sin(cameraAngle) * cameraRadius;
             camera.position.x = targetX;
             camera.position.z = targetZ;
-            camera.position.y = cameraHeight + Math.sin(cameraAngle * 1.2) * 0.15;
+            camera.position.y = cameraHeight + Math.sin(cameraAngle * 1.2) * 0.2;
             camera.lookAt(0, 0, 0);
             
             composer.render();
